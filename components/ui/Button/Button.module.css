@@ -1,0 +1,71 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  outline: none;
+}
+
+.button:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-primary);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button-primary {
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+  font-size: var(--font-size-label-md);
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: var(--rounded-full);
+  padding: 11px 24px; /* Extended horizontal padding slightly from design to look better */
+  min-height: 44px;
+}
+
+.button-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-soft);
+  transform: translateY(-1px);
+}
+
+.button-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.button-secondary {
+  background-color: transparent;
+  color: var(--color-on-surface);
+  font-size: var(--font-size-label-md);
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: var(--rounded-full);
+  padding: 11px 24px;
+  min-height: 44px;
+  border: 1px solid var(--color-border);
+}
+
+.button-secondary:hover:not(:disabled) {
+  background-color: var(--color-surface-strong);
+}
+
+.button-tertiary {
+  background-color: transparent;
+  color: var(--color-on-surface);
+  font-size: var(--font-size-link-sm);
+  font-weight: 400;
+  line-height: 1.4;
+  border-radius: var(--rounded-none);
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.button-tertiary:hover:not(:disabled) {
+  color: var(--color-muted);
+}

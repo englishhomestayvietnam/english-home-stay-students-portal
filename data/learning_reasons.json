@@ -1,0 +1,10 @@
+[
+  { "title": "Career Growth", "description": "Stand out in interviews and open doors to better roles.", "image": null, "icon": null, "sort": 1, "status": "published", "img_seed": "career" },
+  { "title": "Traveling the World", "description": "Order, ask, and connect anywhere you land.", "image": null, "icon": null, "sort": 2, "status": "published", "img_seed": "travel" },
+  { "title": "Studying Abroad", "description": "Walk into class on day one, ready.", "image": null, "icon": null, "sort": 3, "status": "published", "img_seed": "study" },
+  { "title": "Working Internationally", "description": "Join calls and meetings without hesitating.", "image": null, "icon": null, "sort": 4, "status": "published", "img_seed": "work" },
+  { "title": "Talking to Foreigners with Ease", "description": "Small talk that doesn't feel small anymore.", "image": null, "icon": null, "sort": 5, "status": "published", "img_seed": "chat" },
+  { "title": "Supporting Your Children", "description": "Help with homework, together.", "image": null, "icon": null, "sort": 6, "status": "published", "img_seed": "family" },
+  { "title": "Building Real Confidence", "description": "Speak first, worry less, every time.", "image": null, "icon": null, "sort": 7, "status": "published", "img_seed": "confidence" },
+  { "title": "Personal Growth", "description": "A skill that's really about becoming someone new.", "image": null, "icon": null, "sort": 8, "status": "published", "img_seed": "growth" }
+]

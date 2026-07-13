@@ -1,0 +1,22 @@
+[
+  {
+    "phase_tag": "Lessons 1–5",
+    "title": "Building the foundation",
+    "points": [
+      "Master English pronunciation rules",
+      "Read new words out loud with confidence",
+      "Build the habit of speaking from lesson one"
+    ],
+    "sort": 1
+  },
+  {
+    "phase_tag": "From here on",
+    "title": "Learning to communicate",
+    "points": [
+      "Listening and understanding natural speech",
+      "Asking questions, not just answering them",
+      "Speaking naturally, without translating in your head"
+    ],
+    "sort": 2
+  }
+]

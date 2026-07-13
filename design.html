@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>English Homestay — Speak With Confidence</title>
+    <style>
+        /* ============ DESIGN TOKENS (Ezoic Open Web) ============ */
+        :root {
+            --color-primary: #bbffa6;
+            --color-secondary: #d8ded2;
+            --color-tertiary: #0b0c0b;
+            --color-neutral: #f5f9f1;
+            --color-surface: #ffffff;
+            --color-on-surface: #0b0c0b;
+            --color-muted: #6f736d;
+            --color-border: #d8ded2;
+            --color-success: #09a86f;
+            --color-error: #d84c4c;
+            --color-primary-contrast: #0b0c0b;
+            --color-primary-soft: #e9ffe0;
+            --color-surface-strong: #eef4e8;
+
+            --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+            --radius-none: 0px;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+
+            --space-xs: 6px;
+            --space-sm: 16px;
+            --space-md: 32px;
+            --space-lg: 64px;
+            --space-xl: 96px;
+            --space-gutter: 24px;
+            --space-section: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-sans);
+            background: var(--color-neutral);
+            color: var(--color-on-surface);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 var(--space-gutter);
+        }
+
+        /* ---------- Typography ---------- */
+        .t-display {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 50.4px;
+            letter-spacing: -0.025em;
+            margin: 0;
+        }
+
+        .t-lg {
+            font-size: 38px;
+            font-weight: 800;
+            line-height: 48px;
+            letter-spacing: -0.025em;
+            margin: 0;
+        }
+
+        .t-md {
+            font-size: 29px;
+            font-weight: 700;
+            line-height: 32px;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        .t-sm {
+            font-size: 23px;
+            font-weight: 600;
+            line-height: 28px;
+            letter-spacing: 0em;
+            margin: 0;
+        }
+
+        .t-body-lg {
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 27px;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        .t-body-md {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: -0.01em;
+            margin: 0;
+        }
+
+        .t-body-sm {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            margin: 0;
+        }
+
+        .t-label-lg {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+            margin: 0;
+        }
+
+        .t-label-md {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            margin: 0;
+        }
+
+        .t-label-sm {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 16px;
+            letter-spacing: 0.02em;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 720px) {
+            .t-display {
+                font-size: 34px;
+                line-height: 38px;
+            }
+
+            .t-lg {
+                font-size: 28px;
+                line-height: 33px;
+            }
+
+            .t-md {
+                font-size: 23px;
+                line-height: 27px;
+            }
+
+            .t-sm {
+                font-size: 20px;
+                line-height: 25px;
+            }
+        }
+
+        .muted {
+            color: var(--color-muted);
+        }
+
+        .eyebrow {
+            color: var(--color-muted);
+            margin-bottom: var(--space-xs);
+            display: block;
+        }
+
+        /* ---------- Buttons ---------- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 44px;
+            padding: 11px 22px;
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            white-space: nowrap;
+            transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-primary-contrast);
+            box-shadow: 0 1px 2px rgba(11, 12, 11, .06);
+        }
+
+        .btn-primary:hover {
+            background: #a9f591;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-on-surface);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-surface-strong);
+        }
+
+        .btn-tertiary {
+            background: transparent;
+            color: var(--color-on-surface);
+            border-radius: 0;
+            padding: 0;
+            height: auto;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        .btn:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        /* ---------- Card / Chip / Input ---------- */
+        .card {
+            background: var(--color-neutral);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--color-border);
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            background: var(--color-surface-strong);
+            color: var(--color-on-surface);
+            border-radius: var(--radius-full);
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: .02em;
+            border: 1px solid transparent;
+            transition: background .15s ease, border-color .15s ease;
+        }
+
+        .chip.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .chip:hover {
+            cursor: pointer;
+            border-color: var(--color-border);
+        }
+
+        /* ---------- Nav ---------- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(245, 249, 241, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 76px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .logo span {
+            color: var(--color-success);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 26px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            padding: 8px;
+        }
+
+        .nav-toggle span,
+        .nav-toggle span::before,
+        .nav-toggle span::after {
+            content: '';
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--color-on-surface);
+            position: relative;
+            transition: .2s;
+        }
+
+        .nav-toggle span::before {
+            position: absolute;
+            top: -7px;
+        }
+
+        .nav-toggle span::after {
+            position: absolute;
+            top: 7px;
+        }
+
+        @media (max-width:1000px) {
+            .nav-links {
+                position: fixed;
+                top: 76px;
+                left: 0;
+                right: 0;
+                background: var(--color-surface);
+                flex-direction: column;
+                gap: 0;
+                border-bottom: 1px solid var(--color-border);
+                transform: translateY(-140%);
+                transition: transform .25s ease;
+                padding: 8px 0;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            .nav-links.open {
+                transform: translateY(0);
+            }
+
+            .nav-links a {
+                padding: 16px var(--space-gutter);
+                width: 100%;
+                border-bottom: 1px solid var(--color-surface-strong);
+            }
+
+            .nav-cta .btn-secondary {
+                display: none;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+        }
+
+        /* ---------- Hero ---------- */
+        .hero {
+            position: relative;
+            min-height: 92vh;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        .hero-media {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-media img,
+        .hero-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: kenburns 24s ease-in-out infinite alternate;
+        }
+
+        .hero-media::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(11, 12, 11, .15) 0%, rgba(11, 12, 11, .35) 55%, rgba(11, 12, 11, .82) 100%);
+        }
+
+        @keyframes kenburns {
+            from {
+                transform: scale(1)
+            }
+
+            to {
+                transform: scale(1.08)
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding-bottom: var(--space-xl);
+            width: 100%;
+        }
+
+        .hero-content .t-display {
+            color: #fff;
+            max-width: 780px;
+        }
+
+        .hero-content .t-body-lg {
+            color: rgba(255, 255, 255, .85);
+            max-width: 560px;
+            margin-top: var(--space-sm);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            margin-top: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .hero .btn-secondary {
+            border-color: rgba(255, 255, 255, .5);
+            color: #fff;
+        }
+
+        .hero .btn-secondary:hover {
+            background: rgba(255, 255, 255, .12);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1;
+            color: rgba(255, 255, 255, .7);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+
+        .hero-scroll::after {
+            content: '';
+            width: 1px;
+            height: 28px;
+            background: rgba(255, 255, 255, .5);
+            animation: scrolldrop 1.8s ease-in-out infinite;
+        }
+
+        @keyframes scrolldrop {
+            0% {
+                transform: scaleY(0);
+                transform-origin: top;
+            }
+
+            50% {
+                transform: scaleY(1);
+                transform-origin: top;
+            }
+
+            51% {
+                transform-origin: bottom;
+            }
+
+            100% {
+                transform: scaleY(0);
+                transform-origin: bottom;
+            }
+        }
+
+        /* ---------- Sections generic ---------- */
+        section {
+            padding: var(--space-section) 0;
+        }
+
+        .section-head {
+            max-width: 640px;
+            margin-bottom: var(--space-lg);
+        }
+
+        .section-head.center {
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        /* ---------- Why English (reasons grid) ---------- */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-gutter);
+        }
+
+        @media (max-width:960px) {
+            .reasons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width:560px) {
+            .reasons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .reason-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(11, 12, 11, .08);
+        }
+
+        .reason-card img {
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .reason-card-body {
+            padding: 18px;
+        }
+
+        .reason-card-body .t-sm {
+            font-size: 18px;
+            line-height: 24px;
+            margin-bottom: 6px;
+        }
+
+        /* ---------- Story sections (problem/solution + bridge signature) ---------- */
+        .story-wrap {
+            position: relative;
+        }
+
+        .story {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xl);
+            padding: var(--space-lg) 0;
+        }
+
+        .story-media,
+        .story-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .story-media img {
+            border-radius: var(--radius-xl);
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+        }
+
+        .story.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .story-text .t-lg {
+            margin-bottom: var(--space-sm);
+        }
+
+        @media (max-width:860px) {
+
+            .story,
+            .story.reverse {
+                flex-direction: column;
+                gap: var(--space-md);
+            }
+
+            .story-media img {
+                height: 280px;
+            }
+        }
+
+        .bridge-svg {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 220px;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @media (max-width:860px) {
+            .bridge-svg {
+                display: none;
+            }
+        }
+
+        .bridge-path {
+            fill: none;
+            stroke: var(--color-primary);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-dashoffset: 1000;
+            stroke-dasharray: 1000;
+            transition: stroke-dashoffset 1.6s ease;
+        }
+
+        .bridge-path.drawn {
+            stroke-dashoffset: 0;
+        }
+
+        .bridge-dot {
+            fill: var(--color-primary);
+            opacity: 0;
+        }
+
+        .bridge-dot.drawn {
+            opacity: 1;
+            animation: travel 4s ease-in-out infinite;
+        }
+
+        @keyframes travel {
+            0% {
+                offset-distance: 0%;
+            }
+
+            100% {
+                offset-distance: 100%;
+            }
+        }
+
+        .bridge-dot {
+            offset-path: path('M 110 0 C 40 140, 180 260, 110 420 C 40 580, 180 700, 110 840');
+        }
+
+        /* ---------- Pull quote (swimming analogy) ---------- */
+        .pull-quote {
+            max-width: 760px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .pull-quote .mark {
+            font-size: 64px;
+            line-height: 1;
+            color: var(--color-primary);
+            font-weight: 800;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .pull-quote p {
+            font-size: 28px;
+            font-weight: 300;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width:720px) {
+            .pull-quote p {
+                font-size: 21px;
+            }
+        }
+
+        /* ---------- 30/70 method ---------- */
+        .method-wrap {
+            display: flex;
+            gap: var(--space-xl);
+            align-items: center;
+        }
+
+        .method-bar {
+            flex: 1;
+            display: flex;
+            height: 220px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+        }
+
+        .method-seg {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            color: var(--color-primary-contrast);
+        }
+
+        .method-seg.learn {
+            flex: 3;
+            background: var(--color-surface-strong);
+            color: var(--color-on-surface);
+        }
+
+        .method-seg.practice {
+            flex: 7;
+            background: var(--color-primary);
+        }
+
+        .method-seg .pct {
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .method-text {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        @media (max-width:860px) {
+            .method-wrap {
+                flex-direction: column;
+            }
+
+            .method-bar {
+                flex-direction: column;
+                height: auto;
+                width: 100%;
+            }
+
+            .method-seg {
+                padding: 24px;
+            }
+
+            .method-seg.learn {
+                flex: none;
+            }
+
+            .method-seg.practice {
+                flex: none;
+                padding-bottom: 40px;
+            }
+        }
+
+        /* ---------- Learning journey (two-phase timeline) ---------- */
+        .journey-track {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-gutter);
+        }
+
+        @media (max-width:760px) {
+            .journey-track {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .journey-phase {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            position: relative;
+        }
+
+        .journey-phase .phase-tag {
+            display: inline-block;
+            background: var(--color-surface-strong);
+            border-radius: var(--radius-full);
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .journey-phase ul {
+            margin: 14px 0 0;
+            padding-left: 18px;
+        }
+
+        .journey-phase li {
+            margin-bottom: 8px;
+            color: var(--color-muted);
+            font-size: 15px;
+            line-height: 22px;
+        }
+
+        .journey-arrow {
+            display: none;
+        }
+
+        @media (min-width:761px) {
+            .journey-arrow {
+                display: flex;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 40px;
+                height: 40px;
+                background: var(--color-primary);
+                border-radius: 50%;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                z-index: 2;
+            }
+        }
+
+        /* ---------- A Week at English Homestay ---------- */
+        .week-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: var(--space-gutter);
+        }
+
+        @media (max-width:960px) {
+            .week-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .week-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+        }
+
+        .week-card.dark {
+            background: var(--color-tertiary);
+            color: #fff;
+            border-color: var(--color-tertiary);
+        }
+
+        .week-card.dark .muted {
+            color: rgba(255, 255, 255, .65);
+        }
+
+        .class-split {
+            display: flex;
+            height: 56px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 18px 0 10px;
+        }
+
+        .class-split .seg-teacher {
+            flex: 2;
+            background: var(--color-surface-strong);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-on-surface);
+        }
+
+        .class-split .seg-volunteer {
+            flex: 1;
+            background: var(--color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-primary-contrast);
+        }
+
+        .duration-chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .duration-chips .chip {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border-color: rgba(255, 255, 255, .18);
+        }
+
+        .stat-big {
+            font-size: 56px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--color-primary);
+            line-height: 1;
+        }
+
+        .beyond-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: var(--space-md);
+        }
+
+        @media (max-width:760px) {
+            .beyond-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .beyond-item {
+            position: relative;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            height: 140px;
+        }
+
+        .beyond-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .beyond-item span {
+            position: absolute;
+            left: 8px;
+            bottom: 8px;
+            background: rgba(11, 12, 11, .65);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: var(--radius-full);
+            backdrop-filter: blur(4px);
+        }
+
+        /* ---------- Testimonials ---------- */
+        .testi-track {
+            display: flex;
+            gap: var(--space-gutter);
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 8px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .testi-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .testi-card {
+            scroll-snap-align: start;
+            flex: 0 0 320px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .testi-quote {
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 26px;
+            letter-spacing: -0.01em;
+        }
+
+        .testi-tag {
+            color: var(--color-success);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .testi-person {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: auto;
+            padding-top: 8px;
+        }
+
+        .testi-person img {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-full);
+            object-fit: cover;
+        }
+
+        .testi-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: var(--space-md);
+        }
+
+        .testi-nav button {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .testi-nav button:hover {
+            background: var(--color-surface-strong);
+        }
+
+        /* ---------- Gallery ---------- */
+        .gallery-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: var(--space-md);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 160px;
+            gap: 10px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            grid-column: span 1;
+            grid-row: span 1;
+            transition: opacity .25s ease, transform .25s ease;
+        }
+
+        .gallery-item.tall {
+            grid-row: span 2;
+        }
+
+        .gallery-item.wide {
+            grid-column: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.06);
+        }
+
+        .gallery-item .cap {
+            position: absolute;
+            left: 8px;
+            bottom: 8px;
+            background: rgba(11, 12, 11, .65);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: var(--radius-full);
+            backdrop-filter: blur(4px);
+        }
+
+        .gallery-item.hidden {
+            display: none;
+        }
+
+        @media (max-width:860px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ---------- FAQ ---------- */
+        .faq-list {
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .faq-item summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 22px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item summary .plus {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: transform .2s ease;
+        }
+
+        .faq-item[open] summary .plus {
+            transform: rotate(45deg);
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .faq-item p {
+            padding: 0 0 22px;
+            color: var(--color-muted);
+            font-size: 15px;
+            line-height: 24px;
+            max-width: 660px;
+        }
+
+        /* ---------- Contact form ---------- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            align-items: flex-start;
+        }
+
+        @media (max-width:860px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+        }
+
+        .form-field {
+            margin-bottom: 16px;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            width: 100%;
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            font-size: 15px;
+            font-family: inherit;
+            color: var(--color-on-surface);
+        }
+
+        .form-field textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus,
+        .form-field textarea:focus {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 1px;
+        }
+
+        .form-note {
+            font-size: 12px;
+            color: var(--color-muted);
+            margin-top: 10px;
+        }
+
+        .contact-perks {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .contact-perk {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .contact-perk .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .form-success.show {
+            display: block;
+        }
+
+        .contact-form.hidden {
+            display: none;
+        }
+
+        /* ---------- Final CTA ---------- */
+        .cta-banner {
+            background: var(--color-tertiary);
+            color: #fff;
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl) var(--space-lg);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+            opacity: .18;
+            top: -220px;
+            right: -160px;
+        }
+
+        .cta-banner .t-lg {
+            color: #fff;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .cta-banner .t-body-lg {
+            color: rgba(255, 255, 255, .75);
+            margin-top: var(--space-sm);
+        }
+
+        .cta-actions {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-top: var(--space-md);
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        /* ---------- Footer ---------- */
+        footer {
+            border-top: 1px solid var(--color-border);
+            padding: var(--space-lg) 0 var(--space-md);
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+
+        .footer-col h4 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            color: var(--color-muted);
+            margin: 0 0 12px;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--color-border);
+            font-size: 13px;
+            color: var(--color-muted);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* ---------- Reveal on scroll ---------- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .hero-media img,
+            .hero-media video {
+                animation: none;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+
+            .bridge-dot {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="wrap nav">
+            <a href="#top" class="logo">English<span>Homestay</span></a>
+            <nav id="navLinks" class="nav-links">
+                <a href="#why">Why English</a>
+                <a href="#method">Our Method</a>
+                <a href="#week">A Week Here</a>
+                <a href="#gallery">Life Here</a>
+                <a href="#stories">Student Stories</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+            <div class="nav-cta">
+                <a href="#" class="btn btn-secondary">Free Placement Test</a>
+                <a href="#contact" class="btn btn-primary">Book a Free Trial</a>
+                <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ 1. HERO ============ -->
+    <section class="hero" id="top" style="padding:0;">
+        <div class="hero-media">
+            <!-- Replace with: <video autoplay muted loop playsinline poster="...">
+                 Cut together: students learning, coffee chats with volunteers, board games, daily life -->
+            <img src="https://picsum.photos/seed/homestay-hero/1600/1200"
+                alt="Students laughing together during an English Homestay conversation session" />
+        </div>
+        <div class="wrap hero-content">
+            <h1 class="t-display">English is not just a subject.<br>It's a bridge that connects you to the world.</h1>
+            <p class="t-body-lg">Real conversations with international volunteers. Real confidence, one coffee chat at a
+                time — not just another English class.</p>
+            <div class="hero-actions">
+                <a href="#contact" class="btn btn-primary">Book a Free Trial Class</a>
+                <a href="#" class="btn btn-secondary">Take a Free Placement Test</a>
+            </div>
+        </div>
+        <div class="hero-scroll">Scroll</div>
+    </section>
+
+    <!-- ============ 2. WHY LEARN ENGLISH ============ -->
+    <section id="why">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <span class="eyebrow t-label-sm">Why English</span>
+                <h2 class="t-lg">Everyone has a reason to speak English.</h2>
+                <p class="t-body-md muted" style="margin-top:10px;">What's yours? Most of our students start with one of
+                    these — maybe you'll recognize your own.</p>
+            </div>
+            <div class="reasons-grid" id="reasonsGrid"></div>
+        </div>
+    </section>
+
+    <!-- ============ 3. THE REAL PROBLEM + 4. WHY ENGLISH HOMESTAY (signature bridge) ============ -->
+    <section id="story" style="background:var(--color-surface-strong);">
+        <div class="wrap story-wrap" id="storyWrap">
+            <svg class="bridge-svg" id="bridgeSvg" viewBox="0 0 220 840" preserveAspectRatio="none" aria-hidden="true">
+                <path id="bridgePath" class="bridge-path"
+                    d="M 110 0 C 40 140, 180 260, 110 420 C 40 580, 180 700, 110 840" />
+                <circle id="bridgeDot" class="bridge-dot" r="5" />
+            </svg>
+
+            <div class="story reveal">
+                <div class="story-media">
+                    <img src="https://picsum.photos/seed/homestay-problem/900/900"
+                        alt="A student practicing alone, textbook in hand" />
+                </div>
+                <div class="story-text">
+                    <span class="eyebrow t-label-sm">The real problem</span>
+                    <h3 class="t-lg">You studied English for years. So why does speaking still feel hard?</h3>
+                    <p class="t-body-lg muted">It's not about grammar rules or vocabulary lists, and it's not about you.
+                        Most learners simply never had enough real chances to actually use English out loud — with real
+                        people, in real, unscripted moments.</p>
+                </div>
+            </div>
+
+            <div class="story reverse reveal">
+                <div class="story-media">
+                    <img src="https://picsum.photos/seed/homestay-solution/900/901"
+                        alt="Students and international volunteers sharing a coffee chat" />
+                </div>
+                <div class="story-text">
+                    <span class="eyebrow t-label-sm">Why English Homestay</span>
+                    <h3 class="t-lg">If you want to learn to swim, would you only read a book about it?</h3>
+                    <p class="t-body-lg muted">Or would you get in the water? English works the same way. We're not
+                        trying to be another school that teaches you about the language — we're built to get you
+                        speaking it, every single day, until it stops feeling like a subject.</p>
+                    <a href="#method" class="btn btn-tertiary" style="margin-top:12px;">See how we teach it →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 5. OUR LEARNING METHOD (30/70) ============ -->
+    <section id="method">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <span class="eyebrow t-label-sm">Our learning method</span>
+                <h2 class="t-lg">Less studying about English. More speaking it.</h2>
+            </div>
+            <div class="method-wrap reveal">
+                <div class="method-bar">
+                    <div class="method-seg learn">
+                        <span class="pct">30%</span>
+                        <p class="t-label-md" style="margin-top:6px;">Learning</p>
+                    </div>
+                    <div class="method-seg practice">
+                        <span class="pct">70%</span>
+                        <p class="t-label-md" style="margin-top:6px;">Practicing</p>
+                    </div>
+                </div>
+                <div class="method-text">
+                    <p class="t-body-lg muted">Students learn the fundamentals first — pronunciation, structure, the
+                        essentials — then immediately put them to use in real conversation. Knowledge that isn't
+                        practiced fades. Knowledge that's practiced becomes a habit.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 6. LEARNING JOURNEY ============ -->
+    <section style="background:var(--color-surface-strong);">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <span class="eyebrow t-label-sm">Your learning journey</span>
+                <h2 class="t-lg">From your first sound to your first real conversation.</h2>
+            </div>
+            <div class="journey-track reveal">
+                <div class="journey-phase">
+                    <span class="phase-tag">Lessons 1–5</span>
+                    <h3 class="t-sm">Building the foundation</h3>
+                    <ul>
+                        <li>Master English pronunciation rules</li>
+                        <li>Read new words out loud with confidence</li>
+                        <li>Build the habit of speaking from lesson one</li>
+                    </ul>
+                </div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-phase">
+                    <span class="phase-tag">From here on</span>
+                    <h3 class="t-sm">Learning to communicate</h3>
+                    <ul>
+                        <li>Listening and understanding natural speech</li>
+                        <li>Asking questions, not just answering them</li>
+                        <li>Speaking naturally, without translating in your head</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 7. A WEEK AT ENGLISH HOMESTAY ============ -->
+    <section id="week">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <span class="eyebrow t-label-sm">A week at English Homestay</span>
+                <h2 class="t-lg">This is what your week actually looks like.</h2>
+            </div>
+
+            <div class="week-grid reveal">
+                <div class="week-card">
+                    <span class="eyebrow t-label-sm">Two main classes / week</span>
+                    <h3 class="t-sm">90 minutes, split for a reason</h3>
+                    <p class="t-body-md muted" style="margin-top:8px;">Every class pairs structured teaching with
+                        immediate practice, so what you learn gets used the same day.</p>
+                    <div class="class-split">
+                        <div class="seg-teacher">60 min · Vietnamese teacher</div>
+                        <div class="seg-volunteer">30 min · Volunteers</div>
+                    </div>
+                    <p class="t-body-sm muted">A qualified Vietnamese teacher builds your foundation, then international
+                        volunteers help you use it right away.</p>
+                </div>
+
+                <div class="week-card dark">
+                    <span class="eyebrow t-label-sm" style="color:rgba(255,255,255,.6);">Free Talk sessions</span>
+                    <h3 class="t-sm">Monday–Saturday, 6:30–10:00 PM</h3>
+                    <p class="t-body-md" style="margin-top:8px; color:rgba(255,255,255,.75);">Drop in whenever it suits
+                        your schedule. Teaching assistants and international volunteers are on hand the whole time.</p>
+                    <div class="duration-chips">
+                        <span class="chip">Stay 30 min</span>
+                        <span class="chip">Stay 1 hour</span>
+                        <span class="chip">Stay 2 hours</span>
+                        <span class="chip">Stay the evening</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="week-grid reveal" style="margin-top:var(--space-gutter);">
+                <div class="week-card">
+                    <span class="eyebrow t-label-sm">Never run out of things to say</span>
+                    <div class="stat-big">180+</div>
+                    <h3 class="t-sm" style="margin-top:6px;">Conversation topics, ready to go</h3>
+                    <p class="t-body-md muted" style="margin-top:8px;">Not knowing what to talk about is the #1 thing
+                        that stops practice. We've prepared over 180 topics, so every session has a clear purpose.</p>
+                </div>
+
+                <div class="week-card">
+                    <span class="eyebrow t-label-sm">Beyond the classroom</span>
+                    <h3 class="t-sm">This is where English becomes part of everyday life.</h3>
+                    <div class="beyond-grid">
+                        <div class="beyond-item"><img src="https://picsum.photos/seed/beyond-coffee/300/300"
+                                alt="Coffee together"><span>Coffee</span></div>
+                        <div class="beyond-item"><img src="https://picsum.photos/seed/beyond-dinner/300/300"
+                                alt="Dinner together"><span>Dinner</span></div>
+                        <div class="beyond-item"><img src="https://picsum.photos/seed/beyond-games/300/300"
+                                alt="Board games"><span>Board games</span></div>
+                        <div class="beyond-item"><img src="https://picsum.photos/seed/beyond-weekend/300/300"
+                                alt="Weekend activities"><span>Weekend trips</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 8. PHOTOS & VIDEOS ============ -->
+    <section id="gallery" style="background:var(--color-surface-strong);">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <span class="eyebrow t-label-sm">Life at English Homestay</span>
+                <h2 class="t-lg">This is what practice actually looks like.</h2>
+            </div>
+            <div class="gallery-filters reveal" id="galleryFilters"></div>
+            <div class="gallery-grid reveal" id="galleryGrid"></div>
+        </div>
+    </section>
+
+    <!-- ============ 9. STUDENT STORIES ============ -->
+    <section id="stories">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <span class="eyebrow t-label-sm">Student stories</span>
+                <h2 class="t-lg">Before and after — in their own words.</h2>
+            </div>
+            <div class="testi-track reveal" id="testiTrack"></div>
+            <div class="testi-nav">
+                <button id="testiPrev" aria-label="Previous">←</button>
+                <button id="testiNext" aria-label="Next">→</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 10. FAQ ============ -->
+    <section id="faq" style="background:var(--color-surface-strong);">
+        <div class="wrap">
+            <div class="section-head center reveal">
+                <span class="eyebrow t-label-sm">FAQ</span>
+                <h2 class="t-lg">Questions we hear a lot.</h2>
+            </div>
+            <div class="faq-list reveal" id="faqList"></div>
+        </div>
+    </section>
+
+    <!-- ============ 11. CONTACT ============ -->
+    <section id="contact">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <span class="eyebrow t-label-sm">Get started</span>
+                <h2 class="t-lg">Your bridge to the world starts with one conversation.</h2>
+                <p class="t-body-md muted" style="margin-top:10px;">Tell us a bit about you, and our team will reach out
+                    to book your free trial class — no pressure, no obligation.</p>
+            </div>
+
+            <div class="contact-grid reveal">
+                <div>
+                    <form class="contact-form card" id="contactForm">
+                        <div class="form-field">
+                            <label for="cf-name">Full name</label>
+                            <input type="text" id="cf-name" name="name" placeholder="Your name" required />
+                        </div>
+                        <div class="form-field">
+                            <label for="cf-phone">Phone number</label>
+                            <input type="tel" id="cf-phone" name="phone" placeholder="e.g. 090 123 4567" required />
+                        </div>
+                        <div class="form-field">
+                            <label for="cf-level">Current English level</label>
+                            <select id="cf-level" name="level" required>
+                                <option value="" disabled selected>Select your level</option>
+                                <option>Beginner</option>
+                                <option>Elementary</option>
+                                <option>Intermediate</option>
+                                <option>Upper-Intermediate</option>
+                                <option>Advanced</option>
+                                <option>Not sure — I'd like a placement test</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label for="cf-goal">Learning goal</label>
+                            <select id="cf-goal" name="goal" required>
+                                <option value="" disabled selected>What's your main goal?</option>
+                                <option>Career growth</option>
+                                <option>Traveling</option>
+                                <option>Studying abroad</option>
+                                <option>Working internationally</option>
+                                <option>Communicating with foreigners</option>
+                                <option>Supporting my children</option>
+                                <option>Building confidence</option>
+                                <option>Personal interest</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Book My Free Trial Class</button>
+                        <p class="form-note">By submitting, you agree to be contacted by our team about your free trial
+                            class. No spam, ever.</p>
+                    </form>
+                    <div class="form-success card" id="formSuccess">
+                        <p class="t-sm">Thanks — you're in! 🎉</p>
+                        <p class="t-body-md muted" style="margin-top:10px;">Our team will reach out shortly to book your
+                            free trial class.</p>
+                    </div>
+                </div>
+
+                <div class="contact-perks">
+                    <div class="contact-perk">
+                        <span class="dot"></span>
+                        <p class="t-body-md">A free trial class with a real qualified teacher and international
+                            volunteers — see the method for yourself.</p>
+                    </div>
+                    <div class="contact-perk">
+                        <span class="dot"></span>
+                        <p class="t-body-md">A free placement test, so we can recommend the right starting point for
+                            you.</p>
+                    </div>
+                    <div class="contact-perk">
+                        <span class="dot"></span>
+                        <p class="t-body-md">No pressure, no obligation — just a conversation about your goals.</p>
+                    </div>
+                    <div class="contact-perk">
+                        <span class="dot"></span>
+                        <p class="t-body-md">Our team typically responds within one business day.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">
+            <div class="footer-top">
+                <div>
+                    <a href="#top" class="logo">English<span>Homestay</span></a>
+                    <p class="t-body-sm muted" style="max-width:280px;margin-top:10px;">A place to actually speak — not
+                        just study.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Explore</h4>
+                        <a href="#why">Why English</a>
+                        <a href="#method">Our Method</a>
+                        <a href="#week">A Week Here</a>
+                        <a href="#gallery">Life Here</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Get Started</h4>
+                        <a href="#contact">Free Trial Class</a>
+                        <a href="#">Free Placement Test</a>
+                        <a href="#faq">FAQ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 English Homestay. All rights reserved.</span>
+                <span>Made for people who want to actually speak English.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ---------- Content ----------
+        const reasons = [
+            { title: "Career Growth", desc: "Stand out in interviews and open doors to better roles.", img: "career" },
+            { title: "Traveling the World", desc: "Order, ask, and connect anywhere you land.", img: "travel" },
+            { title: "Studying Abroad", desc: "Walk into class on day one, ready.", img: "study" },
+            { title: "Working Internationally", desc: "Join calls and meetings without hesitating.", img: "work" },
+            { title: "Talking to Foreigners with Ease", desc: "Small talk that doesn't feel small anymore.", img: "chat" },
+            { title: "Supporting Your Children", desc: "Help with homework, together.", img: "family" },
+            { title: "Building Real Confidence", desc: "Speak first, worry less, every time.", img: "confidence" },
+            { title: "Personal Growth", desc: "A skill that's really about becoming someone new.", img: "growth" },
+        ];
+
+        const testimonials = [
+            { name: "Minh Anh", role: "University Student", tag: "Career & confidence", quote: "I studied English for 10 years and still froze in conversations. Three months here and I actually forgot I was speaking a second language.", img: "p1" },
+            { name: "David Tran", role: "Marketing Manager", tag: "Working internationally", quote: "The coffee chats changed everything. No pressure, no grading — just talking to people who wanted to hear what I had to say.", img: "p2" },
+            { name: "Lan Pham", role: "Parent of Two", tag: "Supporting my children", quote: "I wanted to help my kids with their homework without feeling embarrassed. Now I'm the one correcting them.", img: "p3" },
+            { name: "Huy Nguyen", role: "Software Engineer", tag: "Building confidence", quote: "Board game nights taught me more real English than any textbook ever did. Turns out that's exactly the point.", img: "p4" },
+        ];
+
+        const galleryItems = [
+            { cap: "Coffee Chat", cat: "coffee_chat", img: "g1", cls: "tall" },
+            { cap: "Board Games", cat: "board_games", img: "g2", cls: "wide" },
+            { cap: "Daily Life", cat: "daily_life", img: "g3", cls: "" },
+            { cap: "Volunteer Talk", cat: "volunteer_talk", img: "g4", cls: "" },
+            { cap: "Class", cat: "class", img: "g5", cls: "tall" },
+            { cap: "Coffee Chat", cat: "coffee_chat", img: "g6", cls: "" },
+            { cap: "Board Games", cat: "board_games", img: "g7", cls: "" },
+            { cap: "Daily Life", cat: "daily_life", img: "g8", cls: "wide" },
+        ];
+        const categoryLabels = { all: "All", coffee_chat: "Coffee Chats", board_games: "Board Games", class: "Classes", volunteer_talk: "Volunteer Talks", daily_life: "Daily Life" };
+
+        const faqs = [
+            { q: "Do I need a certain English level to join?", a: "No. We place every student with a free placement test first, so you start at the right level — from complete beginner to advanced." },
+            { q: "What actually happens in a Free Talk session?", a: "You drop in any time between 6:30 and 10:00 PM, Monday to Saturday. Teaching assistants and international volunteers are there to chat using our 180+ conversation topics — stay 30 minutes or the whole evening." },
+            { q: "Who are the international volunteers?", a: "They're native and fluent English speakers who join our community specifically to have real conversations with students — not to teach grammar." },
+            { q: "How long until I notice a real difference?", a: "It depends on your starting point and how often you practice, but most students report a noticeable jump in speaking confidence within their first month of regular Free Talk sessions." },
+            { q: "Is there a trial before I commit?", a: "Yes — every student can book a free trial class and a free placement test before deciding anything." },
+            { q: "What happens after I submit the contact form?", a: "Our team will reach out, usually within one business day, to understand your goals and book your free trial class." },
+        ];
+
+        // ---------- Render ----------
+        document.getElementById("reasonsGrid").innerHTML = reasons.map(r => `
+        <div class="reason-card">
+        <img src="https://picsum.photos/seed/${r.img}/400/300" alt="${r.title}">
+        <div class="reason-card-body">
+            <p class="t-sm">${r.title}</p>
+            <p class="t-body-sm muted">${r.desc}</p>
+        </div>
+        </div>
+    `).join("");
+
+        const testiTrack = document.getElementById("testiTrack");
+        testiTrack.innerHTML = testimonials.map(t => `
+        <div class="testi-card">
+        <span class="testi-tag">${t.tag}</span>
+        <p class="testi-quote">“${t.quote}”</p>
+        <div class="testi-person">
+            <img src="https://picsum.photos/seed/${t.img}/100/100" alt="${t.name}">
+            <div>
+            <p class="t-label-md" style="margin:0;">${t.name}</p>
+            <p class="t-body-sm muted" style="margin:0;">${t.role}</p>
+            </div>
+        </div>
+        </div>
+    `).join("");
+        document.getElementById("testiPrev").onclick = () => testiTrack.scrollBy({ left: -336, behavior: "smooth" });
+        document.getElementById("testiNext").onclick = () => testiTrack.scrollBy({ left: 336, behavior: "smooth" });
+
+        const galleryGrid = document.getElementById("galleryGrid");
+        function renderGallery(filter) {
+            galleryGrid.innerHTML = galleryItems.map(g => `
+        <div class="gallery-item ${g.cls} ${filter !== 'all' && filter !== g.cat ? 'hidden' : ''}">
+            <img src="https://picsum.photos/seed/${g.img}/600/600" alt="${g.cap}">
+            <span class="cap">${g.cap}</span>
+        </div>
+        `).join("");
+        }
+        renderGallery("all");
+
+        const filters = ["all", ...new Set(galleryItems.map(g => g.cat))];
+        document.getElementById("galleryFilters").innerHTML = filters.map((f, i) => `
+        <button class="chip ${i === 0 ? 'active' : ''}" data-filter="${f}">${categoryLabels[f]}</button>
+    `).join("");
+        document.querySelectorAll("#galleryFilters .chip").forEach(chip => {
+            chip.addEventListener("click", () => {
+                document.querySelectorAll("#galleryFilters .chip").forEach(c => c.classList.remove("active"));
+                chip.classList.add("active");
+                renderGallery(chip.dataset.filter);
+            });
+        });
+
+        document.getElementById("faqList").innerHTML = faqs.map(f => `
+        <details class="faq-item">
+            <summary><span>${f.q}</span><span class="plus">+</span></summary>
+            <p>${f.a}</p>
+        </details>
+    `).join("");
+
+        // ---------- Contact form (front-end only — wire to CRM/back end as needed) ----------
+        const contactForm = document.getElementById("contactForm");
+        contactForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            contactForm.classList.add("hidden");
+            document.getElementById("formSuccess").classList.add("show");
+        });
+
+        // ---------- Nav toggle (mobile) ----------
+        document.getElementById("navToggle").addEventListener("click", () => {
+            document.getElementById("navLinks").classList.toggle("open");
+        });
+        document.querySelectorAll("#navLinks a").forEach(link => {
+            link.addEventListener("click", () => document.getElementById("navLinks").classList.remove("open"));
+        });
+
+        // ---------- Scroll reveal ----------
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+        }, { threshold: 0.15 });
+        document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+        // ---------- Signature bridge line draw-in ----------
+        const bridgePath = document.getElementById("bridgePath");
+        const bridgeDot = document.getElementById("bridgeDot");
+        const bridgeIo = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    bridgePath.classList.add("drawn");
+                    bridgeDot.classList.add("drawn");
+                    bridgeIo.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        bridgeIo.observe(document.getElementById("storyWrap"));
+    </script>
+
+</body>
+
+</html>

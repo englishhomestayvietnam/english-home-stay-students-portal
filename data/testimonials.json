@@ -1,0 +1,6 @@
+[
+  { "tag": "IELTS 5.0 → Confident", "student_name": "Minh Anh", "role_or_background": "University Student", "quote": "I studied English for 10 years and still froze in conversations. Three months here and I actually forgot I was speaking a second language.", "photo": null, "video": null, "sort": 1, "status": "published", "img_seed": "p1" },
+  { "tag": "0 to Conversations", "student_name": "David Tran", "role_or_background": "Marketing Manager", "quote": "The coffee chats changed everything. No pressure, no grading — just talking to people who wanted to hear what I had to say.", "photo": null, "video": null, "sort": 2, "status": "published", "img_seed": "p2" },
+  { "tag": "Career Jump", "student_name": "Lan Pham", "role_or_background": "Parent of Two", "quote": "I wanted to help my kids with their homework without feeling embarrassed. Now I'm the one correcting them.", "photo": null, "video": null, "sort": 3, "status": "published", "img_seed": "p3" },
+  { "tag": "Interview Ready", "student_name": "Huy Nguyen", "role_or_background": "Software Engineer", "quote": "Board game nights taught me more real English than any textbook ever did. Turns out that's exactly the point.", "photo": null, "video": null, "sort": 4, "status": "published", "img_seed": "p4" }
+]
