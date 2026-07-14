@@ -50,7 +50,7 @@ export default async function Home() {
       <Story data={story} />
       <Method data={method} />
       <Journey data={journeyRes.docs} />
-      <Week data={week} />
+      <Week data={week} methodData={method} />
       <Gallery data={galleryRes.docs} />
       <Testimonials data={testRes.docs} />
       <FAQ data={faqRes.docs} />

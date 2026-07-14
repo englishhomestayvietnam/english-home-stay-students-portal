@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { RichText } from '@payloadcms/richtext-lexical/react';
+import { FadeIn } from '../ui/FadeIn';
 
 export function Story({ data }: { data?: any }) {
   const problemStory = {
@@ -28,7 +29,8 @@ export function Story({ data }: { data?: any }) {
         </svg>
 
         {problemStory && (
-          <div className="flex items-center gap-[var(--space-xl)] py-[var(--space-lg)] max-[860px]:flex-col max-[860px]:gap-[var(--space-md)] relative z-10">
+          <FadeIn>
+            <div className="flex items-center gap-[var(--space-xl)] py-[var(--space-lg)] max-[860px]:flex-col max-[860px]:gap-[var(--space-md)] relative z-10">
             <div className="flex-1 min-w-0 w-full">
               <Image 
                 src={problemStory.image} 
@@ -45,11 +47,13 @@ export function Story({ data }: { data?: any }) {
                 {problemStory.body ? <RichText data={problemStory.body} /> : <p>Missing text.</p>}
               </div>
             </div>
-          </div>
+            </div>
+          </FadeIn>
         )}
 
         {solutionStory && (
-          <div className="flex items-center gap-[var(--space-xl)] py-[var(--space-lg)] flex-row-reverse max-[860px]:flex-col max-[860px]:gap-[var(--space-md)] relative z-10">
+          <FadeIn>
+            <div className="flex items-center gap-[var(--space-xl)] py-[var(--space-lg)] flex-row-reverse max-[860px]:flex-col max-[860px]:gap-[var(--space-md)] relative z-10">
             <div className="flex-1 min-w-0 w-full">
               <Image 
                 src={solutionStory.image} 
@@ -67,7 +71,8 @@ export function Story({ data }: { data?: any }) {
               </div>
               <Link href="#cta" className="btn btn-tertiary mt-[12px] !p-0 !bg-transparent !text-[var(--color-on-surface)] !h-auto underline underline-offset-4 rounded-none border-0 hover:scale-100 active:scale-100">See how it works →</Link>
             </div>
-          </div>
+            </div>
+          </FadeIn>
         )}
       </div>
     </section>

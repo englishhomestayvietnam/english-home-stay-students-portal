@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
+import { FadeIn } from '@/components/ui/FadeIn';
+
 /**
  * Hero Section component - displays at the top of the landing page.
  * Renders either a full-screen background video or a fallback Ken Burns animated image.
@@ -30,19 +32,21 @@ export function Hero({ data }: { data?: any }) {
 
       {/* Hero content foreground layout */}
       <div className="max-w-[1180px] mx-auto px-6 relative z-10 pb-24 w-full">
-        <h1 className="t-display text-white max-w-[780px]" dangerouslySetInnerHTML={{ __html: data?.headline || 'English Homestay' }}></h1>
-        <p className="t-body-lg text-white/85 max-w-[560px] mt-4">{data?.subheadline || 'Practice english every day'}</p>
-        <div className="flex gap-3.5 mt-8 flex-wrap">
-          {/* Primary CTA button */}
-          <Link href={'#'} className="btn btn-primary">
-            {data?.primary_cta_label || 'Get Started'}
-          </Link>
-          
-          {/* Secondary CTA button */}
-          <Link href={'#'} className="btn btn-secondary border-white/50 text-white hover:bg-white/20 backdrop-blur-md">
-            {data?.secondary_cta_label || 'Take a Free Placement Test'}
-          </Link>
-        </div>
+        <FadeIn>
+          <h1 className="t-display text-white max-w-[780px]" dangerouslySetInnerHTML={{ __html: data?.headline || 'English Homestay' }}></h1>
+          <p className="t-body-lg text-white/85 max-w-[560px] mt-4">{data?.subheadline || 'Practice english every day'}</p>
+          <div className="flex gap-3.5 mt-8 flex-wrap">
+            {/* Primary CTA button */}
+            <Link href={'#'} className="btn btn-primary">
+              {data?.primary_cta_label || 'Get Started'}
+            </Link>
+            
+            {/* Secondary CTA button */}
+            <Link href={'#'} className="btn btn-secondary border-white/50 text-white hover:bg-white/20 backdrop-blur-md">
+              {data?.secondary_cta_label || 'Take a Free Placement Test'}
+            </Link>
+          </div>
+        </FadeIn>
       </div>
       
       {/* Scroll indicator overlay */}

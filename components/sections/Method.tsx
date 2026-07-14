@@ -20,11 +20,11 @@ export function Method({ data }: { data?: any }) {
         <FadeIn delay={0.1}>
           <div className="flex gap-[var(--space-xl)] items-center max-[860px]:flex-col">
             <div className="flex-1 flex h-[220px] rounded-[var(--radius-lg)] overflow-hidden border border-[var(--color-border)] max-[860px]:flex-col max-[860px]:h-auto max-[860px]:w-full">
-              <div className="flex flex-col justify-end p-[20px] flex-[3] bg-[var(--color-surface-strong)] text-[var(--color-on-surface)] max-[860px]:p-[24px] max-[860px]:flex-none">
+              <div className="flex flex-col justify-end p-[20px] bg-[var(--color-surface-strong)] text-[var(--color-on-surface)] max-[860px]:p-[24px] max-[860px]:!flex-none" style={{ flex: `${learnPct} ${learnPct} 0%` }}>
                 <span className="text-[40px] font-extrabold tracking-[-0.02em]">{learnPct}%</span>
                 <p className="t-label-md" style={{ marginTop: '6px' }}>Learning</p>
               </div>
-              <div className="flex flex-col justify-end p-[20px] text-[var(--color-primary-contrast)] flex-[7] bg-[var(--color-primary)] max-[860px]:p-[24px] max-[860px]:flex-none max-[860px]:pb-[40px]">
+              <div className="flex flex-col justify-end p-[20px] text-[var(--color-primary-contrast)] bg-[var(--color-primary)] max-[860px]:p-[24px] max-[860px]:!flex-none max-[860px]:pb-[40px]" style={{ flex: `${practicePct} ${practicePct} 0%` }}>
                 <span className="text-[40px] font-extrabold tracking-[-0.02em]">{practicePct}%</span>
                 <p className="t-label-md" style={{ marginTop: '6px' }}>Practicing</p>
               </div>

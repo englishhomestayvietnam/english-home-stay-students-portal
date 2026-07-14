@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { FadeIn } from '../ui/FadeIn';
 
 export function Testimonials({ data }: { data?: any[] }) {
   const testimonialsData = data && data.length > 0 ? data : [
@@ -15,14 +16,16 @@ export function Testimonials({ data }: { data?: any[] }) {
   return (
     <section id="stories" className="py-[var(--space-section)]">
       <div className="max-w-[1180px] mx-auto px-[var(--space-gutter)]">
-        <div className="max-w-[640px] mb-[var(--space-lg)]">
-          <span className="eyebrow t-label-sm">Student stories</span>
-          <h2 className="t-lg">Before and after — in their own words.</h2>
-        </div>
+        <FadeIn>
+          <div className="max-w-[640px] mb-[var(--space-lg)]">
+            <span className="eyebrow t-label-sm">Student stories</span>
+            <h2 className="t-lg">Before and after — in their own words.</h2>
+          </div>
+        </FadeIn>
         
         <div className="flex gap-[var(--space-gutter)] overflow-x-auto snap-x snap-mandatory pb-[8px] no-scrollbar [&::-webkit-scrollbar]:hidden">
           {testimonialsData.map((t: any, i: number) => (
-            <div key={i} className="snap-start flex-[0_0_320px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)] p-[24px] flex flex-col gap-[14px]">
+            <FadeIn key={i} delay={i * 100} className="snap-start flex-[0_0_320px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)] p-[24px] flex flex-col gap-[14px]">
               {t.tag && <span className="text-[var(--color-success)] text-[12px] font-semibold">{t.tag}</span>}
               <p className="text-[17px] font-light leading-[26px] tracking-[-0.01em]">“{t.quote}”</p>
               <div className="flex items-center gap-[12px] mt-auto pt-[8px]">
@@ -38,7 +41,7 @@ export function Testimonials({ data }: { data?: any[] }) {
                   <p className="t-body-sm muted" style={{ margin: 0 }}>{t.role_or_background}</p>
                 </div>
               </div>
-            </div>
+            </FadeIn>
           ))}
         </div>
         <div className="flex gap-[10px] mt-[var(--space-md)]">
