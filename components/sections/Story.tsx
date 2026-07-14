@@ -2,19 +2,21 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export function Story() {
+import { RichText } from '@payloadcms/richtext-lexical/react';
+
+export function Story({ data }: { data?: any }) {
   const problemStory = {
-    title: "You've studied English for 7 years, but when a foreigner asks for directions, you freeze.",
-    eyebrow: "The Problem",
-    body: "<p>Grammar rules won't help you speak when you're nervous. You need an environment where making mistakes is normal and conversation happens naturally.</p>",
-    image: "https://picsum.photos/seed/story1/900/900"
+    title: data?.problem_title || "You've studied English for 7 years, but when a foreigner asks for directions, you freeze.",
+    eyebrow: data?.problem_eyebrow || "The Problem",
+    body: data?.problem_body,
+    image: data?.problem_image?.url || "https://picsum.photos/seed/story1/900/900"
   };
 
   const solutionStory = {
-    title: "We created a space where speaking English is unavoidable.",
-    eyebrow: "The Solution",
-    body: "<p>Live with international volunteers, practice daily, and learn by doing. Our structured classes prepare you, and the environment forces you to use it.</p>",
-    image: "https://picsum.photos/seed/story2/900/901"
+    title: data?.solution_title || "We created a space where speaking English is unavoidable.",
+    eyebrow: data?.solution_eyebrow || "The Solution",
+    body: data?.solution_body,
+    image: data?.solution_image?.url || "https://picsum.photos/seed/story2/900/901"
   };
 
   return (
@@ -39,7 +41,9 @@ export function Story() {
             <div className="flex-1 min-w-0">
               <span className="eyebrow t-label-sm">{problemStory.eyebrow}</span>
               <h3 className="t-lg mb-[var(--space-sm)]">{problemStory.title}</h3>
-              <div className="t-body-lg muted" dangerouslySetInnerHTML={{ __html: problemStory.body }}></div>
+              <div className="t-body-lg muted">
+                {problemStory.body ? <RichText data={problemStory.body} /> : <p>Missing text.</p>}
+              </div>
             </div>
           </div>
         )}
@@ -58,7 +62,9 @@ export function Story() {
             <div className="flex-1 min-w-0">
               <span className="eyebrow t-label-sm">{solutionStory.eyebrow}</span>
               <h3 className="t-lg mb-[var(--space-sm)]">{solutionStory.title}</h3>
-              <div className="t-body-lg muted" dangerouslySetInnerHTML={{ __html: solutionStory.body }}></div>
+              <div className="t-body-lg muted">
+                {solutionStory.body ? <RichText data={solutionStory.body} /> : <p>Missing text.</p>}
+              </div>
               <Link href="#cta" className="btn btn-tertiary mt-[12px] !p-0 !bg-transparent !text-[var(--color-on-surface)] !h-auto underline underline-offset-4 rounded-none border-0 hover:scale-100 active:scale-100">See how it works →</Link>
             </div>
           </div>

@@ -1,21 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 
-export function Testimonials() {
-  const testimonialsData = [
+export function Testimonials({ data }: { data?: any[] }) {
+  const testimonialsData = data && data.length > 0 ? data : [
     {
       quote: "I used to translate everything in my head before speaking. The environment here forced me to stop doing that. I just speak now.",
       tag: "Noticeable progress",
       student_name: "Linh Nguyen",
       role_or_background: "University Student",
-      photo: "https://picsum.photos/seed/test1/100/100"
-    },
-    {
-      quote: "The combination of structured classes and immediate practice with foreigners makes all the difference.",
-      tag: "Great method",
-      student_name: "Minh Tran",
-      role_or_background: "Software Engineer",
-      photo: "https://picsum.photos/seed/test2/100/100"
+      photo: { url: "https://picsum.photos/seed/test1/100/100" }
     }
   ];
 
@@ -34,7 +27,7 @@ export function Testimonials() {
               <p className="text-[17px] font-light leading-[26px] tracking-[-0.01em]">“{t.quote}”</p>
               <div className="flex items-center gap-[12px] mt-auto pt-[8px]">
                 <Image 
-                  src={t.photo} 
+                  src={t.photo?.url || 'https://picsum.photos/seed/test1/100/100'} 
                   alt={t.student_name || 'Student photo'} 
                   width={44} 
                   height={44} 

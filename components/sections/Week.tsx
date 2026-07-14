@@ -2,18 +2,18 @@ import React from 'react';
 import Image from 'next/image';
 import { FadeIn } from '../ui/FadeIn';
 
-export function Week() {
-  const activitiesData = [
-    { title: "Cooking together", image: "https://picsum.photos/seed/act1/400/300" },
-    { title: "Weekend trips", image: "https://picsum.photos/seed/act2/400/300" },
-    { title: "Movie nights", image: "https://picsum.photos/seed/act3/400/300" },
-    { title: "Local events", image: "https://picsum.photos/seed/act4/400/300" }
+export function Week({ data }: { data?: any }) {
+  const activitiesData = data?.activities?.length > 0 ? data.activities : [
+    { title: "Cooking together", image: { url: "https://picsum.photos/seed/act1/400/300" } },
+    { title: "Weekend trips", image: { url: "https://picsum.photos/seed/act2/400/300" } },
+    { title: "Movie nights", image: { url: "https://picsum.photos/seed/act3/400/300" } },
+    { title: "Local events", image: { url: "https://picsum.photos/seed/act4/400/300" } }
   ];
 
-  const mainClassesDesc = "Every class pairs structured teaching with immediate practice, so what you learn gets used the same day.";
-  const freetalkDesc = "Drop in whenever it suits your schedule. Teaching assistants and international volunteers are on hand the whole time.";
-  const topicsCount = "180+";
-  const topicsDesc = "Not knowing what to talk about is the #1 thing that stops practice. We've prepared over 180 topics, so every session has a clear purpose.";
+  const mainClassesDesc = data?.main_classes_desc || "Every class pairs structured teaching with immediate practice, so what you learn gets used the same day.";
+  const freetalkDesc = data?.freetalk_desc || "Drop in whenever it suits your schedule. Teaching assistants and international volunteers are on hand the whole time.";
+  const topicsCount = data?.topics_count || "180+";
+  const topicsDesc = data?.topics_desc || "Not knowing what to talk about is the #1 thing that stops practice. We've prepared over 180 topics, so every session has a clear purpose.";
 
   return (
     <section id="week" className="py-[var(--space-section)]">
@@ -73,7 +73,7 @@ export function Week() {
                 {activitiesData.map((act: any, i: number) => (
                   <div key={i} className="relative rounded-[var(--radius-md)] overflow-hidden h-[140px]">
                     <Image 
-                      src={act.image} 
+                      src={act.image?.url || 'https://picsum.photos/seed/act1/400/300'} 
                       alt={act.title || 'Activity image'} 
                       fill 
                       className="object-cover w-full h-full" 

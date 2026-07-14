@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { FadeIn } from '../ui/FadeIn';
 import { submitContactForm } from '@/app/actions';
 
-export function Contact() {
+export function Contact({ data }: { data?: any }) {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -21,21 +21,25 @@ export function Contact() {
     }
   }
 
+  const headline = data?.headline || "Your bridge to the world starts with one conversation.";
+  const body = data?.body || "Tell us a bit about you, and our team will reach out to book your free trial class — no pressure, no obligation.";
+  const ctaLabel = data?.primary_cta_label || "Book My Free Trial Class";
+
   return (
-    <section id="contact" className="py-[var(--space-section)]">
-      <div className="max-w-[1180px] mx-auto px-[var(--space-gutter)]">
+    <section id="contact" className="py-(--space-section)">
+      <div className="max-w-[1180px] mx-auto px-(--space-gutter)">
         <FadeIn>
-          <div className="max-w-[640px] mb-[var(--space-lg)]">
+          <div className="max-w-[640px] mb-(--space-lg)">
             <span className="eyebrow t-label-sm">Get started</span>
-            <h2 className="t-lg">Your bridge to the world starts with one conversation.</h2>
+            <h2 className="t-lg">{headline}</h2>
             <p className="t-body-md muted" style={{ marginTop: '10px' }}>
-              Tell us a bit about you, and our team will reach out to book your free trial class — no pressure, no obligation.
+              {body}
             </p>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div className="grid grid-cols-2 gap-[var(--space-xl)] items-start max-[860px]:grid-cols-1 max-[860px]:gap-[var(--space-md)]">
+          <div className="grid grid-cols-2 gap-(--space-xl) items-start max-[860px]:grid-cols-1 max-[860px]:gap-(--space-md)">
             
             {/* Form Column */}
             <div>
@@ -48,7 +52,7 @@ export function Contact() {
                       id="cf-name" 
                       name="name" 
                       placeholder="Your name" 
-                      className="w-full border border-[var(--color-border)] bg-[var(--color-surface)] rounded-[var(--radius-md)] py-[12px] px-[14px] text-[15px] font-[inherit] text-[var(--color-on-surface)] focus:outline focus:outline-[2px] focus:outline-[var(--color-primary)] focus:outline-offset-[1px]"
+                      className="w-full border border-(--color-border) bg-(--color-surface) rounded-(--radius-md) py-[12px] px-[14px] text-[15px] font-[inherit] text-(--color-on-surface) focus:outline focus:outline-[2px] focus:outline-(--color-primary) focus:outline-offset-[1px]"
                       required 
                     />
                   </div>
@@ -59,7 +63,7 @@ export function Contact() {
                       id="cf-phone" 
                       name="phone" 
                       placeholder="e.g. 090 123 4567" 
-                      className="w-full border border-[var(--color-border)] bg-[var(--color-surface)] rounded-[var(--radius-md)] py-[12px] px-[14px] text-[15px] font-[inherit] text-[var(--color-on-surface)] focus:outline focus:outline-[2px] focus:outline-[var(--color-primary)] focus:outline-offset-[1px]"
+                      className="w-full border border-(--color-border) bg-(--color-surface) rounded-(--radius-md) py-[12px] px-[14px] text-[15px] font-[inherit] text-(--color-on-surface) focus:outline focus:outline-[2px] focus:outline-(--color-primary) focus:outline-offset-[1px]"
                       required 
                     />
                   </div>
@@ -68,7 +72,7 @@ export function Contact() {
                     <select 
                       id="cf-level" 
                       name="level" 
-                      className="w-full border border-[var(--color-border)] bg-[var(--color-surface)] rounded-[var(--radius-md)] py-[12px] px-[14px] text-[15px] font-[inherit] text-[var(--color-on-surface)] focus:outline focus:outline-[2px] focus:outline-[var(--color-primary)] focus:outline-offset-[1px]"
+                      className="w-full border border-(--color-border) bg-(--color-surface) rounded-(--radius-md) py-[12px] px-[14px] text-[15px] font-[inherit] text-(--color-on-surface) focus:outline focus:outline-[2px] focus:outline-(--color-primary) focus:outline-offset-[1px]"
                       required
                       defaultValue=""
                     >
@@ -86,7 +90,7 @@ export function Contact() {
                     <select 
                       id="cf-goal" 
                       name="goal" 
-                      className="w-full border border-[var(--color-border)] bg-[var(--color-surface)] rounded-[var(--radius-md)] py-[12px] px-[14px] text-[15px] font-[inherit] text-[var(--color-on-surface)] focus:outline focus:outline-[2px] focus:outline-[var(--color-primary)] focus:outline-offset-[1px]"
+                      className="w-full border border-(--color-border) bg-(--color-surface) rounded-(--radius-md) py-[12px] px-[14px] text-[15px] font-[inherit] text-(--color-on-surface) focus:outline focus:outline-[2px] focus:outline-(--color-primary) focus:outline-offset-[1px]"
                       required
                       defaultValue=""
                     >
@@ -102,9 +106,9 @@ export function Contact() {
                     </select>
                   </div>
                   <button type="submit" disabled={status === 'submitting'} className="btn btn-primary w-full disabled:opacity-[0.55] disabled:cursor-not-allowed">
-                    {status === 'submitting' ? 'Booking...' : 'Book My Free Trial Class'}
+                    {status === 'submitting' ? 'Booking...' : ctaLabel}
                   </button>
-                  <p className="text-[12px] text-[var(--color-muted)] mt-[10px]">
+                  <p className="text-[12px] text-(--color-muted) mt-[10px]">
                     By submitting, you agree to be contacted by our team about your free trial class. No spam, ever.
                   </p>
                 </form>
@@ -121,19 +125,19 @@ export function Contact() {
             {/* Perks Column */}
             <div className="flex flex-col gap-[18px]">
               <div className="flex gap-[14px] items-start">
-                <span className="w-[8px] h-[8px] rounded-full bg-[var(--color-primary)] mt-[8px] shrink-0"></span>
+                <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
                 <p className="t-body-md">A free trial class with a real qualified teacher and international volunteers — see the method for yourself.</p>
               </div>
               <div className="flex gap-[14px] items-start">
-                <span className="w-[8px] h-[8px] rounded-full bg-[var(--color-primary)] mt-[8px] shrink-0"></span>
+                <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
                 <p className="t-body-md">A free placement test, so we can recommend the right starting point for you.</p>
               </div>
               <div className="flex gap-[14px] items-start">
-                <span className="w-[8px] h-[8px] rounded-full bg-[var(--color-primary)] mt-[8px] shrink-0"></span>
+                <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
                 <p className="t-body-md">No pressure, no obligation — just a conversation about your goals.</p>
               </div>
               <div className="flex gap-[14px] items-start">
-                <span className="w-[8px] h-[8px] rounded-full bg-[var(--color-primary)] mt-[8px] shrink-0"></span>
+                <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
                 <p className="t-body-md">Our team typically responds within one business day.</p>
               </div>
             </div>

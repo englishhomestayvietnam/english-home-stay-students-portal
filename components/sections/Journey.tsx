@@ -1,29 +1,29 @@
 import React from 'react';
 import { FadeIn } from '../ui/FadeIn';
 
-export function Journey() {
+export function Journey({ data }: { data?: any[] }) {
   const fallbackPhases = [
     {
       phase_tag: "Lessons 1–5",
       title: "Building the foundation",
       points: [
-        "Master English pronunciation rules",
-        "Read new words out loud with confidence",
-        "Build the habit of speaking from lesson one"
+        { point: "Master English pronunciation rules" },
+        { point: "Read new words out loud with confidence" },
+        { point: "Build the habit of speaking from lesson one" }
       ]
     },
     {
       phase_tag: "From here on",
       title: "Learning to communicate",
       points: [
-        "Listening and understanding natural speech",
-        "Asking questions, not just answering them",
-        "Speaking naturally, without translating in your head"
+        { point: "Listening and understanding natural speech" },
+        { point: "Asking questions, not just answering them" },
+        { point: "Speaking naturally, without translating in your head" }
       ]
     }
   ];
 
-  const data = fallbackPhases;
+  const phases = data && data.length > 0 ? data : fallbackPhases;
 
   return (
     <section className="py-[var(--space-section)]" style={{ background: 'var(--color-surface-strong)' }}>
@@ -37,14 +37,14 @@ export function Journey() {
         
         <FadeIn delay={0.1}>
           <div className="relative grid grid-cols-2 gap-[var(--space-gutter)] max-[760px]:grid-cols-1">
-            {data.map((phase: any, index: number) => (
+            {phases.map((phase: any, index: number) => (
               <React.Fragment key={index}>
                 <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)] p-[28px] relative">
                   <span className="inline-block bg-[var(--color-surface-strong)] rounded-[var(--radius-full)] px-[12px] py-[4px] text-[12px] font-semibold mb-[14px]">{phase.phase_tag}</span>
                   <h3 className="t-sm">{phase.title}</h3>
                   <ul className="mt-[14px] pl-[18px] list-disc marker:text-[var(--color-muted)]">
-                    {(phase.points || []).map((pt: string, idx: number) => (
-                      <li key={idx} className="mb-[8px] text-[var(--color-muted)] text-[15px] leading-[22px]">{pt}</li>
+                    {(phase.points || []).map((pt: any, idx: number) => (
+                      <li key={idx} className="mb-[8px] text-[var(--color-muted)] text-[15px] leading-[22px]">{pt.point}</li>
                     ))}
                   </ul>
                 </div>

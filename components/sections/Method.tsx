@@ -1,11 +1,11 @@
 import React from 'react';
 import { FadeIn } from '../ui/FadeIn';
 
-export function Method() {
-  const headline = "Less studying about English. More speaking it.";
-  const body = "Students learn the fundamentals first — pronunciation, structure, the essentials — then immediately put them to use in real conversation. Knowledge that isn't practiced fades. Knowledge that's practiced becomes a habit.";
-  const learnPct = 30;
-  const practicePct = 70;
+export function Method({ data }: { data?: any }) {
+  const headline = data?.headline || "Less studying about English. More speaking it.";
+  const body = data?.body || "Students learn the fundamentals first — pronunciation, structure, the essentials — then immediately put them to use in real conversation. Knowledge that isn't practiced fades. Knowledge that's practiced becomes a habit.";
+  const learnPct = data?.learn_pct || 30;
+  const practicePct = data?.practice_pct || 70;
 
   return (
     <section id="method" className="py-[var(--space-section)]">

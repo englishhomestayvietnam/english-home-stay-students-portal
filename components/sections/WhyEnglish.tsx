@@ -1,32 +1,17 @@
 import React from 'react';
 import Image from 'next/image';
 
-export function WhyEnglish() {
-  const learningReasonsData = [
+export function WhyEnglish({ data }: { data?: any[] }) {
+  const learningReasonsData = data && data.length > 0 ? data : [
     {
       title: "Career Growth",
       description: "Unlock better job opportunities and earn a higher salary in multinational companies.",
-      image: "/career-growth.png"
-    },
-    {
-      title: "Study Abroad",
-      description: "Prepare for international universities and access world-class education.",
-      image: "/study-abroad.png"
-    },
-    {
-      title: "Travel Freely",
-      description: "Navigate the world with confidence and connect with locals anywhere you go.",
-      image: "/travel-freely.png"
-    },
-    {
-      title: "Personal Development",
-      description: "Access a wider range of information, books, and courses available only in English.",
-      image: "/work-internationally.png"
+      image: { url: "/career-growth.png" }
     }
   ];
 
   return (
-    <section id="why" className="py-[var(--space-section)]">
+    <section id="why" className="py-[var(--space-section)] p-3">
       <div className="max-w-[1180px] mx-auto px-[var(--space-gutter)]">
         <div className="max-w-[640px] mb-[var(--space-lg)]">
           <span className="eyebrow t-label-sm">Why English</span>
@@ -40,7 +25,7 @@ export function WhyEnglish() {
           {learningReasonsData.map((r: any, i: number) => (
             <div key={i} className="bg-[var(--color-surface)] rounded-[var(--radius-lg)] overflow-hidden border border-[var(--color-border)] transition-all duration-200 hover:-translate-y-[4px] hover:shadow-[0_12px_24px_rgba(11,12,11,0.08)]">
               <Image 
-                src={r.image || 'https://picsum.photos/seed/why/400/300'} 
+                src={r.image?.url || 'https://picsum.photos/seed/why/400/300'} 
                 alt={r.title || 'Reason image'} 
                 width={400} 
                 height={300} 
