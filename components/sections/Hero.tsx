@@ -14,7 +14,7 @@ export function Hero({ data }: { data?: any }) {
   const posterUrl = data?.poster?.url || 'https://picsum.photos/seed/homestay-hero/1600/1200';
 
   return (
-    <section className="relative min-h-[92vh] flex items-end overflow-hidden text-white p-0" id="top">
+    <section className="relative w-full aspect-[16/9] max-[768px]:aspect-[4/5] flex items-end overflow-hidden text-white p-0" id="top">
       {/* Background Media Container: Contains the image/video & opacity overlay */}
       <div className="absolute inset-0 overflow-hidden bg-tertiary">
         <Image
@@ -31,11 +31,11 @@ export function Hero({ data }: { data?: any }) {
       </div>
 
       {/* Hero content foreground layout */}
-      <div className="max-w-[1180px] mx-auto px-6 relative z-10 pb-24 w-full">
+      <div className="max-w-[1180px] mx-auto px-[5%] relative z-10 pb-[6%] w-full">
         <FadeIn>
-          <h1 className="t-display text-white max-w-[780px]" dangerouslySetInnerHTML={{ __html: data?.headline || 'English Homestay' }}></h1>
-          <p className="t-body-lg text-white/85 max-w-[560px] mt-4">{data?.subheadline || 'Practice english every day'}</p>
-          <div className="flex gap-3.5 mt-8 flex-wrap">
+          <h1 className="t-display text-white max-w-[780px] leading-[1.1] max-[768px]:text-[26px] max-[480px]:text-[20px]" dangerouslySetInnerHTML={{ __html: data?.headline || 'English Homestay' }}></h1>
+          <p className="text-sm text-white/85 max-w-[560px] mt-[2%] max-[768px]:text-[15px] max-[480px]:text-[13px] max-[768px]:mt-2">{data?.subheadline || 'Practice english every day'}</p>
+          <div className="flex gap-[2%] mt-[4%] max-[768px]:mt-3 flex-wrap">
             {/* Primary CTA button */}
             <Link href={'#'} className="btn btn-primary">
               {data?.primary_cta_label || 'Get Started'}
@@ -49,8 +49,8 @@ export function Hero({ data }: { data?: any }) {
         </FadeIn>
       </div>
       
-      {/* Scroll indicator overlay */}
-      <div className="absolute bottom-6 right-6 z-10 text-white/70 flex items-center gap-2 text-xs tracking-wider uppercase after:content-[''] after:w-[1px] after:h-[28px] after:bg-white/50 after:animate-scrolldrop">
+      {/* Scroll indicator overlay - hidden on very small screens since 16:9 is short */}
+      <div className="absolute bottom-[4%] right-[4%] z-10 text-white/70 flex items-center gap-2 text-[10px] tracking-wider uppercase after:content-[''] after:w-[1px] after:h-[20px] after:bg-white/50 after:animate-scrolldrop max-[600px]:hidden">
         Scroll
       </div>
     </section>

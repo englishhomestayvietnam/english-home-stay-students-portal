@@ -11,7 +11,10 @@ export function CTA() {
             <h2 className="t-lg text-white max-w-[560px] mx-auto">Your bridge to the world starts with one conversation.</h2>
             <p className="t-body-lg text-[rgba(255,255,255,0.75)] mt-[var(--space-sm)]">Book a free trial class and see what real English practice feels like — no pressure, no obligation.</p>
             <div className="flex justify-center gap-[14px] mt-[var(--space-md)] flex-wrap relative">
-              <Link href="#" className="btn btn-primary">Book a Free Trial Class</Link>
+              <div className="relative group p-[3px] rounded-[var(--radius-full)] overflow-hidden shadow-md inline-flex">
+                <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#09a86f_0%,#ffffff_50%,#09a86f_100%)]" />
+                <Link href="#" className="btn btn-primary !m-0 relative z-10 !rounded-[calc(var(--radius-full)-3px)]">Book a Free Trial Class</Link>
+              </div>
               <Link href="#" className="btn btn-secondary !border-[rgba(255,255,255,.5)] !text-white hover:!bg-[rgba(255,255,255,.12)]">Take a Free Placement Test</Link>
             </div>
           </div>

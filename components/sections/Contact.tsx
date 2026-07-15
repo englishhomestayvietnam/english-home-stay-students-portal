@@ -105,9 +105,12 @@ export function Contact({ data }: { data?: any }) {
                       <option>Personal interest</option>
                     </select>
                   </div>
-                  <button type="submit" disabled={status === 'submitting'} className="btn btn-primary w-full disabled:opacity-[0.55] disabled:cursor-not-allowed">
-                    {status === 'submitting' ? 'Booking...' : ctaLabel}
-                  </button>
+                  <div className="relative p-[3px] overflow-hidden rounded-[var(--radius-full)] w-full group shadow-md mb-[16px]">
+                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#09a86f_0%,#ffffff_50%,#09a86f_100%)]" />
+                    <button type="submit" disabled={status === 'submitting'} className="btn btn-primary w-full disabled:opacity-[0.55] disabled:cursor-not-allowed relative z-10 !rounded-[calc(var(--radius-full)-3px)] !m-0">
+                      {status === 'submitting' ? 'Booking...' : ctaLabel}
+                    </button>
+                  </div>
                   <p className="text-[12px] text-(--color-muted) mt-[10px]">
                     By submitting, you agree to be contacted by our team about your free trial class. No spam, ever.
                   </p>

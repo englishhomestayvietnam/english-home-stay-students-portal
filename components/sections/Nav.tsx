@@ -26,11 +26,11 @@ import { cn } from "@/lib/utils";
  */
 export function Nav() {
   const links = [
-    { label: 'Why English', href: '#why' },
+    { label: 'Why Us', href: '#why' },
     { label: 'Our Method', href: '#method' },
-    { label: 'A Week Here', href: '#week' },
-    { label: 'Life Here', href: '#gallery' },
-    { label: 'Student Stories', href: '#stories' },
+    { label: 'Daily Routine', href: '#week' },
+    { label: 'Campus Life', href: '#gallery' },
+    { label: 'Testimonials', href: '#stories' },
     { label: 'FAQ', href: '#faq' },
   ];
 
@@ -40,7 +40,7 @@ export function Nav() {
         
         {/* Brand Logo */}
         <Link href="#top" className="text-xl font-extrabold tracking-tight z-50 text-[#0b0c0b]">
-          English<span className="text-[#09a86f]">Homestay Vietnam</span>
+          English<span className="text-[#09a86f]">Homestay</span>
         </Link>
 
         {/* Desktop Navigation Links (Shadcn NavigationMenu) */}
@@ -73,17 +73,19 @@ export function Nav() {
             render={<Link href={'#'} />}
             className="rounded-full border-[#d8ded2] text-[#0b0c0b] hover:bg-black/5 px-6 h-11 text-sm font-medium transition-all hover:-translate-y-0.5 active:translate-y-0 duration-200 hidden lg:inline-flex"
           >
-            {'Free Placement Test'}
+            {'Free Test'}
           </Button>
           
           {/* Primary CTA - always visible */}
-          <Button
-            nativeButton={false}
-            render={<Link href={'#contact'} />}
-            className="rounded-full bg-[#09a86f] text-[#f5f9f1] hover:bg-[#089763] px-6 h-11 text-sm font-semibold transition-all shadow-md shadow-success/10 hover:shadow-lg hover:shadow-success/20 hover:-translate-y-0.5 active:translate-y-0 duration-200 z-50"
-          >
-            {'Book a Free Trial'}
-          </Button>
+          <div className="relative group p-[2px] sm:p-[3px] rounded-full overflow-hidden shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 z-50 shrink-0">
+            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#09a86f_0%,#ffffff_50%,#09a86f_100%)]" />
+            <Link 
+              href="#contact"
+              className="relative flex items-center justify-center h-[34px] sm:h-[38px] px-3 sm:px-6 rounded-full bg-[#09a86f] text-white hover:bg-[#089763] text-[13px] sm:text-sm font-bold transition-colors z-10 whitespace-nowrap"
+            >
+              Free Trial
+            </Link>
+          </div>
 
           {/* Shadcn Mobile Drawer (Sheet) */}
           <Sheet>
@@ -138,7 +140,7 @@ export function Nav() {
                     />
                   }
                 >
-                  {'Free Placement Test'}
+                  {'Free Test'}
                 </SheetClose>
               </div>
             </SheetContent>
