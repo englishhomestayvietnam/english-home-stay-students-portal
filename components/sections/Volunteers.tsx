@@ -46,18 +46,18 @@ export function Volunteers({ data }: { data?: any[] }) {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {volunteersData.map((v: any, i: number) => (
-            <FadeIn key={i} delay={i * 0.1}>
-              <div className="group relative overflow-hidden rounded-2xl bg-[#f5f9f1] border border-[#d8ded2] shadow-sm hover:shadow-lg transition-all duration-300">
-                <div className="relative h-[320px] w-full overflow-hidden">
+            <FadeIn key={i} delay={i * 0.1} className="h-full">
+              <div className="h-full flex flex-col group relative overflow-hidden rounded-2xl bg-[#f5f9f1] border border-[#d8ded2] shadow-sm hover:shadow-lg transition-all duration-300">
+                <div className="relative h-[320px] shrink-0 w-full overflow-hidden">
                   <Image 
-                    src={v.photo?.url || `https://picsum.photos/seed/placeholder/800/600`} 
+                    src={(v.photo?.imagekit?.url || v.photo?.url) || `https://picsum.photos/seed/placeholder/800/600`} 
                     alt={v.name} 
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
                 </div>
-                <div className="p-6">
+                <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-xl font-bold text-[#0b0c0b]">{v.name}</h3>
                     <span className="text-xl">{v.country_flag}</span>

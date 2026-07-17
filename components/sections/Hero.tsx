@@ -23,6 +23,7 @@ export function Hero({ data }: { data?: any }) {
           fill
           className="object-cover animate-kenburns"
           priority
+          loading="eager"
         />
         {/* Dark opacity (15%) + Gradient overlay to ensure text readability */}
         <div 

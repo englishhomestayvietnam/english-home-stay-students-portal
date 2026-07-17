@@ -18,20 +18,14 @@ export const Nav: GlobalConfig = {
     },
     {
       name: 'links',
-      type: 'array',
-      required: true,
-      minRows: 1,
+      type: 'group',
       fields: [
-        {
-          name: 'label',
-          type: 'text',
-          required: true,
-        },
-        {
-          name: 'url',
-          type: 'text',
-          required: true,
-        },
+        { name: 'why', type: 'text', label: 'Tại sao chọn chúng tôi', defaultValue: 'Tại sao chọn chúng tôi' },
+        { name: 'method', type: 'text', label: 'Phương pháp', defaultValue: 'Phương pháp' },
+        { name: 'week', type: 'text', label: 'Lịch trình', defaultValue: 'Lịch trình' },
+        { name: 'gallery', type: 'text', label: 'Hình ảnh', defaultValue: 'Hình ảnh' },
+        { name: 'stories', type: 'text', label: 'Học viên', defaultValue: 'Học viên' },
+        { name: 'faq', type: 'text', label: 'Hỏi đáp', defaultValue: 'Hỏi đáp' },
       ],
     },
     {

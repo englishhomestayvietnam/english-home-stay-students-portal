@@ -26,16 +26,14 @@ import { cn } from "@/lib/utils";
  * with base-ui primitives for smooth accessibility and responsiveness.
  */
 export function Nav({ data }: { data?: any }) {
-  const defaultLinks = [
-    { label: 'Tại sao chọn chúng tôi', href: '#why' },
-    { label: 'Phương pháp', href: '#method' },
-    { label: 'Lịch trình', href: '#week' },
-    { label: 'Hình ảnh', href: '#gallery' },
-    { label: 'Học viên', href: '#stories' },
-    { label: 'Hỏi đáp', href: '#faq' },
+  const links = [
+    { label: data?.links?.why || 'Tại sao chọn chúng tôi', href: '#why' },
+    { label: data?.links?.method || 'Phương pháp', href: '#method' },
+    { label: data?.links?.week || 'Lịch trình', href: '#week' },
+    { label: data?.links?.gallery || 'Hình ảnh', href: '#gallery' },
+    { label: data?.links?.stories || 'Học viên', href: '#stories' },
+    { label: data?.links?.faq || 'Hỏi đáp', href: '#faq' },
   ];
-
-  const links = data?.links?.length ? data.links : defaultLinks;
   const logoText = data?.logo_text || 'English Homestay VN';
   const primaryCtaLabel = data?.primary_cta_label || 'Học thử';
   const primaryCtaUrl = data?.primary_cta_url || '#contact';
@@ -50,8 +48,8 @@ export function Nav({ data }: { data?: any }) {
         
         {/* Brand Logo */}
         <Link href="#top" className="z-50 flex items-center gap-3">
-          <Image src="/logo.svg" alt="English Homestay Logo" width={48} height={48} className="w-12 h-12" />
-          <span className="text-2xl font-extrabold tracking-tight text-[#0b0c0b]">
+          <Image src="/logo.svg" alt="English Homestay Logo" width={48} height={48} className="w-12 h-12" priority loading="eager" />
+          <span className="text-xl font-extrabold tracking-tight text-[#0b0c0b]">
             {logoParts[0]}
             {logoParts.length > 1 && <span className="text-[#09a86f]">Homestay</span>}
             {logoParts.slice(1).join('Homestay')}
