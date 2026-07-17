@@ -4,14 +4,14 @@ import { FadeIn } from '../ui/FadeIn';
 
 export function Week({ data }: { data?: any }) {
   const activitiesData = data?.activities && data.activities.length > 0 ? data.activities : [
-    { title: "Trò chơi cờ bàn", image: { url: "https://picsum.photos/seed/act_board/400/300" } },
-    { title: "Cà phê trò chuyện", image: { url: "https://picsum.photos/seed/act_coffee/400/300" } },
-    { title: "Đêm điện ảnh", image: { url: "https://picsum.photos/seed/act_movie/400/300" } },
-    { title: "Nấu ăn cùng nhau", image: { url: "https://picsum.photos/seed/act_cooking/400/300" } },
-    { title: "Tiệc sinh nhật", image: { url: "https://picsum.photos/seed/act_bday/400/300" } },
-    { title: "Chuyến đi cuối tuần", image: { url: "https://picsum.photos/seed/act_weekend/400/300" } },
-    { title: "Giao lưu văn hóa", image: { url: "https://picsum.photos/seed/act_culture/400/300" } },
-    { title: "Thảo luận nhóm", image: { url: "https://picsum.photos/seed/act_group/400/300" } }
+    { title: "Trò chơi cờ bàn", image: { url: "https://picsum.photos/seed/placeholder/800/600" } },
+    { title: "Cà phê trò chuyện", image: { url: "https://picsum.photos/seed/placeholder/800/600" } },
+    { title: "Đêm điện ảnh", image: { url: "https://picsum.photos/seed/placeholder/800/600" } },
+    { title: "Nấu ăn cùng nhau", image: { url: "https://picsum.photos/seed/placeholder/800/600" } },
+    { title: "Tiệc sinh nhật", image: { url: "https://picsum.photos/seed/placeholder/800/600" } },
+    { title: "Chuyến đi cuối tuần", image: { url: "https://picsum.photos/seed/placeholder/800/600" } },
+    { title: "Giao lưu văn hóa", image: { url: "https://picsum.photos/seed/placeholder/800/600" } },
+    { title: "Thảo luận nhóm", image: { url: "https://picsum.photos/seed/placeholder/800/600" } }
   ];
 
   const mainClassesDesc = data?.main_classes_desc || "Mỗi lớp học kết hợp giảng dạy lý thuyết với thực hành ngay lập tức, vì vậy những gì bạn học được sử dụng ngay trong ngày.";
@@ -77,7 +77,7 @@ export function Week({ data }: { data?: any }) {
                 {activitiesData.map((act: any, i: number) => (
                   <div key={i} className="relative rounded-[var(--radius-md)] overflow-hidden h-[140px]">
                     <Image 
-                      src={act.image?.url || 'https://picsum.photos/seed/act1/400/300'} 
+                      src={act.image?.url || 'https://picsum.photos/seed/placeholder/800/600'} 
                       alt={act.title || 'Activity image'} 
                       fill 
                       className="object-cover w-full h-full" 

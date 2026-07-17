@@ -11,7 +11,7 @@ import { FadeIn } from '@/components/ui/FadeIn';
  */
 export function Hero({ data }: { data?: any }) {
   // Extract URL from poster media relation
-  const posterUrl = data?.poster?.url || 'https://picsum.photos/seed/homestay-hero/1600/1200';
+  const posterUrl = (data?.poster?.imagekit?.url || data?.poster?.url) || 'https://picsum.photos/seed/placeholder/800/600';
 
   return (
     <section className="relative w-full aspect-[16/9] max-[768px]:aspect-[4/5] flex items-end overflow-hidden text-white p-0" id="top">

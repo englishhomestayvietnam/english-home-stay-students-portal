@@ -9,21 +9,21 @@ export function Volunteers({ data }: { data?: any[] }) {
       country_flag: "🇬🇧",
       role: "Kỹ sư",
       duration: "Tình nguyện viên từ 2025",
-      photo: { url: "https://picsum.photos/seed/vol1/400/500" }
+      photo: { url: "https://picsum.photos/seed/placeholder/800/600" }
     },
     {
       name: "Emily",
       country_flag: "🇺🇸",
       role: "Giáo viên",
       duration: "Tình nguyện viên từ 2024",
-      photo: { url: "https://picsum.photos/seed/vol2/400/500" }
+      photo: { url: "https://picsum.photos/seed/placeholder/800/600" }
     },
     {
       name: "David",
       country_flag: "🇩🇪",
       role: "Sinh viên đại học",
       duration: "",
-      photo: { url: "https://picsum.photos/seed/vol3/400/500" }
+      photo: { url: "https://picsum.photos/seed/placeholder/800/600" }
     }
   ];
 
@@ -50,7 +50,7 @@ export function Volunteers({ data }: { data?: any[] }) {
               <div className="group relative overflow-hidden rounded-2xl bg-[#f5f9f1] border border-[#d8ded2] shadow-sm hover:shadow-lg transition-all duration-300">
                 <div className="relative h-[320px] w-full overflow-hidden">
                   <Image 
-                    src={v.photo?.url || `https://picsum.photos/seed/vol${i+1}/400/500`} 
+                    src={v.photo?.url || `https://picsum.photos/seed/placeholder/800/600`} 
                     alt={v.name} 
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"

@@ -10,14 +10,14 @@ export function Story({ data }: { data?: any }) {
     title: data?.problem_title || "Bạn đã học tiếng Anh 7 năm, nhưng khi người nước ngoài hỏi đường, bạn lại đứng hình.",
     eyebrow: data?.problem_eyebrow || "Vấn đề",
     body: data?.problem_body,
-    image: data?.problem_image?.url || "https://picsum.photos/seed/story1/900/900"
+    image: (data?.problem_image?.imagekit?.url || data?.problem_image?.url) || "https://picsum.photos/seed/placeholder/800/600"
   };
 
   const solutionStory = {
     title: data?.solution_title || "Chúng tôi tạo ra một không gian nơi việc nói tiếng Anh là điều bắt buộc.",
     eyebrow: data?.solution_eyebrow || "Giải pháp",
     body: data?.solution_body,
-    image: data?.solution_image?.url || "https://picsum.photos/seed/story2/900/901"
+    image: (data?.solution_image?.imagekit?.url || data?.solution_image?.url) || "https://picsum.photos/seed/placeholder/800/600"
   };
 
   return (

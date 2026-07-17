@@ -4,12 +4,12 @@ import { FadeIn } from '../ui/FadeIn';
 
 export function Gallery({ data }: { data?: any[] }) {
   const galleryItemsData = data && data.length > 0 ? data : [
-    { image: { url: "https://picsum.photos/seed/boardgames/600/600" }, caption: "Chơi board game", layout: "normal", mediaType: "image" },
-    { image: { url: "https://picsum.photos/seed/coffee/1200/600" }, caption: "Cà phê trò chuyện", layout: "wide", mediaType: "image" },
-    { image: { url: "https://picsum.photos/seed/group/600/1200" }, caption: "Thảo luận nhóm", layout: "tall", mediaType: "image" },
-    { image: { url: "https://picsum.photos/seed/cooking/600/600" }, caption: "Nấu ăn cùng nhau", layout: "normal", mediaType: "image" },
-    { image: { url: "https://picsum.photos/seed/weekend/1200/600" }, caption: "Chuyến đi cuối tuần", layout: "wide", mediaType: "image" },
-    { image: { url: "https://picsum.photos/seed/movie/600/600" }, caption: "Xem phim đêm", layout: "normal", mediaType: "image" },
+    { image: { url: "https://picsum.photos/seed/placeholder/800/600" }, caption: "Chơi board game", layout: "normal", mediaType: "image" },
+    { image: { url: "https://picsum.photos/seed/placeholder/800/600" }, caption: "Cà phê trò chuyện", layout: "wide", mediaType: "image" },
+    { image: { url: "https://picsum.photos/seed/placeholder/800/600" }, caption: "Thảo luận nhóm", layout: "tall", mediaType: "image" },
+    { image: { url: "https://picsum.photos/seed/placeholder/800/600" }, caption: "Nấu ăn cùng nhau", layout: "normal", mediaType: "image" },
+    { image: { url: "https://picsum.photos/seed/placeholder/800/600" }, caption: "Chuyến đi cuối tuần", layout: "wide", mediaType: "image" },
+    { image: { url: "https://picsum.photos/seed/placeholder/800/600" }, caption: "Xem phim đêm", layout: "normal", mediaType: "image" },
   ];
 
   return (
@@ -37,7 +37,7 @@ export function Gallery({ data }: { data?: any[] }) {
                 />
               ) : (
                 <Image 
-                  src={g.image?.url || `https://picsum.photos/seed/gal${i}/600/600`} 
+                  src={g.image?.url || `https://picsum.photos/seed/placeholder/800/600`} 
                   alt={g.caption || 'Gallery image'} 
                   fill 
                   className="object-cover w-full h-full transition-transform duration-[400ms] ease-[ease] group-hover:scale-[1.06]" 

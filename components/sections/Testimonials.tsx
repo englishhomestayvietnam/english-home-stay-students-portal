@@ -10,7 +10,7 @@ export function Testimonials({ data }: { data?: any[] }) {
       tag: "Tiến bộ rõ rệt",
       student_name: "Linh Nguyen",
       role_or_background: "Sinh viên",
-      photo: { url: "https://picsum.photos/seed/test1/100/100" }
+      photo: { url: "https://picsum.photos/seed/placeholder/800/600" }
     }
   ];
 
@@ -49,7 +49,7 @@ export function Testimonials({ data }: { data?: any[] }) {
 
               <div className="flex items-center gap-[12px] mt-auto pt-[8px]">
                 <Image 
-                  src={t.photo?.url || 'https://picsum.photos/seed/test1/100/100'} 
+                  src={t.photo?.url || 'https://picsum.photos/seed/placeholder/800/600'} 
                   alt={t.student_name || 'Student photo'} 
                   width={44} 
                   height={44} 

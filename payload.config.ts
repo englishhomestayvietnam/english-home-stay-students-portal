@@ -13,6 +13,7 @@ import { GalleryItems } from './payload/collections/GalleryItems'
 import { Testimonials } from './payload/collections/Testimonials'
 import { FAQs } from './payload/collections/FAQs'
 import { Volunteers } from './payload/collections/Volunteers'
+import { Users } from './payload/collections/Users'
 
 import { Hero } from './payload/globals/Hero'
 import { Method } from './payload/globals/Method'
@@ -32,6 +33,7 @@ export default buildConfig({
     Testimonials,
     FAQs,
     Volunteers,
+    Users,
   ],
 
   globals: [
@@ -70,22 +72,7 @@ export default buildConfig({
           savedProperties: ["url", "AITags"],
         },
       },
-    }),
-    // s3Storage({
-    //   collections: {
-    //     media: true,
-    //   },
-    //   bucket: process.env.R2_BUCKET || '',
-    //   config: {
-    //     credentials: {
-    //       accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
-    //       secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
-    //     },
-    //     region: process.env.R2_REGION || 'auto',
-    //     endpoint: process.env.R2_ENDPOINT || '',
-    //     forcePathStyle: true,
-    //   },
-    // }),
+    })
   ],
 
   secret: process.env.PAYLOAD_SECRET || 'SECRET_KEY',

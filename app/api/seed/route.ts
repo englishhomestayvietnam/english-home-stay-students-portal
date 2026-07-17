@@ -134,14 +134,26 @@ export async function GET() {
 
     // 8. Story Global
     console.log('Updating Story Global...')
+    const generateLexical = (text: string) => ({
+      root: {
+        type: "root", format: "", indent: 0, version: 1,
+        children: [{
+          type: "paragraph", format: "", indent: 0, version: 1,
+          children: [{ detail: 0, format: 0, mode: "normal", style: "", text, type: "text", version: 1 }]
+        }]
+      }
+    })
+    
     await payload.updateGlobal({
       slug: 'story',
       data: {
         problem_title: "You've studied English for 7 years, but when a foreigner asks for directions, you freeze. / Bạn đã học tiếng Anh 7 năm, nhưng lại đứng hình khi bị người nước ngoài hỏi đường.",
         problem_eyebrow: "The Problem / Vấn đề",
+        problem_body: generateLexical("Many students struggle with real-world application."),
         problem_image: placeholderMedia?.id,
         solution_title: "We created a space where speaking English is unavoidable. / Chúng tôi tạo ra một không gian nơi việc nói tiếng Anh là điều tự nhiên.",
         solution_eyebrow: "The Solution / Giải pháp",
+        solution_body: generateLexical("Our homestay forces you to use English naturally."),
         solution_image: placeholderMedia?.id,
       } as any
     })
@@ -152,8 +164,9 @@ export async function GET() {
       slug: 'cta',
       data: {
         headline: "Ready to stop translating in your head? / Bạn đã sẵn sàng ngừng dịch trong đầu?",
-        subheadline: "Book a free trial class and experience the homestay method yourself. / Đăng ký lớp học thử miễn phí và tự mình trải nghiệm phương pháp homestay.",
-        button_label: "Book Free Trial / Đăng ký học thử",
+        body: "Book a free trial class and experience the homestay method yourself. / Đăng ký lớp học thử miễn phí và tự mình trải nghiệm phương pháp homestay.",
+        primary_cta_label: "Book Free Trial / Đăng ký học thử",
+        secondary_cta_label: "Learn More / Tìm hiểu thêm",
       } as any
     })
 

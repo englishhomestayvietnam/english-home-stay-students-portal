@@ -36,21 +36,25 @@ export function Nav({ data }: { data?: any }) {
   ];
 
   const links = data?.links?.length ? data.links : defaultLinks;
-  const logoText = data?.logo_text || 'English Homestay';
+  const logoText = data?.logo_text || 'English Homestay VN';
   const primaryCtaLabel = data?.primary_cta_label || 'Học thử';
   const primaryCtaUrl = data?.primary_cta_url || '#contact';
   const secondaryCtaLabel = data?.secondary_cta_label || 'Thi thử';
   const secondaryCtaUrl = data?.secondary_cta_url || '#';
+
+  const logoParts = logoText.split('Homestay');
 
   return (
     <header className="sticky top-0 z-50 bg-[#f5f9f1]/85 backdrop-blur-md border-b border-[#d8ded2]">
       <div className="max-w-[1180px] mx-auto px-6 flex items-center justify-between h-[76px]">
         
         {/* Brand Logo */}
-        <Link href="#top" className="z-50 flex items-center gap-2">
-          <Image src="/logo.svg" alt="English Homestay Logo" width={32} height={32} className="w-8 h-8" />
-          <span className="text-xl font-extrabold tracking-tight text-[#0b0c0b]">
-            {logoText.replace('Homestay', '')}<span className="text-[#09a86f]">Homestay</span>
+        <Link href="#top" className="z-50 flex items-center gap-3">
+          <Image src="/logo.svg" alt="English Homestay Logo" width={48} height={48} className="w-12 h-12" />
+          <span className="text-2xl font-extrabold tracking-tight text-[#0b0c0b]">
+            {logoParts[0]}
+            {logoParts.length > 1 && <span className="text-[#09a86f]">Homestay</span>}
+            {logoParts.slice(1).join('Homestay')}
           </span>
         </Link>
 

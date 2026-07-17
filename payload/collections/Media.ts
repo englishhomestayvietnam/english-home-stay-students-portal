@@ -13,6 +13,7 @@ export const Media: CollectionConfig = {
     read: () => true,
   },
   upload: {
+    disableLocalStorage: true,
     formatOptions: {
       format: 'webp',
       options: {
@@ -23,6 +24,16 @@ export const Media: CollectionConfig = {
       width: 1920, // Max width, will downscale larger images
       withoutEnlargement: true,
     },
+  },
+  hooks: {
+    afterRead: [
+      ({ doc }) => {
+        if (doc?.imagekit?.url) {
+          doc.url = doc.imagekit.url;
+        }
+        return doc;
+      }
+    ]
   },
   fields: [
     {

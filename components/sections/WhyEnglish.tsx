@@ -7,22 +7,22 @@ export function WhyEnglish({ data }: { data?: any[] }) {
     {
       title: "Thăng tiến sự nghiệp",
       description: "Mở ra cơ hội việc làm tốt hơn và nhận mức lương cao hơn ở các công ty đa quốc gia.",
-      image: { url: "https://picsum.photos/seed/career/400/300" }
+      image: { url: "https://picsum.photos/seed/placeholder/800/600" }
     },
     {
       title: "Du lịch",
       description: "Tự tin du lịch vòng quanh thế giới và kết nối với mọi người ở khắp nơi.",
-      image: { url: "https://picsum.photos/seed/travel/400/300" }
+      image: { url: "https://picsum.photos/seed/placeholder/800/600" }
     },
     {
       title: "Du học",
       description: "Đạt điểm IELTS yêu cầu và chuẩn bị cho cuộc sống đại học ở nước ngoài.",
-      image: { url: "https://picsum.photos/seed/study/400/300" }
+      image: { url: "https://picsum.photos/seed/placeholder/800/600" }
     },
     {
       title: "Tự tin cá nhân",
       description: "Ngừng dịch trong đầu và bắt đầu nói một cách tự nhiên.",
-      image: { url: "https://picsum.photos/seed/confidence/400/300" }
+      image: { url: "https://picsum.photos/seed/placeholder/800/600" }
     }
   ];
 
@@ -44,7 +44,7 @@ export function WhyEnglish({ data }: { data?: any[] }) {
             <FadeIn key={i} delay={i * 100} className="h-full">
               <div className="h-full flex flex-col bg-[var(--color-surface)] rounded-[var(--radius-lg)] overflow-hidden border border-[var(--color-border)]">
                 <Image 
-                  src={r.image?.url || 'https://picsum.photos/seed/why/400/300'} 
+                  src={r.image?.url || 'https://picsum.photos/seed/placeholder/800/600'} 
                   alt={r.title || 'Reason image'} 
                   width={400} 
                   height={300} 
