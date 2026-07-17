@@ -7,15 +7,15 @@ import { FadeIn } from '../ui/FadeIn';
 
 export function Story({ data }: { data?: any }) {
   const problemStory = {
-    title: data?.problem_title || "You've studied English for 7 years, but when a foreigner asks for directions, you freeze.",
-    eyebrow: data?.problem_eyebrow || "The Problem",
+    title: data?.problem_title || "Bạn đã học tiếng Anh 7 năm, nhưng khi người nước ngoài hỏi đường, bạn lại đứng hình.",
+    eyebrow: data?.problem_eyebrow || "Vấn đề",
     body: data?.problem_body,
     image: data?.problem_image?.url || "https://picsum.photos/seed/story1/900/900"
   };
 
   const solutionStory = {
-    title: data?.solution_title || "We created a space where speaking English is unavoidable.",
-    eyebrow: data?.solution_eyebrow || "The Solution",
+    title: data?.solution_title || "Chúng tôi tạo ra một không gian nơi việc nói tiếng Anh là điều bắt buộc.",
+    eyebrow: data?.solution_eyebrow || "Giải pháp",
     body: data?.solution_body,
     image: data?.solution_image?.url || "https://picsum.photos/seed/story2/900/901"
   };
@@ -44,7 +44,7 @@ export function Story({ data }: { data?: any }) {
               <span className="eyebrow t-label-sm">{problemStory.eyebrow}</span>
               <h3 className="t-lg mb-[var(--space-sm)]">{problemStory.title}</h3>
               <div className="t-body-lg muted">
-                {problemStory.body ? <RichText data={problemStory.body} /> : <p>Missing text.</p>}
+                {problemStory.body ? <RichText data={problemStory.body} /> : <p>Thiếu nội dung.</p>}
               </div>
             </div>
             </div>
@@ -67,9 +67,9 @@ export function Story({ data }: { data?: any }) {
               <span className="eyebrow t-label-sm">{solutionStory.eyebrow}</span>
               <h3 className="t-lg mb-[var(--space-sm)]">{solutionStory.title}</h3>
               <div className="t-body-lg muted">
-                {solutionStory.body ? <RichText data={solutionStory.body} /> : <p>Missing text.</p>}
+                {solutionStory.body ? <RichText data={solutionStory.body} /> : <p>Thiếu nội dung.</p>}
               </div>
-              <Link href="#cta" className="btn btn-tertiary mt-[12px] !p-0 !bg-transparent !text-[var(--color-on-surface)] !h-auto underline underline-offset-4 rounded-none border-0 hover:scale-100 active:scale-100">See how it works →</Link>
+              <Link href="#cta" className="btn btn-tertiary mt-[12px] !p-0 !bg-transparent !text-[var(--color-on-surface)] !h-auto underline underline-offset-4 rounded-none border-0 hover:scale-100 active:scale-100">Xem cách hoạt động →</Link>
             </div>
             </div>
           </FadeIn>

@@ -4,21 +4,21 @@ import { FadeIn } from '../ui/FadeIn';
 export function Journey({ data }: { data?: any[] }) {
   const fallbackPhases = [
     {
-      phase_tag: "Lessons 1–5",
-      title: "Building the foundation",
+      phase_tag: "Bài 1–5",
+      title: "Xây dựng nền tảng",
       points: [
-        { point: "Master English pronunciation rules" },
-        { point: "Read new words out loud with confidence" },
-        { point: "Build the habit of speaking from lesson one" }
+        { point: "Nắm vững các quy tắc phát âm tiếng Anh" },
+        { point: "Tự tin đọc to các từ mới" },
+        { point: "Xây dựng thói quen nói tiếng Anh từ bài học đầu tiên" }
       ]
     },
     {
-      phase_tag: "From here on",
-      title: "Learning to communicate",
+      phase_tag: "Từ bài 6 trở đi",
+      title: "Học cách giao tiếp",
       points: [
-        { point: "Listening and understanding natural speech" },
-        { point: "Asking questions, not just answering them" },
-        { point: "Speaking naturally, without translating in your head" }
+        { point: "Luyện nghe và hiểu hội thoại tự nhiên" },
+        { point: "Đặt câu hỏi, không chỉ trả lời" },
+        { point: "Nói tự nhiên, không cần dịch trong đầu" }
       ]
     }
   ];
@@ -30,8 +30,8 @@ export function Journey({ data }: { data?: any[] }) {
       <div className="max-w-[1180px] mx-auto px-[var(--space-gutter)]">
         <FadeIn>
           <div className="max-w-[640px] mb-[var(--space-lg)]">
-            <span className="eyebrow t-label-sm">Your learning journey</span>
-            <h2 className="t-lg">From your first sound to your first real conversation.</h2>
+            <span className="eyebrow t-label-sm">Hành trình học tập</span>
+            <h2 className="t-lg">Từ âm thanh đầu tiên đến cuộc hội thoại thực tế đầu tiên.</h2>
           </div>
         </FadeIn>
         

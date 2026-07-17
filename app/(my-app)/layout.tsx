@@ -15,31 +15,31 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://englishhomestay.vn'), // Replace with actual domain when ready
   title: {
-    default: "English Homestay | Practice english every day",
+    default: "English Homestay | Luyện tiếng Anh mỗi ngày",
     template: "%s | English Homestay",
   },
-  description: "English is not just a subject, it's a bridge that connects you to the world. Learn English through real conversations, coffee chats, and a dynamic homestay environment.",
+  description: "Tiếng Anh không chỉ là một môn học, nó là cây cầu kết nối bạn với thế giới. Học tiếng Anh qua những cuộc trò chuyện thực tế, những buổi cà phê và môi trường homestay năng động.",
   keywords: ["Học tiếng Anh giao tiếp", "Tiếng Anh người đi làm", "English Homestay", "Thực hành tiếng Anh", "Learn English Vietnam"],
   openGraph: {
     type: "website",
-    locale: "en_VN",
+    locale: "vi_VN",
     url: "https://englishhomestay.vn",
     siteName: "English Homestay",
-    title: "English Homestay | Practice english every day",
-    description: "English is not just a subject, it's a bridge that connects you to the world. Join our English Homestay community.",
+    title: "English Homestay | Luyện tiếng Anh mỗi ngày",
+    description: "Tiếng Anh không chỉ là một môn học, nó là cây cầu kết nối bạn với thế giới. Tham gia cộng đồng English Homestay của chúng tôi.",
     images: [
       {
         url: "/og-image.jpg", // This should be replaced with an actual image in public folder
         width: 1200,
         height: 630,
-        alt: "English Homestay community",
+        alt: "Cộng đồng English Homestay",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "English Homestay | Practice english every day",
-    description: "English is not just a subject, it's a bridge that connects you to the world. Join our English Homestay community.",
+    title: "English Homestay | Luyện tiếng Anh mỗi ngày",
+    description: "Tiếng Anh không chỉ là một môn học, nó là cây cầu kết nối bạn với thế giới. Tham gia cộng đồng English Homestay của chúng tôi.",
     images: ["/og-image.jpg"],
   },
 };
@@ -52,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="vi" className={cn("font-sans", geist.variable)}>
       <body>
         {children}
         <FloatingContact />

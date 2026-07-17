@@ -15,6 +15,20 @@ export const FAQs: CollectionConfig = {
   },
   fields: [
     {
+      name: 'category',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'The Basics', value: 'The Basics' },
+        { label: 'Free Trial', value: 'Free Trial' },
+        { label: 'Classes & Curriculum', value: 'Classes & Curriculum' },
+        { label: 'Volunteers & Practice', value: 'Volunteers & Practice' },
+        { label: 'Fears & Confidence', value: 'Fears & Confidence' },
+        { label: 'Schedules & Ages', value: 'Schedules & Ages' },
+      ],
+      defaultValue: 'The Basics',
+    },
+    {
       name: 'question',
       type: 'text',
       required: true,

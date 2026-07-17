@@ -5,29 +5,48 @@ import { FadeIn } from '../ui/FadeIn';
 export function Testimonials({ data }: { data?: any[] }) {
   const testimonialsData = data && data.length > 0 ? data : [
     {
-      quote: "I used to translate everything in my head before speaking. The environment here forced me to stop doing that. I just speak now.",
-      tag: "Noticeable progress",
+      beforeText: "Trước đây mình hay dịch mọi thứ trong đầu trước khi nói. Mình rất sợ mắc lỗi sai.",
+      afterText: "Môi trường ở đây buộc mình phải bỏ thói quen đó. Giờ mình có thể phản xạ tự nhiên và trò chuyện liên tục 20 phút.",
+      tag: "Tiến bộ rõ rệt",
       student_name: "Linh Nguyen",
-      role_or_background: "University Student",
+      role_or_background: "Sinh viên",
       photo: { url: "https://picsum.photos/seed/test1/100/100" }
     }
   ];
 
   return (
-    <section id="stories" className="py-[var(--space-section)]">
+    <section id="stories" className="py-[var(--space-section)] bg-[#f9fdf5]">
       <div className="max-w-[1180px] mx-auto px-[var(--space-gutter)]">
         <FadeIn>
           <div className="max-w-[640px] mb-[var(--space-lg)]">
-            <span className="eyebrow t-label-sm">Student stories</span>
-            <h2 className="t-lg">Before and after — in their own words.</h2>
+            <span className="eyebrow t-label-sm text-[#09a86f]">Câu chuyện học viên</span>
+            <h2 className="t-lg text-[#0b0c0b]">Trước và sau — qua lời kể của họ.</h2>
           </div>
         </FadeIn>
         
         <div className="flex gap-[var(--space-gutter)] overflow-x-auto snap-x snap-mandatory pb-[8px] no-scrollbar [&::-webkit-scrollbar]:hidden">
           {testimonialsData.map((t: any, i: number) => (
-            <FadeIn key={i} delay={i * 100} className="snap-start flex-[0_0_320px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)] p-[24px] flex flex-col gap-[14px]">
-              {t.tag && <span className="text-[var(--color-success)] text-[12px] font-semibold">{t.tag}</span>}
-              <p className="text-[17px] font-light leading-[26px] tracking-[-0.01em]">“{t.quote}”</p>
+            <FadeIn key={i} delay={i * 100} className="snap-start flex-[0_0_340px] sm:flex-[0_0_400px] bg-white border border-[#d8ded2] shadow-sm hover:shadow-md transition-shadow duration-300 rounded-[var(--radius-lg)] p-[24px] flex flex-col gap-[20px]">
+              {t.tag && <span className="text-[#09a86f] text-[12px] font-bold uppercase tracking-wider">{t.tag}</span>}
+              
+              <div className="flex flex-col gap-4 relative">
+                <div className="bg-[#fdf0f0] border border-[#facdcd] p-4 rounded-xl relative">
+                  <span className="absolute -top-3 left-4 bg-[#fdf0f0] border border-[#facdcd] px-2 py-0.5 text-[11px] font-bold text-[#d93838] rounded-md uppercase tracking-wide">Trước</span>
+                  <p className="text-[15px] leading-relaxed text-[#0b0c0b]/80 mt-1">“{t.beforeText}”</p>
+                </div>
+                
+                <div className="flex justify-center -my-3 relative z-10">
+                  <div className="w-8 h-8 rounded-full bg-white border border-[#d8ded2] flex items-center justify-center shadow-sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#09a86f" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+                  </div>
+                </div>
+
+                <div className="bg-[#f0f9f4] border border-[#b2dfc8] p-4 rounded-xl relative">
+                  <span className="absolute -top-3 left-4 bg-[#f0f9f4] border border-[#b2dfc8] px-2 py-0.5 text-[11px] font-bold text-[#09a86f] rounded-md uppercase tracking-wide">Sau</span>
+                  <p className="text-[15px] font-semibold leading-relaxed text-[#0b0c0b] mt-1">“{t.afterText}”</p>
+                </div>
+              </div>
+
               <div className="flex items-center gap-[12px] mt-auto pt-[8px]">
                 <Image 
                   src={t.photo?.url || 'https://picsum.photos/seed/test1/100/100'} 
@@ -37,8 +56,8 @@ export function Testimonials({ data }: { data?: any[] }) {
                   className="rounded-[var(--radius-full)] object-cover w-[44px] h-[44px]"
                 />
                 <div>
-                  <p className="t-label-md" style={{ margin: 0 }}>{t.student_name}</p>
-                  <p className="t-body-sm muted" style={{ margin: 0 }}>{t.role_or_background}</p>
+                  <p className="t-label-md text-[#0b0c0b]" style={{ margin: 0 }}>{t.student_name}</p>
+                  <p className="t-body-sm text-[#0b0c0b]/60" style={{ margin: 0 }}>{t.role_or_background}</p>
                 </div>
               </div>
             </FadeIn>

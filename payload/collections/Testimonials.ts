@@ -15,9 +15,16 @@ export const Testimonials: CollectionConfig = {
   },
   fields: [
     {
-      name: 'quote',
+      name: 'beforeText',
       type: 'textarea',
       required: true,
+      label: 'Before (The Problem)',
+    },
+    {
+      name: 'afterText',
+      type: 'textarea',
+      required: true,
+      label: 'After (The Transformation)',
     },
     {
       name: 'tag',

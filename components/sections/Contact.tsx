@@ -21,16 +21,16 @@ export function Contact({ data }: { data?: any }) {
     }
   }
 
-  const headline = data?.headline || "Your bridge to the world starts with one conversation.";
-  const body = data?.body || "Tell us a bit about you, and our team will reach out to book your free trial class — no pressure, no obligation.";
-  const ctaLabel = data?.primary_cta_label || "Book My Free Trial Class";
+  const headline = data?.headline || "Cây cầu kết nối bạn với thế giới bắt đầu từ một cuộc trò chuyện.";
+  const body = data?.body || "Hãy cho chúng tôi biết một chút về bạn, đội ngũ của chúng tôi sẽ liên hệ để xếp lịch học thử miễn phí — không áp lực, không ràng buộc.";
+  const ctaLabel = data?.primary_cta_label || "Đăng ký học thử miễn phí";
 
   return (
     <section id="contact" className="py-(--space-section)">
       <div className="max-w-[1180px] mx-auto px-(--space-gutter)">
         <FadeIn>
           <div className="max-w-[640px] mb-(--space-lg)">
-            <span className="eyebrow t-label-sm">Get started</span>
+            <span className="eyebrow t-label-sm">Bắt đầu ngay</span>
             <h2 className="t-lg">{headline}</h2>
             <p className="t-body-md muted" style={{ marginTop: '10px' }}>
               {body}
@@ -46,80 +46,42 @@ export function Contact({ data }: { data?: any }) {
               {status !== 'success' ? (
                 <form onSubmit={handleSubmit} className="card p-[24px]">
                   <div className="mb-[16px]">
-                    <label htmlFor="cf-name" className="block text-[13px] font-semibold mb-[6px]">Full name</label>
+                    <label htmlFor="cf-name" className="block text-[13px] font-semibold mb-[6px]">Họ và tên</label>
                     <input 
                       type="text" 
                       id="cf-name" 
                       name="name" 
-                      placeholder="Your name" 
+                      placeholder="Tên của bạn" 
                       className="w-full border border-(--color-border) bg-(--color-surface) rounded-(--radius-md) py-[12px] px-[14px] text-[15px] font-[inherit] text-(--color-on-surface) focus:outline focus:outline-[2px] focus:outline-(--color-primary) focus:outline-offset-[1px]"
                       required 
                     />
                   </div>
-                  <div className="mb-[16px]">
-                    <label htmlFor="cf-phone" className="block text-[13px] font-semibold mb-[6px]">Phone number</label>
+                  <div className="mb-[24px]">
+                    <label htmlFor="cf-phone" className="block text-[13px] font-semibold mb-[6px]">Số điện thoại</label>
                     <input 
                       type="tel" 
                       id="cf-phone" 
                       name="phone" 
-                      placeholder="e.g. 090 123 4567" 
+                      placeholder="VD: 090 123 4567" 
                       className="w-full border border-(--color-border) bg-(--color-surface) rounded-(--radius-md) py-[12px] px-[14px] text-[15px] font-[inherit] text-(--color-on-surface) focus:outline focus:outline-[2px] focus:outline-(--color-primary) focus:outline-offset-[1px]"
                       required 
                     />
                   </div>
-                  <div className="mb-[16px]">
-                    <label htmlFor="cf-level" className="block text-[13px] font-semibold mb-[6px]">Current English level</label>
-                    <select 
-                      id="cf-level" 
-                      name="level" 
-                      className="w-full border border-(--color-border) bg-(--color-surface) rounded-(--radius-md) py-[12px] px-[14px] text-[15px] font-[inherit] text-(--color-on-surface) focus:outline focus:outline-[2px] focus:outline-(--color-primary) focus:outline-offset-[1px]"
-                      required
-                      defaultValue=""
-                    >
-                      <option value="" disabled>Select your level</option>
-                      <option>Beginner</option>
-                      <option>Elementary</option>
-                      <option>Intermediate</option>
-                      <option>Upper-Intermediate</option>
-                      <option>Advanced</option>
-                      <option>Not sure — I'd like a placement test</option>
-                    </select>
-                  </div>
-                  <div className="mb-[16px]">
-                    <label htmlFor="cf-goal" className="block text-[13px] font-semibold mb-[6px]">Learning goal</label>
-                    <select 
-                      id="cf-goal" 
-                      name="goal" 
-                      className="w-full border border-(--color-border) bg-(--color-surface) rounded-(--radius-md) py-[12px] px-[14px] text-[15px] font-[inherit] text-(--color-on-surface) focus:outline focus:outline-[2px] focus:outline-(--color-primary) focus:outline-offset-[1px]"
-                      required
-                      defaultValue=""
-                    >
-                      <option value="" disabled>What's your main goal?</option>
-                      <option>Career growth</option>
-                      <option>Traveling</option>
-                      <option>Studying abroad</option>
-                      <option>Working internationally</option>
-                      <option>Communicating with foreigners</option>
-                      <option>Supporting my children</option>
-                      <option>Building confidence</option>
-                      <option>Personal interest</option>
-                    </select>
-                  </div>
                   <div className="relative p-[3px] overflow-hidden rounded-[var(--radius-full)] w-full group shadow-md mb-[16px]">
                     <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#09a86f_0%,#ffffff_50%,#09a86f_100%)]" />
                     <button type="submit" disabled={status === 'submitting'} className="btn btn-primary w-full disabled:opacity-[0.55] disabled:cursor-not-allowed relative z-10 !rounded-[calc(var(--radius-full)-3px)] !m-0">
-                      {status === 'submitting' ? 'Booking...' : ctaLabel}
+                      {status === 'submitting' ? 'Đang gửi...' : ctaLabel}
                     </button>
                   </div>
                   <p className="text-[12px] text-(--color-muted) mt-[10px]">
-                    By submitting, you agree to be contacted by our team about your free trial class. No spam, ever.
+                    Bằng việc gửi thông tin, bạn đồng ý để đội ngũ của chúng tôi liên hệ về buổi học thử miễn phí. Không gửi tin rác.
                   </p>
                 </form>
               ) : (
                 <div className="text-center px-[20px] py-[40px] card">
-                  <p className="t-sm">Thanks — you're in! 🎉</p>
+                  <p className="t-sm">Cảm ơn bạn! 🎉</p>
                   <p className="t-body-md muted" style={{ marginTop: '10px' }}>
-                    Our team will reach out shortly to book your free trial class.
+                    Đội ngũ của chúng tôi sẽ liên hệ trong thời gian sớm nhất để xếp lịch học thử.
                   </p>
                 </div>
               )}
@@ -129,19 +91,19 @@ export function Contact({ data }: { data?: any }) {
             <div className="flex flex-col gap-[18px]">
               <div className="flex gap-[14px] items-start">
                 <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
-                <p className="t-body-md">A free trial class with a real qualified teacher and international volunteers — see the method for yourself.</p>
+                <p className="t-body-md">Một buổi học thử miễn phí với giáo viên bản ngữ và tình nguyện viên quốc tế — trải nghiệm phương pháp học thực tế.</p>
               </div>
               <div className="flex gap-[14px] items-start">
                 <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
-                <p className="t-body-md">A free placement test, so we can recommend the right starting point for you.</p>
+                <p className="t-body-md">Một bài kiểm tra trình độ miễn phí để chúng tôi tư vấn lớp học phù hợp nhất.</p>
               </div>
               <div className="flex gap-[14px] items-start">
                 <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
-                <p className="t-body-md">No pressure, no obligation — just a conversation about your goals.</p>
+                <p className="t-body-md">Không áp lực, không bắt buộc — chỉ là một cuộc trò chuyện về mục tiêu của bạn.</p>
               </div>
               <div className="flex gap-[14px] items-start">
                 <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
-                <p className="t-body-md">Our team typically responds within one business day.</p>
+                <p className="t-body-md">Đội ngũ của chúng tôi thường phản hồi trong vòng 24 giờ làm việc.</p>
               </div>
             </div>
 

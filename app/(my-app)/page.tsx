@@ -2,11 +2,14 @@ import React from 'react';
 import { getPayload } from 'payload';
 import config from '@/payload.config';
 import { Hero } from '@/components/sections/Hero';
+import { Stats } from '@/components/sections/Stats';
 import { WhyEnglish } from '@/components/sections/WhyEnglish';
+import { WhoIsThisFor } from '@/components/sections/WhoIsThisFor';
 import { Story } from '@/components/sections/Story';
 import { Method } from '@/components/sections/Method';
 import { Journey } from '@/components/sections/Journey';
 import { Week } from '@/components/sections/Week';
+import { Volunteers } from '@/components/sections/Volunteers';
 import { Gallery } from '@/components/sections/Gallery';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { FAQ } from '@/components/sections/FAQ';
@@ -19,6 +22,7 @@ export default async function Home() {
 
   // Fetch all data concurrently
   const [
+    nav,
     hero,
     method,
     week,
@@ -28,8 +32,10 @@ export default async function Home() {
     journeyRes,
     galleryRes,
     testRes,
-    faqRes
+    faqRes,
+    volunteersRes
   ] = await Promise.all([
+    payload.findGlobal({ slug: 'nav', depth: 1 }),
     payload.findGlobal({ slug: 'hero', depth: 1 }),
     payload.findGlobal({ slug: 'method', depth: 1 }),
     payload.findGlobal({ slug: 'week', depth: 1 }),
@@ -40,17 +46,21 @@ export default async function Home() {
     payload.find({ collection: 'gallery-items', limit: 100, depth: 1 }),
     payload.find({ collection: 'testimonials', limit: 100, depth: 1 }),
     payload.find({ collection: 'faqs', limit: 100, depth: 1 }),
+    payload.find({ collection: 'volunteers', limit: 100, depth: 1 }),
   ]);
 
   return (
     <>
-      <Nav />
+      <Nav data={nav} />
       <Hero data={hero} />
+      <Stats />
       <WhyEnglish data={reasonsRes.docs} />
+      <WhoIsThisFor />
       <Story data={story} />
       <Method data={method} />
       <Journey data={journeyRes.docs} />
       <Week data={week} />
+      <Volunteers data={volunteersRes.docs} />
       <Gallery data={galleryRes.docs} />
       <Testimonials data={testRes.docs} />
       <FAQ data={faqRes.docs} />

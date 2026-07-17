@@ -15,7 +15,18 @@ export const GalleryItems: CollectionConfig = {
   },
   fields: [
     {
+      name: 'mediaType',
+      type: 'select',
+      options: [
+        { label: 'Image', value: 'image' },
+        { label: 'Video', value: 'video' },
+      ],
+      defaultValue: 'image',
+      required: true,
+    },
+    {
       name: 'image',
+      label: 'Media File (Image or Video)',
       type: 'upload',
       relationTo: 'media',
       required: true,

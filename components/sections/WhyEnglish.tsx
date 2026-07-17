@@ -5,9 +5,24 @@ import { FadeIn } from '@/components/ui/FadeIn';
 export function WhyEnglish({ data }: { data?: any[] }) {
   const learningReasonsData = data && data.length > 0 ? data : [
     {
-      title: "Career Growth",
-      description: "Unlock better job opportunities and earn a higher salary in multinational companies.",
-      image: { url: "/career-growth.png" }
+      title: "Thăng tiến sự nghiệp",
+      description: "Mở ra cơ hội việc làm tốt hơn và nhận mức lương cao hơn ở các công ty đa quốc gia.",
+      image: { url: "https://picsum.photos/seed/career/400/300" }
+    },
+    {
+      title: "Du lịch",
+      description: "Tự tin du lịch vòng quanh thế giới và kết nối với mọi người ở khắp nơi.",
+      image: { url: "https://picsum.photos/seed/travel/400/300" }
+    },
+    {
+      title: "Du học",
+      description: "Đạt điểm IELTS yêu cầu và chuẩn bị cho cuộc sống đại học ở nước ngoài.",
+      image: { url: "https://picsum.photos/seed/study/400/300" }
+    },
+    {
+      title: "Tự tin cá nhân",
+      description: "Ngừng dịch trong đầu và bắt đầu nói một cách tự nhiên.",
+      image: { url: "https://picsum.photos/seed/confidence/400/300" }
     }
   ];
 
@@ -16,10 +31,10 @@ export function WhyEnglish({ data }: { data?: any[] }) {
       <div className="max-w-[1180px] mx-auto px-[var(--space-gutter)]">
         <FadeIn>
           <div className="max-w-[640px] mb-[var(--space-lg)]">
-            <span className="eyebrow t-label-sm">Why English</span>
-            <h2 className="t-lg">Everyone has a reason to speak English.</h2>
+            <span className="eyebrow t-label-sm">Tại sao học tiếng Anh</span>
+            <h2 className="t-lg">Ai cũng có lý do để học tiếng Anh.</h2>
             <p className="t-body-md muted" style={{ marginTop: '10px' }}>
-              What&apos;s yours? Most of our students start with one of these — maybe you&apos;ll recognize your own.
+              Lý do của bạn là gì? Hầu hết học viên của chúng tôi bắt đầu từ những lý do này.
             </p>
           </div>
         </FadeIn>
