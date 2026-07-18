@@ -27,20 +27,11 @@ export const metadata: Metadata = {
     siteName: "English Homestay",
     title: "English Homestay | Luyện tiếng Anh mỗi ngày",
     description: "Tiếng Anh không chỉ là một môn học, nó là cây cầu kết nối bạn với thế giới. Tham gia cộng đồng English Homestay của chúng tôi.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Cộng đồng English Homestay",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "English Homestay | Luyện tiếng Anh mỗi ngày",
     description: "Tiếng Anh không chỉ là một môn học, nó là cây cầu kết nối bạn với thế giới. Tham gia cộng đồng English Homestay của chúng tôi.",
-    images: ["/og-image.jpg"],
   },
 };
 
