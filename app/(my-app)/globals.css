@@ -80,6 +80,17 @@
   --space-section: 80px;
 }
 
+@media (max-width: 768px) {
+  :root {
+    --space-sm: 12px;
+    --space-md: 24px;
+    --space-lg: 40px;
+    --space-xl: 56px;
+    --space-gutter: 16px;
+    --space-section: 48px;
+  }
+}
+
 .dark {
   /* In case we need dark mode, though design.html doesn't specify one, we invert reasonably */
   --background: #0b0c0b;      /* tertiary */
@@ -173,6 +184,7 @@
 
   --animate-kenburns: kenburns 24s ease-in-out infinite alternate;
   --animate-scrolldrop: scrolldrop 1.8s ease-in-out infinite;
+  --animate-marquee: marquee 25s linear infinite;
   --font-heading: var(--font-sans);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
@@ -325,6 +337,15 @@
   100% {
     transform: scaleY(0);
     transform-origin: bottom;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(calc(-50% - 8px)); /* 8px is half the gap-4 (16px) to keep seamless */
   }
 }
 

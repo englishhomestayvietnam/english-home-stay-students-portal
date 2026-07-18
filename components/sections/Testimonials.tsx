@@ -26,24 +26,24 @@ export function Testimonials({ data }: { data?: any[] }) {
         
         <div className="flex gap-[var(--space-gutter)] overflow-x-auto snap-x snap-mandatory pb-[8px] no-scrollbar [&::-webkit-scrollbar]:hidden">
           {testimonialsData.map((t: any, i: number) => (
-            <FadeIn key={i} delay={i * 100} className="snap-start flex-[0_0_340px] sm:flex-[0_0_400px] bg-white border border-[#d8ded2] shadow-sm hover:shadow-md transition-shadow duration-300 rounded-[var(--radius-lg)] p-[24px] flex flex-col gap-[20px]">
-              {t.tag && <span className="text-[#09a86f] text-[12px] font-bold uppercase tracking-wider">{t.tag}</span>}
+            <FadeIn key={i} delay={i * 100} className="snap-start flex-[0_0_280px] sm:flex-[0_0_400px] bg-white border border-[#d8ded2] shadow-sm hover:shadow-md transition-shadow duration-300 rounded-[var(--radius-lg)] p-4 sm:p-[24px] flex flex-col gap-3 sm:gap-[20px]">
+              {t.tag && <span className="text-[#09a86f] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider">{t.tag}</span>}
               
-              <div className="flex flex-col gap-4 relative">
-                <div className="bg-[#fdf0f0] border border-[#facdcd] p-4 rounded-xl relative">
-                  <span className="absolute -top-3 left-4 bg-[#fdf0f0] border border-[#facdcd] px-2 py-0.5 text-[11px] font-bold text-[#d93838] rounded-md uppercase tracking-wide">Trước</span>
-                  <p className="text-[15px] leading-relaxed text-[#0b0c0b]/80 mt-1">“{t.beforeText}”</p>
+              <div className="flex flex-col gap-3 sm:gap-4 relative">
+                <div className="bg-[#fdf0f0] border border-[#facdcd] p-3 sm:p-4 rounded-xl relative">
+                  <span className="absolute -top-3 left-3 sm:left-4 bg-[#fdf0f0] border border-[#facdcd] px-2 py-0.5 text-[10px] sm:text-[11px] font-bold text-[#d93838] rounded-md uppercase tracking-wide">Trước</span>
+                  <p className="text-[14px] sm:text-[15px] leading-relaxed text-[#0b0c0b]/80 mt-1">“{t.beforeText}”</p>
                 </div>
                 
-                <div className="flex justify-center -my-3 relative z-10">
-                  <div className="w-8 h-8 rounded-full bg-white border border-[#d8ded2] flex items-center justify-center shadow-sm">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#09a86f" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+                <div className="flex justify-center -my-2.5 sm:-my-3 relative z-10">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white border border-[#d8ded2] flex items-center justify-center shadow-sm">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#09a86f" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="sm:w-[14px] sm:h-[14px]"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
                   </div>
                 </div>
 
-                <div className="bg-[#f0f9f4] border border-[#b2dfc8] p-4 rounded-xl relative">
-                  <span className="absolute -top-3 left-4 bg-[#f0f9f4] border border-[#b2dfc8] px-2 py-0.5 text-[11px] font-bold text-[#09a86f] rounded-md uppercase tracking-wide">Sau</span>
-                  <p className="text-[15px] font-semibold leading-relaxed text-[#0b0c0b] mt-1">“{t.afterText}”</p>
+                <div className="bg-[#f0f9f4] border border-[#b2dfc8] p-3 sm:p-4 rounded-xl relative">
+                  <span className="absolute -top-3 left-3 sm:left-4 bg-[#f0f9f4] border border-[#b2dfc8] px-2 py-0.5 text-[10px] sm:text-[11px] font-bold text-[#09a86f] rounded-md uppercase tracking-wide">Sau</span>
+                  <p className="text-[14px] sm:text-[15px] font-semibold leading-relaxed text-[#0b0c0b] mt-1">“{t.afterText}”</p>
                 </div>
               </div>
 

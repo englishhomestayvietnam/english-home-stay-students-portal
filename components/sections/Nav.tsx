@@ -129,6 +129,7 @@ export function Nav({ data }: { data?: any }) {
                 {links.map((link: any) => (
                   <SheetClose
                     key={link.href || link.url}
+                    nativeButton={false}
                     render={
                       <Link
                         href={link.href || link.url}
@@ -144,6 +145,7 @@ export function Nav({ data }: { data?: any }) {
               {/* Action CTAs in mobile drawer panel */}
               <div className="flex flex-col gap-3 mt-auto">
                 <SheetClose
+                  nativeButton={false}
                   render={
                     <Button
                       variant="outline"

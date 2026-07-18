@@ -14,7 +14,7 @@ export function Hero({ data }: { data?: any }) {
   const posterUrl = (data?.poster?.imagekit?.url || data?.poster?.url) || 'https://picsum.photos/seed/placeholder/800/600';
 
   return (
-    <section className="relative w-full aspect-[16/9] max-[768px]:aspect-[4/5] flex items-end overflow-hidden text-white p-0" id="top">
+    <section className="relative w-full aspect-[16/9] max-[768px]:aspect-[3/4] flex items-end overflow-hidden text-white p-0" id="top">
       {/* Background Media Container: Contains the image/video & opacity overlay */}
       <div className="absolute inset-0 overflow-hidden bg-tertiary">
         <Image

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     description: "Tiếng Anh không chỉ là một môn học, nó là cây cầu kết nối bạn với thế giới. Tham gia cộng đồng English Homestay của chúng tôi.",
     images: [
       {
-        url: "/og-image.jpg", // This should be replaced with an actual image in public folder
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Cộng đồng English Homestay",

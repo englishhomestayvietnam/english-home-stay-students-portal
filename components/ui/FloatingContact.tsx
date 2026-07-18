@@ -8,7 +8,7 @@ export function FloatingContact() {
       <div className="relative group p-[4px] rounded-[var(--radius-full)] overflow-hidden w-[72px] h-[72px] shadow-[0_8px_20px_rgba(0,104,255,0.4)] hover:-translate-y-1 transition-transform duration-200">
         <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#0068FF_0%,#ffffff_50%,#0068FF_100%)]" />
         <Link 
-          href="https://zalo.me/0968199900" 
+          href="https://zalo.me/0866081995" 
           target="_blank" 
           rel="noopener noreferrer"
           aria-label="Chat on Zalo"

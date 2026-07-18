@@ -24,7 +24,7 @@ export function Gallery({ data }: { data?: any[] }) {
         
         <div className="grid grid-cols-4 auto-rows-[160px] gap-[10px] max-[860px]:grid-cols-2">
           {galleryItemsData.map((g: any, i: number) => (
-            <FadeIn key={i} delay={i * 100} className={`relative rounded-[var(--radius-md)] overflow-hidden transition-all duration-250 ease-out group ${g.layout === 'wide' ? 'col-span-2' : g.layout === 'tall' ? 'row-span-2' : 'col-span-1 row-span-1'}`}>
+            <FadeIn key={i} delay={i * 100} className={`relative rounded-[var(--radius-md)] overflow-hidden transition-all duration-250 ease-out group ${g.layout === 'wide' ? 'sm:col-span-2 col-span-1' : g.layout === 'tall' ? 'sm:row-span-2 row-span-1' : 'col-span-1 row-span-1'}`}>
               
               {g.mediaType === 'video' ? (
                 <video

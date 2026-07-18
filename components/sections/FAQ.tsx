@@ -64,19 +64,19 @@ function AccordionItem({ q, a, isOpen, onClick }: { q: string, a: string, isOpen
     <div className="border border-[#d8ded2] rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
       <button
         onClick={onClick}
-        className="w-full text-left px-5 py-4 sm:px-6 sm:py-5 flex items-center justify-between gap-4 focus:outline-none"
+        className="w-full text-left px-4 py-3 sm:px-6 sm:py-5 flex items-center justify-between gap-3 sm:gap-4 focus:outline-none"
       >
         <span className={cn(
-          "text-[15px] sm:text-[16px] font-bold transition-colors duration-200",
+          "text-[14px] sm:text-[16px] font-bold transition-colors duration-200",
           isOpen ? "text-[#09a86f]" : "text-[#0b0c0b]"
         )}>
           {q}
         </span>
         <div className={cn(
-          "shrink-0 w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300",
+          "shrink-0 w-6 h-6 sm:w-8 sm:h-8 rounded-full border flex items-center justify-center transition-all duration-300",
           isOpen ? "bg-[#09a86f] border-[#09a86f] text-white rotate-180" : "border-[#d8ded2] text-[#0b0c0b] bg-[#f5f9f1]"
         )}>
-          <ChevronDown className="w-5 h-5" />
+          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
         </div>
       </button>
       <div
@@ -86,7 +86,7 @@ function AccordionItem({ q, a, isOpen, onClick }: { q: string, a: string, isOpen
         )}
       >
         <div className="overflow-hidden">
-          <p className="px-5 pb-5 sm:px-6 sm:pb-6 text-[#0b0c0b]/80 text-[14px] sm:text-[15px] leading-[24px] sm:leading-[26px]">
+          <p className="px-4 pb-4 sm:px-6 sm:pb-6 text-[#0b0c0b]/80 text-[13px] sm:text-[15px] leading-[20px] sm:leading-[26px]">
             {a}
           </p>
         </div>
@@ -102,19 +102,19 @@ function CategoryAccordion({ category, faqs, isOpen, onClick }: { category: stri
     <div className="border border-[#d8ded2] rounded-2xl mb-4 overflow-hidden bg-white shadow-sm transition-shadow duration-300">
       <button
         onClick={onClick}
-        className="w-full text-left px-5 py-5 sm:px-6 sm:py-6 flex items-center justify-between gap-4 focus:outline-none bg-[#f9fdf5] hover:bg-[#f0f7ea] transition-colors"
+        className="w-full text-left px-4 py-4 sm:px-6 sm:py-6 flex items-center justify-between gap-3 sm:gap-4 focus:outline-none bg-[#f9fdf5] hover:bg-[#f0f7ea] transition-colors"
       >
         <span className={cn(
-          "text-[18px] sm:text-[20px] font-extrabold transition-colors duration-200",
+          "text-[16px] sm:text-[20px] font-extrabold transition-colors duration-200",
           isOpen ? "text-[#09a86f]" : "text-[#0b0c0b]"
         )}>
           {category}
         </span>
         <div className={cn(
-          "shrink-0 w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300",
+          "shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center transition-all duration-300",
           isOpen ? "bg-[#09a86f] border-[#09a86f] text-white rotate-180" : "border-[#d8ded2] text-[#0b0c0b] bg-white"
         )}>
-          <ChevronDown className="w-6 h-6" />
+          <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6" />
         </div>
       </button>
       <div
@@ -124,7 +124,7 @@ function CategoryAccordion({ category, faqs, isOpen, onClick }: { category: stri
         )}
       >
         <div className="overflow-hidden">
-          <div className="p-4 sm:p-6 bg-[#fcfdfa] flex flex-col gap-3 border-t border-[#d8ded2]/50">
+          <div className="p-3 sm:p-6 bg-[#fcfdfa] flex flex-col gap-2 sm:gap-3 border-t border-[#d8ded2]/50">
              {faqs.map((faq, index) => (
                 <AccordionItem 
                   key={index} 
@@ -172,14 +172,14 @@ export function FAQ({ data }: { data?: any[] }) {
   }, [faqsSource, searchQuery, isSearchActive]);
 
   return (
-    <section id="faq" className="py-20 sm:py-28 bg-[#f5f9f1]">
+    <section id="faq" className="py-12 sm:py-20 md:py-28 bg-[#f5f9f1]">
       <div className="max-w-[1180px] mx-auto px-6">
         <FadeIn>
-          <div className="max-w-[720px] mb-12 mx-auto text-center">
-            <span className="inline-block py-1 px-3 rounded-full bg-[#09a86f]/10 text-[#09a86f] text-sm font-bold tracking-wide uppercase mb-4">
+          <div className="max-w-[720px] mb-8 sm:mb-12 mx-auto text-center">
+            <span className="inline-block py-1 px-3 rounded-full bg-[#09a86f]/10 text-[#09a86f] text-sm font-bold tracking-wide uppercase mb-3 sm:mb-4">
               Hỏi đáp
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0b0c0b] tracking-tight mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0b0c0b] tracking-tight mb-4 sm:mb-6">
               Những câu hỏi thường gặp.
             </h2>
             <p className="text-lg text-[#0b0c0b]/70">
