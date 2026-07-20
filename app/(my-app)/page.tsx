@@ -2,8 +2,8 @@ import React from 'react';
 import { getPayload } from 'payload';
 import config from '@/payload.config';
 
-// Revalidate the page every 60 seconds (Incremental Static Regeneration)
-export const revalidate = 60;
+// Force Next.js to always fetch fresh data, bypassing the cache
+export const dynamic = 'force-dynamic';
 
 import { Hero } from '@/components/sections/Hero';
 import { Stats } from '@/components/sections/Stats';
