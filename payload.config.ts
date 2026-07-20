@@ -23,6 +23,18 @@ import { CTA } from './payload/globals/CTA'
 import { Nav } from './payload/globals/Nav'
 
 export default buildConfig({
+  admin: {
+    livePreview: {
+      url: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+      collections: ['learning-reasons', 'journey-phases', 'gallery-items', 'testimonials', 'faqs', 'volunteers'],
+      globals: ['nav', 'hero', 'method', 'week', 'story', 'cta'],
+      breakpoints: [
+        { label: 'Mobile', name: 'mobile', width: 375, height: 667 },
+        { label: 'Tablet', name: 'tablet', width: 768, height: 1024 },
+        { label: 'Desktop', name: 'desktop', width: 1440, height: 900 },
+      ],
+    },
+  },
   editor: lexicalEditor(),
 
   collections: [

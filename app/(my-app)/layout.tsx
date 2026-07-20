@@ -36,6 +36,7 @@ export const metadata: Metadata = {
 };
 
 import { FloatingContact } from "@/components/ui/FloatingContact";
+import { RefreshRouteOnSave } from "@/components/RefreshRouteOnSave";
 
 export default function RootLayout({
   children,
@@ -45,6 +46,7 @@ export default function RootLayout({
   return (
     <html lang="vi" className={cn("font-sans", geist.variable)}>
       <body>
+        <RefreshRouteOnSave />
         {children}
         <FloatingContact />
       </body>
