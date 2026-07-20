@@ -25,7 +25,7 @@ import { Nav } from './payload/globals/Nav'
 export default buildConfig({
   admin: {
     livePreview: {
-      url: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+      url: `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/preview?url=/&secret=${process.env.PAYLOAD_SECRET}`,
       collections: ['learning-reasons', 'journey-phases', 'gallery-items', 'testimonials', 'faqs', 'volunteers'],
       globals: ['nav', 'hero', 'method', 'week', 'story', 'cta'],
       breakpoints: [

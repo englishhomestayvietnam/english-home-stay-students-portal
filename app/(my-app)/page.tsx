@@ -2,8 +2,10 @@ import React from 'react';
 import { getPayload } from 'payload';
 import config from '@/payload.config';
 
-// Force Next.js to always fetch fresh data, bypassing the cache
-export const dynamic = 'force-dynamic';
+// Revalidate the page every 60 seconds (Incremental Static Regeneration)
+export const revalidate = 60;
+
+import { draftMode } from 'next/headers';
 
 import { Hero } from '@/components/sections/Hero';
 import { Stats } from '@/components/sections/Stats';
@@ -23,6 +25,8 @@ import { Nav } from '@/components/sections/Nav';
 
 export default async function Home() {
   const payload = await getPayload({ config });
+  const draft = await draftMode();
+  const isEnabled = draft.isEnabled;
 
   // Fetch all data concurrently
   const [
@@ -39,18 +43,18 @@ export default async function Home() {
     faqRes,
     volunteersRes
   ] = await Promise.all([
-    payload.findGlobal({ slug: 'nav', depth: 1 }),
-    payload.findGlobal({ slug: 'hero', depth: 1 }),
-    payload.findGlobal({ slug: 'method', depth: 1 }),
-    payload.findGlobal({ slug: 'week', depth: 1 }),
-    payload.findGlobal({ slug: 'story', depth: 1 }),
-    payload.findGlobal({ slug: 'cta', depth: 1 }),
-    payload.find({ collection: 'learning-reasons', limit: 100, depth: 1 }),
-    payload.find({ collection: 'journey-phases', limit: 100, depth: 1 }),
-    payload.find({ collection: 'gallery-items', limit: 100, depth: 1 }),
-    payload.find({ collection: 'testimonials', limit: 100, depth: 1 }),
-    payload.find({ collection: 'faqs', limit: 100, depth: 1 }),
-    payload.find({ collection: 'volunteers', limit: 100, depth: 1 }),
+    payload.findGlobal({ slug: 'nav', depth: 1, draft: isEnabled }),
+    payload.findGlobal({ slug: 'hero', depth: 1, draft: isEnabled }),
+    payload.findGlobal({ slug: 'method', depth: 1, draft: isEnabled }),
+    payload.findGlobal({ slug: 'week', depth: 1, draft: isEnabled }),
+    payload.findGlobal({ slug: 'story', depth: 1, draft: isEnabled }),
+    payload.findGlobal({ slug: 'cta', depth: 1, draft: isEnabled }),
+    payload.find({ collection: 'learning-reasons', limit: 100, depth: 1, draft: isEnabled }),
+    payload.find({ collection: 'journey-phases', limit: 100, depth: 1, draft: isEnabled }),
+    payload.find({ collection: 'gallery-items', limit: 100, depth: 1, draft: isEnabled }),
+    payload.find({ collection: 'testimonials', limit: 100, depth: 1, draft: isEnabled }),
+    payload.find({ collection: 'faqs', limit: 100, depth: 1, draft: isEnabled }),
+    payload.find({ collection: 'volunteers', limit: 100, depth: 1, draft: isEnabled }),
   ]);
 
   return (
