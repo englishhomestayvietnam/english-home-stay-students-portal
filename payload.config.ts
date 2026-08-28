@@ -14,6 +14,7 @@ import { Testimonials } from './payload/collections/Testimonials'
 import { FAQs } from './payload/collections/FAQs'
 import { Volunteers } from './payload/collections/Volunteers'
 import { Users } from './payload/collections/Users'
+import { Leads } from './payload/collections/Leads'
 
 import { Hero } from './payload/globals/Hero'
 import { Method } from './payload/globals/Method'
@@ -21,13 +22,14 @@ import { Week } from './payload/globals/Week'
 import { Story } from './payload/globals/Story'
 import { CTA } from './payload/globals/CTA'
 import { Nav } from './payload/globals/Nav'
+import { Banner } from './payload/globals/Banner'
 
 export default buildConfig({
   admin: {
     livePreview: {
       url: `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/preview?url=/&secret=${process.env.PAYLOAD_SECRET}`,
-      collections: ['learning-reasons', 'journey-phases', 'gallery-items', 'testimonials', 'faqs', 'volunteers'],
-      globals: ['nav', 'hero', 'method', 'week', 'story', 'cta'],
+      collections: ['learning-reasons', 'journey-phases', 'gallery-items', 'testimonials', 'faqs', 'volunteers', 'leads'],
+      globals: ['nav', 'hero', 'method', 'week', 'story', 'cta', 'banner'],
       breakpoints: [
         { label: 'Mobile', name: 'mobile', width: 375, height: 667 },
         { label: 'Tablet', name: 'tablet', width: 768, height: 1024 },
@@ -39,6 +41,7 @@ export default buildConfig({
 
   collections: [
     Media,
+    Leads,
     LearningReasons,
     JourneyPhases,
     GalleryItems,
@@ -55,6 +58,7 @@ export default buildConfig({
     Week,
     Story,
     CTA,
+    Banner,
   ],
 
   plugins: [

@@ -1,109 +1,135 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import Link from 'next/link';
 import { FadeIn } from '../ui/FadeIn';
-import { submitContactForm } from '@/app/actions';
+import { AnimatedPointer } from '../ui/AnimatedPointer';
+import { Sparkles, Clock, Users, Shield, ArrowRight, Award, Coffee, Globe } from 'lucide-react';
 
 export function Contact({ data }: { data?: any }) {
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus('submitting');
-    const formData = new FormData(e.currentTarget);
-    const res = await submitContactForm(formData);
-    
-    if (res.success) {
-      setStatus('success');
-    } else {
-      setStatus('idle');
-      alert(res.error || "Something went wrong.");
-    }
-  }
 
   const headline = data?.headline || "Cây cầu kết nối bạn với thế giới bắt đầu từ một cuộc trò chuyện.";
   const body = data?.body || "Hãy cho chúng tôi biết một chút về bạn, đội ngũ của chúng tôi sẽ liên hệ để xếp lịch học thử miễn phí — không áp lực, không ràng buộc.";
   const ctaLabel = data?.primary_cta_label || "Đăng ký học thử miễn phí";
 
+  const perks = [
+    { icon: Globe, title: "Học thử miễn phí", desc: "Một buổi học với giáo viên bản ngữ + tình nguyện viên quốc tế", color: "text-[#09a86f]" },
+    { icon: Award, title: "Đánh giá trình độ", desc: "Bài kiểm tra miễn phí + tư vấn lộ trình phù hợp", color: "text-[#6c5ce7]" },
+    { icon: Coffee, title: "Môi trường thân thiện", desc: "Học qua cà phê, trò chuyện — không áp lực, không bài tập", color: "text-[#e17055]" },
+    { icon: Clock, title: "Phản hồi nhanh", desc: "Đội ngũ thường phản hồi trong vòng 24 giờ làm việc", color: "text-[#00b894]" },
+  ];
+
   return (
-    <section id="contact" className="py-(--space-section)">
-      <div className="max-w-[1180px] mx-auto px-(--space-gutter)">
+    <section id="contact" className="py-[var(--space-section)] relative bg-transparent">
+      <div className="max-w-[1180px] mx-auto px-[var(--space-gutter)] relative">
         <FadeIn>
-          <div className="max-w-[640px] mb-(--space-lg)">
-            <span className="eyebrow t-label-sm">Bắt đầu ngay</span>
+          <div className="max-w-[720px] mb-[var(--space-lg)] text-center mx-auto">
+            <span className="inline-flex items-center gap-1.5 bg-[#e9ffe0] text-[#09a86f] text-[12px] font-bold rounded-full px-3.5 py-1.5 mb-4 border border-[#d8ded2]">
+              <Sparkles className="w-3.5 h-3.5" />
+              Ưu đãi có hạn tuần này
+            </span>
             <h2 className="t-lg">{headline}</h2>
-            <p className="t-body-md muted" style={{ marginTop: '10px' }}>
+            <p className="t-body-md muted" style={{ marginTop: '14px' }}>
               {body}
             </p>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div className="grid grid-cols-2 gap-(--space-xl) items-start max-[860px]:grid-cols-1 max-[860px]:gap-(--space-md)">
+          <div className="grid grid-cols-5 gap-[var(--space-lg)] items-stretch max-[980px]:grid-cols-1 max-[980px]:gap-[var(--space-md)]">
             
-            {/* Form Column */}
-            <div>
-              {status !== 'success' ? (
-                <form onSubmit={handleSubmit} className="card p-[24px]">
-                  <div className="mb-[16px]">
-                    <label htmlFor="cf-name" className="block text-[13px] font-semibold mb-[6px]">Họ và tên</label>
-                    <input 
-                      type="text" 
-                      id="cf-name" 
-                      name="name" 
-                      placeholder="Tên của bạn" 
-                      className="w-full border border-(--color-border) bg-(--color-surface) rounded-(--radius-md) py-[12px] px-[14px] text-[15px] font-[inherit] text-(--color-on-surface) focus:outline focus:outline-[2px] focus:outline-(--color-primary) focus:outline-offset-[1px]"
-                      required 
-                    />
+            {/* Big Signup CTA Card — takes 3 cols */}
+            <div className="col-span-3 max-[980px]:col-span-1">
+              <div className="relative bg-white rounded-2xl p-8 sm:p-10 h-full border border-[#d8ded2] flex flex-col justify-between">
+                
+                {/* Social proof row */}
+                <div>
+                  <div className="flex items-center gap-3 mb-6 relative">
+                    <div className="flex -space-x-2.5">
+                      {['A', 'M', 'T', 'K'].map((initial, i) => (
+                        <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-[#e9ffe0] text-[#09a86f] flex items-center justify-center text-[11px] font-bold">
+                          {initial}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1 mb-0.5">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <svg key={s} width="13" height="13" viewBox="0 0 14 14" fill="#09a86f">
+                            <path d="M7 1L8.6 5.1L13 5.6L9.6 8.6L10.5 13L7 10.7L3.5 13L4.4 8.6L1 5.6L5.4 5.1L7 1Z" />
+                          </svg>
+                        ))}
+                      </div>
+                      <p className="text-[12px] font-semibold text-[#0b0c0b] leading-tight">
+                        400+ học viên hài lòng
+                      </p>
+                    </div>
                   </div>
-                  <div className="mb-[24px]">
-                    <label htmlFor="cf-phone" className="block text-[13px] font-semibold mb-[6px]">Số điện thoại</label>
-                    <input 
-                      type="tel" 
-                      id="cf-phone" 
-                      name="phone" 
-                      placeholder="VD: 090 123 4567" 
-                      className="w-full border border-(--color-border) bg-(--color-surface) rounded-(--radius-md) py-[12px] px-[14px] text-[15px] font-[inherit] text-(--color-on-surface) focus:outline focus:outline-[2px] focus:outline-(--color-primary) focus:outline-offset-[1px]"
-                      required 
-                    />
-                  </div>
-                  <div className="relative p-[3px] overflow-hidden rounded-[var(--radius-full)] w-full group shadow-md mb-[16px]">
-                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#09a86f_0%,#ffffff_50%,#09a86f_100%)]" />
-                    <button type="submit" disabled={status === 'submitting'} className="btn btn-primary w-full disabled:opacity-[0.55] disabled:cursor-not-allowed relative z-10 !rounded-[calc(var(--radius-full)-3px)] !m-0">
-                      {status === 'submitting' ? 'Đang gửi...' : ctaLabel}
-                    </button>
-                  </div>
-                  <p className="text-[12px] text-(--color-muted) mt-[10px]">
-                    Bằng việc gửi thông tin, bạn đồng ý để đội ngũ của chúng tôi liên hệ về buổi học thử miễn phí. Không gửi tin rác.
+
+                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-[1.2] mb-3 text-[#0b0c0b]">
+                    Sẵn sàng nói tiếng Anh<br className="max-[520px]:hidden" />
+                    <span className="text-[#09a86f]"> chỉ sau 30 ngày?</span> ✨
+                  </h3>
+                  <p className="text-sm text-[#6f736d] mb-6 max-w-md leading-relaxed">
+                    Chỉ mất <span className="font-bold text-[#0b0c0b]">30 giây</span> để đăng ký. Nhận lịch học thử ngay trong hôm nay — hoàn toàn miễn phí.
                   </p>
-                </form>
-              ) : (
-                <div className="text-center px-[20px] py-[40px] card">
-                  <p className="t-sm">Cảm ơn bạn! 🎉</p>
-                  <p className="t-body-md muted" style={{ marginTop: '10px' }}>
-                    Đội ngũ của chúng tôi sẽ liên hệ trong thời gian sớm nhất để xếp lịch học thử.
-                  </p>
+
+                  {/* Clean CTA Button */}
+                  <div className="relative inline-block">
+                    <Link
+                      href="/register"
+                      className="btn btn-primary font-bold px-7 py-3 text-sm sm:text-base rounded-full active:scale-95 transition-all duration-150 cursor-pointer !shadow-none inline-flex items-center"
+                    >
+                      <span className="flex items-center gap-2 text-[#0b0c0b] font-bold">
+                        <Sparkles className="w-4 h-4 text-[#09a86f]" />
+                        {ctaLabel}
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </span>
+                    </Link>
+                  </div>
                 </div>
-              )}
+
+                {/* Trust badges */}
+                <div className="flex flex-wrap items-center gap-5 mt-8 pt-6 border-t border-[#d8ded2]">
+                  <div className="flex items-center gap-2 text-[12px] font-semibold text-[#6f736d]">
+                    <Shield className="w-4 h-4 text-[#09a86f]" />
+                    Không ràng buộc
+                  </div>
+                  <div className="flex items-center gap-2 text-[12px] font-semibold text-[#6f736d]">
+                    <Users className="w-4 h-4 text-[#09a86f]" />
+                    Hoàn tiền 100% nếu không hài lòng
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Perks Column */}
-            <div className="flex flex-col gap-[18px]">
-              <div className="flex gap-[14px] items-start">
-                <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
-                <p className="t-body-md">Một buổi học thử miễn phí với giáo viên bản ngữ và tình nguyện viên quốc tế — trải nghiệm phương pháp học thực tế.</p>
-              </div>
-              <div className="flex gap-[14px] items-start">
-                <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
-                <p className="t-body-md">Một bài kiểm tra trình độ miễn phí để chúng tôi tư vấn lớp học phù hợp nhất.</p>
-              </div>
-              <div className="flex gap-[14px] items-start">
-                <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
-                <p className="t-body-md">Không áp lực, không bắt buộc — chỉ là một cuộc trò chuyện về mục tiêu của bạn.</p>
-              </div>
-              <div className="flex gap-[14px] items-start">
-                <span className="w-[8px] h-[8px] rounded-full bg-(--color-primary) mt-[8px] shrink-0"></span>
-                <p className="t-body-md">Đội ngũ của chúng tôi thường phản hồi trong vòng 24 giờ làm việc.</p>
+            {/* Perks Column — 2 cols */}
+            <div className="col-span-2 max-[980px]:col-span-1 flex flex-col gap-3">
+              {perks.map((p, i) => (
+                <FadeIn key={p.title} delay={0.15 + i * 0.08}>
+                  <div className="bg-white border border-[#d8ded2] rounded-xl p-4 sm:p-5 hover:border-[#09a86f]/60 transition-colors flex gap-3.5 items-start">
+                    <div className="w-10 h-10 shrink-0 rounded-lg bg-[#f5f9f1] flex items-center justify-center">
+                      <p.icon className={"w-5 h-5 " + p.color} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-bold text-[#0b0c0b] text-[14px] sm:text-[15px] mb-0.5">{p.title}</p>
+                      <p className="text-xs sm:text-[13px] text-[#6f736d] leading-relaxed">{p.desc}</p>
+                    </div>
+                  </div>
+                </FadeIn>
+              ))}
+
+              {/* Urgency strip */}
+              <div className="mt-1 rounded-xl bg-[#fff8f6] border border-[#fecdca] p-3.5 flex items-center gap-3">
+                <Clock className="w-4 h-4 text-[#e84e2b] shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-[12px] font-bold text-[#e84e2b] leading-tight">
+                    Chỉ còn 5 chỗ trống tuần này!
+                  </p>
+                  <p className="text-[11px] text-[#6f736d] mt-0.5">
+                    Đăng ký ngay để nhận lịch ưu tiên — lớp sẽ đóng khi đủ chỗ.
+                  </p>
+                </div>
               </div>
             </div>
 

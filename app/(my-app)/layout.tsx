@@ -37,17 +37,31 @@ export const metadata: Metadata = {
 
 import { FloatingContact } from "@/components/ui/FloatingContact";
 import { RefreshRouteOnSave } from "@/components/RefreshRouteOnSave";
+import { SignupModalProvider, StickyCTABar } from "@/components/ui/StickyCTABar";
+import { getPayload } from 'payload';
+import config from '@/payload.config';
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let banner = null;
+  try {
+    const payload = await getPayload({ config });
+    banner = await payload.findGlobal({ slug: 'banner', depth: 1 });
+  } catch (e) {
+    // Fallback to defaults if not yet initialized
+  }
+
   return (
     <html lang="vi" className={cn("font-sans", geist.variable)}>
       <body>
         <RefreshRouteOnSave />
-        {children}
+        <SignupModalProvider>
+          {children}
+          <StickyCTABar data={banner} />
+        </SignupModalProvider>
         <FloatingContact />
       </body>
     </html>

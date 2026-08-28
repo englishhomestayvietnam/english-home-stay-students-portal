@@ -63,26 +63,38 @@ export function Week({ data }: { data?: any }) {
 
         <FadeIn delay={0.2}>
           <div className="grid grid-cols-[1.2fr_1fr] gap-[var(--space-gutter)] max-[960px]:grid-cols-1 mt-[var(--space-gutter)]">
-            <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)] p-[28px]">
-              <span className="eyebrow t-label-sm">Không bao giờ cạn chủ đề</span>
-              <div className="text-[56px] font-extrabold tracking-[-0.02em] text-[var(--color-primary)] leading-none">{topicsCount}</div>
-              <h3 className="t-sm mt-[6px]">Chủ đề giao tiếp sẵn sàng</h3>
-              <p className="t-body-md muted mt-[8px]">{topicsDesc}</p>
+            {/* Card 3: 180+ Topics */}
+            <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)] p-[28px] flex flex-col justify-between">
+              <div>
+                <span className="eyebrow t-label-sm">Không bao giờ cạn chủ đề</span>
+                <div className="text-[56px] font-extrabold tracking-[-0.02em] text-[#09a86f] leading-none my-2">{topicsCount}</div>
+                <h3 className="t-sm mt-[6px]">Chủ đề giao tiếp sẵn sàng</h3>
+                <p className="t-body-md muted mt-[8px] leading-relaxed">{topicsDesc}</p>
+              </div>
             </div>
 
-            <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)] p-[28px]">
-              <span className="eyebrow t-label-sm">Ngoài lớp học</span>
-              <h3 className="t-sm">Nơi tiếng Anh trở thành một phần của cuộc sống.</h3>
-              <div className="grid grid-cols-4 gap-[10px] mt-[var(--space-md)] max-[760px]:grid-cols-2">
+            {/* Card 4: Text-only Structured Info */}
+            <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)] p-[28px] flex flex-col justify-between">
+              <div>
+                <span className="eyebrow t-label-sm">Ngoài lớp học</span>
+                <h3 className="t-sm">Nơi tiếng Anh trở thành một phần của cuộc sống.</h3>
+                <p className="t-body-md muted mt-2 leading-relaxed">
+                  Lịch học linh hoạt, lộ trình cá nhân hóa và môi trường tương tác 100% tiếng Anh mỗi ngày.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2.5 mt-5 max-[640px]:grid-cols-1">
                 {activitiesData.map((act: any, i: number) => (
-                  <div key={i} className="relative rounded-[var(--radius-md)] overflow-hidden h-[140px]">
-                    <Image 
-                      src={act.image?.url || 'https://picsum.photos/seed/placeholder/800/600'} 
-                      alt={act.title || 'Activity image'} 
-                      fill 
-                      className="object-cover w-full h-full" 
-                    />
-                    <span className="absolute left-[8px] bottom-[8px] bg-[rgba(11,12,11,0.65)] text-white text-[11px] font-medium px-[10px] py-[5px] rounded-[var(--radius-full)] backdrop-blur-[4px]">{act.title}</span>
+                  <div
+                    key={i}
+                    className="p-3 bg-[#f5f9f1] border border-[#d8ded2] rounded-lg hover:border-[#09a86f]/40 transition-colors flex items-center"
+                  >
+                    <div className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#09a86f] mt-1.5 shrink-0" />
+                      <p className="text-xs font-semibold text-[#0b0c0b] leading-snug">
+                        {act.title}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>

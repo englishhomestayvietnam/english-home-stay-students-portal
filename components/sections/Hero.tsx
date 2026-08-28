@@ -1,17 +1,21 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 import { FadeIn } from '@/components/ui/FadeIn';
+import Link from 'next/link';
+
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 /**
  * Hero Section component - displays at the top of the landing page.
  * Renders either a full-screen background video or a fallback Ken Burns animated image.
  */
 export function Hero({ data }: { data?: any }) {
-  // Extract URL from poster media relation
-  const posterUrl = (data?.poster?.imagekit?.url || data?.poster?.url) || 'https://picsum.photos/seed/placeholder/800/600';
+  // Extract URL from poster media relation or use students/teachers/volunteers photo
+  const posterUrl = (data?.poster?.imagekit?.url || data?.poster?.url) || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80';
 
   return (
     <section className="relative w-full aspect-[16/9] max-[768px]:aspect-[3/4] flex items-end overflow-hidden text-white p-0" id="top">
@@ -19,7 +23,7 @@ export function Hero({ data }: { data?: any }) {
       <div className="absolute inset-0 overflow-hidden bg-tertiary">
         <Image
           src={posterUrl}
-          alt={data?.poster?.alt || "Students laughing together during an English Homestay conversation session"}
+          alt={data?.poster?.alt || "Students and international volunteers talking and learning English together at English Homestay"}
           fill
           className="object-cover animate-kenburns"
           priority
@@ -32,19 +36,42 @@ export function Hero({ data }: { data?: any }) {
       </div>
 
       {/* Hero content foreground layout */}
-      <div className="max-w-[1180px] mx-auto px-[5%] relative z-10 pb-[6%] w-full">
+      <div className="max-w-[1180px] mx-auto px-[5%] relative z-10 pb-[6%] w-full text-left">
         <FadeIn>
-          <h1 className="t-display text-white max-w-[780px] leading-[1.1] max-[768px]:text-[26px] max-[480px]:text-[20px]" dangerouslySetInnerHTML={{ __html: data?.headline || 'English Homestay' }}></h1>
-          <p className="text-sm text-white/85 max-w-[560px] mt-[2%] max-[768px]:text-[15px] max-[480px]:text-[13px] max-[768px]:mt-2">{data?.subheadline || 'Luyện tiếng Anh mỗi ngày'}</p>
-          <div className="flex gap-[2%] mt-[4%] max-[768px]:mt-3 flex-wrap">
-            {/* Primary CTA button */}
-            <Link href={'#'} className="btn btn-primary">
-              {data?.primary_cta_label || 'Bắt đầu ngay'}
+          {/* Spotlight Homestay Badge - cleanly aligned to the left */}
+          <div className="inline-flex items-start sm:items-center gap-2.5 bg-black/60 backdrop-blur-md border border-white/20 px-3.5 py-2 rounded-2xl sm:rounded-full text-xs font-semibold text-white/95 mb-3.5 sm:mb-4 shadow-sm text-left max-w-full">
+            <span className="flex h-2 w-2 relative shrink-0 mt-1 sm:mt-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#09a86f] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#09a86f]"></span>
+            </span>
+            <span className="leading-snug">Môi trường 100% tiếng Anh tự nhiên cùng tình nguyện viên quốc tế</span>
+          </div>
+
+          <h1 className="t-display text-white max-w-[780px] leading-[1.1] text-left max-[768px]:text-[26px] max-[480px]:text-[20px]" dangerouslySetInnerHTML={{ __html: data?.headline || 'English Homestay' }}></h1>
+          <p className="text-sm sm:text-base text-white/90 max-w-[560px] mt-3 sm:mt-4 text-left leading-relaxed">{data?.subheadline || 'Luyện tiếng Anh mỗi ngày qua những cuộc trò chuyện thực tế và môi trường sống năng động.'}</p>
+          
+          {/* Action CTAs - Full width on mobile, inline on desktop, centered content */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 sm:mt-8 w-full sm:w-auto items-stretch sm:items-center">
+            {/* Primary CTA button with rotating border and shine sweep for design consistency */}
+            <Link
+              href="/register"
+              className="relative inline-flex w-full sm:w-auto p-[1.5px] sm:p-[2px] overflow-hidden rounded-full active:scale-95 transition-all duration-150 cursor-pointer shadow-md hover:shadow-lg"
+            >
+              <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#09a86f_0%,#bbffa6_35%,#ffffff_50%,#09a86f_75%,#09a86f_100%)] pointer-events-none" />
+              <span className="relative z-10 overflow-hidden inline-flex w-full items-center justify-center gap-2 bg-[#09a86f] hover:bg-[#089763] text-white font-extrabold px-6 sm:px-7 h-11 sm:h-12 text-sm sm:text-base rounded-full transition-colors whitespace-nowrap">
+                <span className="absolute inset-0 -translate-x-full animate-[shimmerRay_2.8s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none skew-x-[-20deg]" />
+                <span>{data?.primary_cta_label || 'Bắt đầu ngay'}</span>
+                <ArrowRight className="w-4 h-4 shrink-0" />
+              </span>
             </Link>
             
-            {/* Secondary CTA button */}
-            <Link href={'#'} className="btn btn-secondary border-white/50 text-white hover:bg-white/20 backdrop-blur-md">
-              {data?.secondary_cta_label || 'Kiểm tra trình độ miễn phí'}
+            {/* Secondary CTA button - Clean consistent glassmorphic outline */}
+            <Link
+              href="/register"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/40 text-white font-semibold backdrop-blur-md px-5.5 sm:px-6.5 h-11 sm:h-12 rounded-full active:scale-95 transition-all duration-150 cursor-pointer text-sm sm:text-base whitespace-nowrap shadow-sm"
+            >
+              <Sparkles className="w-4 h-4 text-white/90 shrink-0" />
+              <span>{data?.secondary_cta_label || 'Kiểm tra trình độ miễn phí'}</span>
             </Link>
           </div>
         </FadeIn>
