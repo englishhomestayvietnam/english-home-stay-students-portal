@@ -40,6 +40,12 @@ export default buildConfig({
   },
   editor: lexicalEditor(),
 
+  upload: {
+    limits: {
+      fileSize: 50 * 1024 * 1024, // 50MB
+    },
+  },
+
   collections: [
     Media,
     Leads,
