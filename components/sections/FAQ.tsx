@@ -5,47 +5,62 @@ import { FadeIn } from '../ui/FadeIn';
 import { Search, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+const categoryTitles: Record<string, string> = {
+  "The Basics": "Thông tin cơ bản",
+  "Free Trial": "Học thử miễn phí",
+  "Classes & Curriculum": "Lớp học & Giáo trình",
+  "Volunteers & Practice": "Tình nguyện viên & Luyện nói",
+  "Fears & Confidence": "Vượt qua rào cản & Tự tin",
+  "Schedules & Ages": "Lịch học & Độ tuổi",
+  "Thông tin cơ bản": "Thông tin cơ bản",
+  "Học thử miễn phí": "Học thử miễn phí",
+  "Lớp học & Giáo trình": "Lớp học & Giáo trình",
+  "Tình nguyện viên & Luyện nói": "Tình nguyện viên & Luyện nói",
+  "Vượt qua rào cản & Tự tin": "Vượt qua rào cản & Tự tin",
+  "Lịch học & Độ tuổi": "Lịch học & Độ tuổi",
+};
+
 const allFaqs = [
-  { category: "The Basics", q: "What makes English Homestay different from other English centers?", a: "We combine structured lessons with real daily conversations. Instead of only studying English, you'll actually live and practice it with international volunteers in a friendly environment." },
-  { category: "The Basics", q: "Can complete beginners join?", a: "Absolutely. Our program is designed for everyone, including complete beginners. We help you build confidence step by step." },
-  { category: "The Basics", q: "Do I need to speak English from day one?", a: "No. We meet you at your current level and gradually encourage you to speak more every week." },
-  { category: "Free Trial", q: "What happens during the free trial?", a: "You'll join a real class, experience our teaching method, meet our teachers and volunteers, and see how everything works before making any decision." },
-  { category: "Free Trial", q: "Is the free trial really free?", a: "Yes. There is no cost and no obligation to enroll afterward." },
-  { category: "Free Trial", q: "What happens after the free trial?", a: "We'll discuss your goals, recommend the most suitable learning path, and answer any questions. The decision to join is completely yours." },
-  { category: "Classes & Curriculum", q: "How are the classes structured?", a: "Each class combines a 60-minute lesson with a qualified Vietnamese teacher followed by 30 minutes of guided speaking practice with international volunteers." },
-  { category: "Classes & Curriculum", q: "How many students are in each class?", a: "We keep classes small enough so everyone has opportunities to participate, ask questions, and practice speaking." },
-  { category: "Volunteers & Practice", q: "How often can I practice with international volunteers?", a: "You can join Free Talk sessions every evening, Monday to Saturday, from 6:30 PM to 10:00 PM." },
-  { category: "Volunteers & Practice", q: "What happens during Free Talk sessions?", a: "You'll join relaxed conversations, games, discussions, and activities with volunteers while teaching assistants help keep conversations flowing." },
-  { category: "Fears & Confidence", q: "What if I'm shy or afraid of speaking?", a: "That's completely normal. Most of our students felt the same at first. Our supportive environment helps you become comfortable speaking naturally." },
-  { category: "Fears & Confidence", q: "What if I make mistakes?", a: "Making mistakes is part of learning. Our teachers and volunteers encourage you instead of judging you." },
-  { category: "Fears & Confidence", q: "How long does it take to become confident?", a: "Everyone learns differently, but students who attend consistently usually notice significant improvements within a few months." },
-  { category: "Schedules & Ages", q: "Can I study if I only have time in the evenings?", a: "Yes. Our evening schedule is designed especially for students and working professionals." },
-  { category: "Schedules & Ages", q: "Can working professionals join?", a: "Absolutely. Many of our students work full-time and attend after work." },
-  { category: "Schedules & Ages", q: "Can university students join?", a: "Yes. Many university students join us to improve communication skills, prepare for interviews, IELTS, study abroad, or future careers." },
-  { category: "Classes & Curriculum", q: "How much speaking practice will I get?", a: "A lot. Our learning approach focuses on speaking every class instead of just listening to lectures." },
-  { category: "Classes & Curriculum", q: "Do you teach grammar?", a: "Yes. Grammar is taught in practical situations so you can immediately use it in conversations." },
-  { category: "Classes & Curriculum", q: "Will I improve my pronunciation?", a: "Yes. We focus heavily on pronunciation from the beginning because clear pronunciation builds speaking confidence." },
-  { category: "Classes & Curriculum", q: "Is there homework?", a: "Yes, but it's practical rather than overwhelming. Homework helps reinforce what you've learned in class." },
-  { category: "Classes & Curriculum", q: "Do I need to buy textbooks?", a: "No. Learning materials are provided by English Homestay." },
-  { category: "Classes & Curriculum", q: "What should I bring to class?", a: "Just yourself, a notebook, and a positive attitude." },
-  { category: "Schedules & Ages", q: "Can I change my schedule?", a: "Yes. We'll do our best to help you switch to another suitable class if needed." },
-  { category: "Classes & Curriculum", q: "Do I need an English placement test?", a: "We'll simply have a short conversation to understand your current level and recommend the right class." },
-  { category: "Volunteers & Practice", q: "Who are the international volunteers?", a: "Our volunteers come from many different countries and enjoy sharing their language and culture while helping students practice English." },
-  { category: "Volunteers & Practice", q: "Will I only speak with native English speakers?", a: "Not always. You'll meet volunteers from different countries who communicate in English, helping you understand a variety of real-world accents." },
-  { category: "Schedules & Ages", q: "Is there an age requirement?", a: "Our program is mainly designed for teenagers, university students, and adults." },
-  { category: "Classes & Curriculum", q: "What if I miss a class?", a: "Please let us know in advance. We'll help you find the best way to stay on track." },
-  { category: "Free Trial", q: "How do I enroll after the trial?", a: "Simply speak with our team after your trial class. We'll recommend the best course based on your goals and help you complete your registration." },
-  { category: "The Basics", q: "Why do students enjoy English Homestay so much?", a: "Because learning here doesn't feel like traditional studying. You become part of a community where English is used naturally every day through conversations, games, meals, events, and friendships." },
-  { category: "Free Trial", q: "Can I visit the homestay before enrolling?", a: "Yes. We encourage you to visit, meet our team, and experience the environment before making a decision." },
-  { category: "The Basics", q: "What makes students improve faster here?", a: "Consistent speaking practice, immediate feedback, supportive teachers, and daily exposure to English." },
-  { category: "Fears & Confidence", q: "Do you prepare students for IELTS or job interviews?", a: "Yes. Our communication-focused approach builds the confidence needed for interviews, presentations, IELTS speaking, and real-life situations." },
-  { category: "Fears & Confidence", q: "Will I be forced to speak in front of everyone?", a: "No. We create a comfortable environment where you can participate at your own pace." },
-  { category: "The Basics", q: "Is this better than learning online?", a: "Face-to-face interaction creates far more opportunities for spontaneous conversation, feedback, and real communication." },
-  { category: "Fears & Confidence", q: "Can I join even if I've failed English many times before?", a: "Yes. Many of our students had studied English for years without speaking confidently before joining us." },
-  { category: "Volunteers & Practice", q: "Why do you use international volunteers?", a: "Because real conversations with people from different countries help students build confidence, improve listening skills, and experience authentic English naturally." },
-  { category: "Volunteers & Practice", q: "Will I have opportunities to make international friends?", a: "Yes. Many students build genuine friendships with volunteers from around the world through classes and social activities." },
-  { category: "Free Trial", q: "Is there pressure to enroll after the trial?", a: "No. We simply want you to experience our method first. If it's the right fit, we'd love to welcome you. If not, there's absolutely no pressure." },
-  { category: "The Basics", q: "What is the goal of English Homestay?", a: "Our goal is simple: to help you use English confidently in real life—not just pass exams." },
+  { category: "The Basics", q: "English Homestay có gì khác biệt so với các trung tâm tiếng Anh truyền thống?", a: "Chúng mình kết hợp bài học trên lớp với giao tiếp thực tế hàng ngày. Thay vì chỉ học ngữ pháp và lý thuyết, bạn sẽ thực sự sinh hoạt và thực hành tiếng Anh cùng các tình nguyện viên quốc tế trong một môi trường thân thiện và tự nhiên." },
+  { category: "The Basics", q: "Mất gốc hoặc người mới bắt đầu có tham gia được không?", a: "Hoàn toàn được. Chương trình được thiết kế cho mọi trình độ, kể cả người bắt đầu từ con số 0. Thầy cô và trợ giảng sẽ đồng hành giúp bạn tự tin từng bước một." },
+  { category: "The Basics", q: "Tôi có bắt buộc phải nói tiếng Anh ngay từ ngày đầu tiên không?", a: "Không áp lực. Chúng mình xuất phát từ trình độ hiện tại của bạn và dần dần khuyến khích bạn tự tin nói nhiều hơn qua từng tuần." },
+  { category: "Free Trial", q: "Buổi học thử miễn phí sẽ diễn ra như thế nào?", a: "Bạn sẽ tham gia vào một buổi học thực tế, trải nghiệm phương pháp giảng dạy, giao lưu cùng giáo viên và tình nguyện viên quốc tế trước khi đưa ra quyết định." },
+  { category: "Free Trial", q: "Buổi học thử có thực sự miễn phí 100% không?", a: "Có. Buổi học thử hoàn toàn miễn phí và bạn không phải chịu bất kỳ ràng buộc nào sau buổi học." },
+  { category: "Free Trial", q: "Sau buổi học thử thì thế nào?", a: "Đội ngũ sẽ cùng bạn đánh giá mục tiêu, tư vấn lộ trình học phù hợp nhất và giải đáp mọi thắc mắc. Quyết định đăng ký hoàn toàn thuộc về bạn." },
+  { category: "Classes & Curriculum", q: "Cấu trúc một buổi học diễn ra như thế nào?", a: "Mỗi buổi học kết hợp 60 phút học kiến thức với giáo viên Việt Nam giàu kinh nghiệm, tiếp nối bằng 30 phút thực hành giao tiếp trực tiếp cùng tình nguyện viên quốc tế." },
+  { category: "Classes & Curriculum", q: "Mỗi lớp học có bao nhiêu học viên?", a: "Các lớp học có sĩ số giới hạn (8-12 bạn) để đảm bảo mỗi học viên đều có cơ hội phát biểu, đặt câu hỏi và luyện nói tối đa." },
+  { category: "Volunteers & Practice", q: "Tôi có thể luyện nói với tình nguyện viên quốc tế thường xuyên không?", a: "Bạn có thể tham gia các buổi Free Talk mỗi tối từ Thứ Hai đến Thứ Bảy, trong khung giờ từ 18:30 đến 22:00." },
+  { category: "Volunteers & Practice", q: "Các buổi Free Talk diễn ra những hoạt động gì?", a: "Bạn sẽ cùng trò chuyện tự nhiên, chơi board games, thảo luận chủ đề đa dạng và tham gia các hoạt động thú vị với tình nguyện viên quốc tế dưới sự hỗ trợ của trợ giảng." },
+  { category: "Fears & Confidence", q: "Nếu tôi nhút nhát hoặc sợ nói tiếng Anh thì sao?", a: "Điều đó hoàn toàn bình thường. Hầu hết học viên ban đầu đều có cảm giác như vậy. Môi trường ấm áp và cởi mở tại đây sẽ giúp bạn cảm thấy thoải mái và tự tin mở lời một cách tự nhiên." },
+  { category: "Fears & Confidence", q: "Nếu tôi nói sai hoặc phát âm chưa chuẩn thì sao?", a: "Sai lầm là một phần tất yếu của quá trình học. Thầy cô và tình nguyện viên luôn kiên nhẫn khích lệ và hướng dẫn bạn, hoàn toàn không có sự phán xét." },
+  { category: "Fears & Confidence", q: "Mất bao lâu để tôi có thể tự tin giao tiếp?", a: "Thời gian tùy thuộc vào sự chăm chỉ của mỗi người, nhưng các bạn tham gia đều đặn thường nhận thấy sự tiến bộ và phản xạ tự tin rõ rệt chỉ sau 1 đến 2 tháng." },
+  { category: "Schedules & Ages", q: "Tôi chỉ rảnh vào buổi tối thì có học được không?", a: "Hoàn toàn được. Lịch học các lớp và ca Free Talk buổi tối được thiết kế chuyên biệt cho sinh viên và người đi làm bận rộn." },
+  { category: "Schedules & Ages", q: "Người đã đi làm có phù hợp tham gia không?", a: "Rất phù hợp. Rất nhiều học viên tại English Homestay là nhân viên văn phòng và người đi làm tham gia học sau giờ làm việc." },
+  { category: "Schedules & Ages", q: "Sinh viên các trường đại học có thể tham gia không?", a: "Có. Rất đông sinh viên tham gia để rèn luyện phản xạ giao tiếp thực tế, chuẩn bị phỏng vấn xin việc, thi chứng chỉ IELTS hoặc chuẩn bị đi du học." },
+  { category: "Classes & Curriculum", q: "Tôi sẽ có bao nhiêu thời gian để luyện nói?", a: "Rất nhiều. Phương pháp học tại English Homestay tập trung tối đa vào việc luyện nói và phản xạ trong mỗi buổi học, thay vì chỉ ngồi nghe giảng lý thuyết." },
+  { category: "Classes & Curriculum", q: "Trung tâm có dạy ngữ pháp không?", a: "Có. Ngữ pháp được lồng ghép trong các ngữ cảnh thực tế hàng ngày để bạn có thể áp dụng nói ngay lập tức, không học vẹt công thức." },
+  { category: "Classes & Curriculum", q: "Khóa học có giúp cải thiện phát âm không?", a: "Chắc chắn có. Chúng mình chú trọng chỉnh phát âm chuẩn và ngữ điệu ngay từ đầu vì phát âm rõ ràng là nền tảng giúp bạn tự tin nói chuyện." },
+  { category: "Classes & Curriculum", q: "Có bài tập về nhà không?", a: "Có, nhưng là các bài tập thực hành ngắn gọn và thú vị, giúp củng cố kiến thức đã học trên lớp mà không gây áp lực." },
+  { category: "Classes & Curriculum", q: "Tôi có cần mua thêm giáo trình hay sách vở không?", a: "Không cần. Toàn bộ tài liệu học tập và học liệu tương tác đều được English Homestay cung cấp đầy đủ." },
+  { category: "Classes & Curriculum", q: "Tôi cần chuẩn bị gì khi đến lớp?", a: "Chỉ cần mang theo sổ tay, bút viết và một tinh thần cởi mở, sẵn sàng trải nghiệm!" },
+  { category: "Schedules & Ages", q: "Tôi có thể đổi lịch học nếu có việc bận không?", a: "Có. Chúng mình luôn hỗ trợ bạn chuyển đổi hoặc học bù sang lớp phù hợp nếu có nhu cầu." },
+  { category: "Classes & Curriculum", q: "Có phải làm bài kiểm tra xếp lớp trước không?", a: "Chúng mình chỉ có một buổi trò chuyện ngắn và thoải mái để nắm bắt trình độ hiện tại của bạn và tư vấn lớp học phù hợp nhất." },
+  { category: "Volunteers & Practice", q: "Các tình nguyện viên quốc tế là ai?", a: "Họ là những bạn trẻ đến từ nhiều quốc gia trên thế giới, yêu thích giao lưu văn hóa và đam mê đồng hành, giúp đỡ học viên Việt Nam luyện nói tiếng Anh." },
+  { category: "Volunteers & Practice", q: "Tôi sẽ chỉ nói chuyện với người bản xứ thôi hay cả các nước khác?", a: "Bạn sẽ được giao lưu với tình nguyện viên từ nhiều nước khác nhau giao tiếp bằng tiếng Anh, giúp bạn quen dần với nhiều ngữ điệu thực tế trên toàn cầu." },
+  { category: "Schedules & Ages", q: "Độ tuổi tham gia chương trình là bao nhiêu?", a: "Chương trình dành cho học sinh cấp 3, sinh viên đại học và người lớn/người đi làm." },
+  { category: "Classes & Curriculum", q: "Nếu tôi lỡ nghỉ một buổi học thì phải làm sao?", a: "Bạn hãy báo trước cho trợ giảng. Chúng mình sẽ gửi bài học và sắp xếp lịch học bù thích hợp để bạn không bị gián đoạn kiến thức." },
+  { category: "Free Trial", q: "Sau buổi học thử, làm thế nào để chính thức đăng ký?", a: "Bạn chỉ cần trao đổi trực tiếp với đội ngũ hỗ trợ tại homestay. Chúng mình sẽ tư vấn khóa học phù hợp với mục tiêu của bạn và hoàn tất thủ tục đăng ký nhanh chóng." },
+  { category: "The Basics", q: "Tại sao các bạn học viên lại yêu thích English Homestay đến vậy?", a: "Bởi vì học ở đây không giống cách học truyền thống gò bó. Bạn trở thành một phần của một cộng đồng ấm áp, nơi tiếng Anh được sử dụng tự nhiên mỗi ngày qua trò chuyện, ăn uống, board games và những tình bạn đẹp." },
+  { category: "Free Trial", q: "Tôi có thể đến tham quan homestay trước khi đăng ký không?", a: "Hoàn toàn được. Chúng mình luôn chào đón bạn ghé thăm, gặp gỡ mọi người và cảm nhận không gian trước khi quyết định." },
+  { category: "The Basics", q: "Yếu tố nào giúp học viên tiến bộ vượt bậc tại đây?", a: "Môi trường phản xạ nói liên tục mỗi ngày, được sửa lỗi tức thì, thầy cô tận tâm và sự hòa nhập tự nhiên cùng bạn bè quốc tế." },
+  { category: "Fears & Confidence", q: "Chương trình có hỗ trợ luyện thi IELTS hoặc phỏng vấn xin việc không?", a: "Có. Nền tảng giao tiếp tự nhiên và phản xạ nhanh sẽ bổ trợ trực tiếp cho phần thi Speaking IELTS, thuyết trình và phỏng vấn việc làm." },
+  { category: "Fears & Confidence", q: "Tôi có bị ép buộc phải nói trước đám đông không?", a: "Không bao giờ. Mọi hoạt động đều diễn ra trong không khí thoải mái, khích lệ và tôn trọng nhịp độ tự tin của từng bạn." },
+  { category: "The Basics", q: "Học trực tiếp tại homestay có ưu điểm gì hơn so với học online?", a: "Tương tác trực tiếp tạo ra nhiều cơ hội trò chuyện ngẫu hứng, kết nối cảm xúc chân thực, phản xạ sống động và năng lượng học tập tích cực hơn rất nhiều." },
+  { category: "Fears & Confidence", q: "Tôi đã thử học tiếng Anh nhiều lần nhưng bỏ dở, liệu có học được không?", a: "Chắc chắn được. Rất nhiều học viên của chúng mình từng mất phương hướng trước khi tìm lại niềm yêu thích và tự tin nói tiếng Anh tại English Homestay." },
+  { category: "Volunteers & Practice", q: "Tại sao lại kết hợp mô hình tình nguyện viên quốc tế?", a: "Vì trò chuyện với người nước ngoài giúp bạn xóa bỏ nỗi sợ tâm lý, tăng khả năng nghe hiểu thực tế và ứng dụng tiếng Anh một cách tự nhiên nhất." },
+  { category: "Volunteers & Practice", q: "Tôi có cơ hội kết bạn với bạn bè quốc tế không?", a: "Rất nhiều! Qua các lớp học, bữa ăn chung và hoạt động ngoại khóa, bạn sẽ có thêm những người bạn quốc tế thân thiết và cùng chia sẻ văn hóa." },
+  { category: "Free Trial", q: "Có bị chèo kéo đăng ký sau buổi học thử không?", a: "Hoàn toàn không. Chúng mình chỉ muốn bạn trải nghiệm thực tế môi trường học trước. Nếu bạn thấy phù hợp, homestay luôn sẵn lòng chào đón bạn." },
+  { category: "The Basics", q: "Mục tiêu lớn nhất của English Homestay là gì?", a: "Mục tiêu của chúng mình rất giản dị: giúp bạn sử dụng tiếng Anh tự tin, trôi chảy trong cuộc sống thực tế — không chỉ để đi thi." },
 ];
 
 const categories = [
@@ -97,6 +112,7 @@ function AccordionItem({ q, a, isOpen, onClick }: { q: string, a: string, isOpen
 
 function CategoryAccordion({ category, faqs, isOpen, onClick }: { category: string, faqs: any[], isOpen: boolean, onClick: () => void }) {
   const [openIndex, setOpenIndex] = React.useState<number | null>(null);
+  const displayTitle = categoryTitles[category] || category;
 
   return (
     <div className="border border-[#d8ded2] rounded-2xl mb-4 overflow-hidden bg-white shadow-sm transition-shadow duration-300">
@@ -108,7 +124,7 @@ function CategoryAccordion({ category, faqs, isOpen, onClick }: { category: stri
           "text-[16px] sm:text-[20px] font-extrabold transition-colors duration-200",
           isOpen ? "text-[#09a86f]" : "text-[#0b0c0b]"
         )}>
-          {category}
+          {displayTitle}
         </span>
         <div className={cn(
           "shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center transition-all duration-300",
@@ -160,16 +176,19 @@ export function FAQ({ data }: { data?: any[] }) {
 
   const filteredCategories = React.useMemo(() => {
     return actualCategories.map(cat => {
+      const mappedTarget = categoryTitles[cat] || cat;
       const catFaqs = faqsSource.filter(faq => {
-        if (faq.category !== cat) return false;
+        const mappedCat = categoryTitles[faq.category] || faq.category;
+        if (faq.category !== cat && mappedCat !== mappedTarget) return false;
         if (!isSearchActive) return true;
         const qMatch = faq.q.toLowerCase().includes(searchQuery.toLowerCase());
         const aMatch = faq.a.toLowerCase().includes(searchQuery.toLowerCase());
-        return qMatch || aMatch;
+        const catMatch = mappedCat.toLowerCase().includes(searchQuery.toLowerCase());
+        return qMatch || aMatch || catMatch;
       });
-      return { cat, faqs: catFaqs };
+      return { cat: mappedTarget, faqs: catFaqs };
     }).filter(c => c.faqs.length > 0);
-  }, [faqsSource, searchQuery, isSearchActive]);
+  }, [faqsSource, searchQuery, isSearchActive, actualCategories]);
 
   return (
     <section id="faq" className="py-12 sm:py-20 md:py-28 bg-[#f5f9f1]">

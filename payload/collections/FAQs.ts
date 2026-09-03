@@ -3,12 +3,12 @@ import type { CollectionConfig } from 'payload'
 export const FAQs: CollectionConfig = {
   slug: 'faqs',
   labels: {
-    singular: 'FAQ',
-    plural: 'FAQs',
+    singular: 'Câu hỏi thường gặp',
+    plural: 'Hỏi đáp (FAQ)',
   },
   admin: {
     useAsTitle: 'question',
-    group: 'Collections',
+    group: 'Nội dung trang',
   },
   access: {
     read: () => true,
@@ -17,25 +17,28 @@ export const FAQs: CollectionConfig = {
     {
       name: 'category',
       type: 'select',
+      label: 'Danh mục',
       required: true,
       options: [
-        { label: 'The Basics', value: 'The Basics' },
-        { label: 'Free Trial', value: 'Free Trial' },
-        { label: 'Classes & Curriculum', value: 'Classes & Curriculum' },
-        { label: 'Volunteers & Practice', value: 'Volunteers & Practice' },
-        { label: 'Fears & Confidence', value: 'Fears & Confidence' },
-        { label: 'Schedules & Ages', value: 'Schedules & Ages' },
+        { label: 'Thông tin cơ bản', value: 'The Basics' },
+        { label: 'Học thử miễn phí', value: 'Free Trial' },
+        { label: 'Lớp học & Giáo trình', value: 'Classes & Curriculum' },
+        { label: 'Tình nguyện viên & Luyện nói', value: 'Volunteers & Practice' },
+        { label: 'Vượt qua rào cản & Tự tin', value: 'Fears & Confidence' },
+        { label: 'Lịch học & Độ tuổi', value: 'Schedules & Ages' },
       ],
       defaultValue: 'The Basics',
     },
     {
       name: 'question',
       type: 'text',
+      label: 'Câu hỏi (Tiêu đề FAQ)',
       required: true,
     },
     {
       name: 'answer',
       type: 'textarea',
+      label: 'Câu trả lời',
       required: true,
     },
   ],
