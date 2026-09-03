@@ -22,6 +22,7 @@ export const Media: CollectionConfig = {
   },
   admin: {
     group: 'System',
+    description: 'Hỗ trợ tải lên tệp dung lượng lớn (lên tới 50MB), tự động nén tối ưu WebP và hỗ trợ ảnh HEIC/iPhone.',
   },
   access: {
     read: () => true,
@@ -31,11 +32,13 @@ export const Media: CollectionConfig = {
     formatOptions: {
       format: 'webp',
       options: {
-        quality: 75, // Adjust compression quality (0-100)
+        quality: 80, // High-efficiency WebP compression (reduces large images down to ~200-400KB)
       },
     },
     resizeOptions: {
-      width: 1920, // Max width, will downscale larger images
+      width: 1920, // Max width 1920px (Full HD / 4K ready)
+      height: 1920, // Max height 1920px for portrait orientation
+      fit: 'inside', // Keep original aspect ratio without cropping
       withoutEnlargement: true,
     },
   },
