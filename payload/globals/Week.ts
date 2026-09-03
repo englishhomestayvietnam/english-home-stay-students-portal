@@ -11,30 +11,41 @@ export const Week: GlobalConfig = {
   },
   fields: [
     {
+      name: 'eyebrow',
+      type: 'text',
+      defaultValue: 'Một tuần tại English Homestay',
+    },
+    {
+      name: 'headline',
+      type: 'text',
+      defaultValue: 'Lịch trình thực tế trong tuần của bạn.',
+    },
+    {
       name: 'main_classes_desc',
       type: 'textarea',
-      required: true,
+      required: false,
     },
     {
       name: 'freetalk_desc',
       type: 'textarea',
-      required: true,
+      required: false,
     },
     {
       name: 'topics_count',
       type: 'text',
-      required: true,
+      required: false,
       defaultValue: '180+',
     },
     {
       name: 'topics_desc',
       type: 'textarea',
-      required: true,
+      required: false,
     },
     {
       name: 'activities',
       type: 'array',
-      required: true,
+      label: '4 Thông tin khóa học (Boxes)',
+      required: false,
       fields: [
         {
           name: 'title',
@@ -45,7 +56,7 @@ export const Week: GlobalConfig = {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
-          required: true,
+          required: false,
         },
       ],
     },
