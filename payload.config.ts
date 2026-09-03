@@ -42,7 +42,13 @@ export default buildConfig({
 
   upload: {
     limits: {
-      fileSize: 50 * 1024 * 1024, // 50MB
+      fileSize: 200 * 1024 * 1024, // 200MB
+    },
+    uploadTimeout: 600000, // 10 minutes for large file uploads
+  },
+  bodyParser: {
+    limits: {
+      fileSize: 200 * 1024 * 1024, // 200MB
     },
   },
 

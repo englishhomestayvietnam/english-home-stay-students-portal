@@ -3,6 +3,13 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ['sharp', 'heic-convert'],
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '200mb',
+    },
+    middlewareClientMaxBodySize: '200mb',
+    proxyClientMaxBodySize: '200mb',
+  },
   images: {
     unoptimized: process.env.NODE_ENV === 'development',
     remotePatterns: [

@@ -1,5 +1,6 @@
 import config from '@/payload.config'
 import { REST_GET, REST_POST, REST_DELETE, REST_OPTIONS, REST_PATCH, REST_PUT } from '@payloadcms/next/routes'
+export const maxDuration = 300 // 5 minutes for processing large 200MB uploads
 
 export const GET = REST_GET(config)
 export const POST = REST_POST(config)
