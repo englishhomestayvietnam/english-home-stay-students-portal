@@ -26,19 +26,20 @@ export function Week({ data }: { data?: any }) {
     }
   ];
 
-  const getFallbackIcon = (index: number, label: string) => {
+  const cardImages = [
+    "/images/english_homestay_roadmap_icon.png",
+    "/images/english_homestay_learning_format_icon.png",
+    "/images/english_homestay_schedule_icon.png",
+    "/images/english_homestay_freetalk_icon.png",
+  ];
+
+  const getCardImage = (index: number, label: string) => {
     const l = (label || '').toLowerCase();
-    if (l.includes('roadmap') || l.includes('lộ trình')) return '/images/english_homestay_roadmap_icon.png';
-    if (l.includes('format') || l.includes('hình thức')) return '/images/english_homestay_learning_format_icon.png';
-    if (l.includes('schedule') || l.includes('lịch học')) return '/images/english_homestay_schedule_icon.png';
-    if (l.includes('freetalk') || l.includes('free talk')) return '/images/english_homestay_freetalk_icon.png';
-    const icons = [
-      '/images/english_homestay_roadmap_icon.png',
-      '/images/english_homestay_learning_format_icon.png',
-      '/images/english_homestay_schedule_icon.png',
-      '/images/english_homestay_freetalk_icon.png',
-    ];
-    return icons[index % icons.length];
+    if (l.includes('roadmap') || l.includes('lộ trình')) return cardImages[0];
+    if (l.includes('format') || l.includes('hình thức')) return cardImages[1];
+    if (l.includes('schedule') || l.includes('lịch học') || l.includes('lịch')) return cardImages[2];
+    if (l.includes('freetalk') || l.includes('free talk')) return cardImages[3];
+    return cardImages[index % cardImages.length];
   };
 
   // Parse activities from CMS or fallback to default 4 items
@@ -48,16 +49,11 @@ export function Week({ data }: { data?: any }) {
         const colonIndex = titleStr.indexOf(':');
         const label = colonIndex > -1 ? titleStr.substring(0, colonIndex).trim() : titleStr;
         const value = colonIndex > -1 ? titleStr.substring(colonIndex + 1).trim() : '';
-        const icon = (typeof act === 'object' && act?.image?.url)
-          ? act.image.url
-          : (typeof act === 'object' && typeof act?.image === 'string' && act.image.startsWith('/')
-              ? act.image
-              : getFallbackIcon(idx, label));
 
         return {
           label,
           value,
-          icon
+          icon: getCardImage(idx, label),
         };
       })
     : defaultItems;
@@ -76,25 +72,25 @@ export function Week({ data }: { data?: any }) {
         </FadeIn>
 
         {/* 2x2 Grid of the 4 Boxes */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-stretch">
           {items.map((item: any, i: number) => (
             <FadeIn key={i} delay={i * 0.08} className="h-full">
-              <div className="h-full p-5 sm:p-6 bg-[#f5f9f1] border border-[#d8ded2] rounded-2xl flex items-start gap-4 hover:border-[#09a86f]/50 hover:shadow-md transition-all duration-200 group">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white border border-[#d8ded2]/70 p-2 shrink-0 shadow-sm flex items-center justify-center group-hover:scale-105 transition-transform">
+              <div className="h-full p-5 sm:p-7 bg-[#f5f9f1] border border-[#d8ded2] rounded-2xl flex items-center gap-5 sm:gap-6 hover:border-[#09a86f]/50 hover:shadow-md transition-all duration-200 group">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 shrink-0 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
                   <Image
                     src={item.icon}
                     alt={item.label}
-                    width={56}
-                    height={56}
+                    width={128}
+                    height={128}
                     className="w-full h-full object-contain"
                   />
                 </div>
-                <div className="text-[#0b0c0b] text-[15px] sm:text-base leading-relaxed flex-1 pt-0.5">
-                  <strong className="font-bold text-[#0b0c0b]">
+                <div className="text-[#0b0c0b] text-[15px] sm:text-base leading-relaxed flex-1">
+                  <strong className="font-extrabold text-[#0b0c0b] block sm:inline mb-1 sm:mb-0 text-[16px] sm:text-[17px]">
                     {item.label}{item.value ? ': ' : ''}
                   </strong>
                   {item.value && (
-                    <span className="text-[#0b0c0b]/80">{item.value}</span>
+                    <span className="text-[#0b0c0b]/85">{item.value}</span>
                   )}
                 </div>
               </div>

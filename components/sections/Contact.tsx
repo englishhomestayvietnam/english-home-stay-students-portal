@@ -8,9 +8,26 @@ import { Sparkles, Clock, Users, Shield, ArrowRight, Award, Coffee, Globe } from
 
 export function Contact({ data }: { data?: any }) {
 
-  const headline = data?.headline || "Cây cầu kết nối bạn với thế giới bắt đầu từ một cuộc trò chuyện.";
-  const body = data?.body || "Hãy cho chúng tôi biết một chút về bạn, đội ngũ của chúng tôi sẽ liên hệ để xếp lịch học thử miễn phí — không áp lực, không ràng buộc.";
-  const ctaLabel = data?.primary_cta_label || "Đăng ký học thử miễn phí";
+  const stripEnglish = (text?: string) => {
+    if (!text) return '';
+    if (text.includes(' / ')) {
+      const parts = text.split(' / ');
+      return parts[parts.length - 1].trim();
+    }
+    if (text.includes(' /')) {
+      const parts = text.split(' /');
+      return parts[parts.length - 1].trim();
+    }
+    if (text.includes('/ ')) {
+      const parts = text.split('/ ');
+      return parts[parts.length - 1].trim();
+    }
+    return text.trim();
+  };
+
+  const headline = stripEnglish(data?.headline) || "Bạn đã sẵn sàng ngừng dịch trong đầu?";
+  const body = stripEnglish(data?.body) || "Đăng ký lớp học thử miễn phí và tự mình trải nghiệm phương pháp homestay.";
+  const ctaLabel = stripEnglish(data?.primary_cta_label) || "Đăng ký học thử";
 
   const perks = [
     { icon: Globe, title: "Học thử miễn phí", desc: "Một buổi học với giáo viên bản ngữ + tình nguyện viên quốc tế", color: "text-[#09a86f]" },
