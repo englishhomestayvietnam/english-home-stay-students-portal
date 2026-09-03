@@ -5,6 +5,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import { buildConfig } from 'payload'
 import { s3Storage } from '@payloadcms/storage-s3'
 import imagekitPlugin from "payloadcms-plugin-imagekit"
+import { resendAdapter } from '@payloadcms/email-resend'
 
 import { Media } from './payload/collections/Media'
 import { LearningReasons } from './payload/collections/LearningReasons'
@@ -100,4 +101,9 @@ export default buildConfig({
   }),
   
   sharp,
+  email: resendAdapter({
+    defaultFromAddress: process.env.RESEND_DEFAULT_FROM_ADDRESS || 'notifications@englishhomestay.vn',
+    defaultFromName: process.env.RESEND_DEFAULT_FROM_NAME || 'English Home Stay',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
 })
