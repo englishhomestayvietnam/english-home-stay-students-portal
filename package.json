@@ -22,6 +22,7 @@
     "clsx": "^2.1.1",
     "enhanced-resolve": "^5.24.1",
     "graphql": "^16.14.2",
+    "heic-convert": "^2.1.0",
     "lucide-react": "^1.23.0",
     "next": "16.2.9",
     "payload": "^3.86.0",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/heic-convert": "^2.1.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
