@@ -49,8 +49,8 @@ export function Testimonials({ data }: { data?: any[] }) {
 
               <div className="flex items-center gap-[12px] mt-auto pt-[8px]">
                 <Image 
-                  src={t.photo?.url || 'https://picsum.photos/seed/placeholder/800/600'} 
-                  alt={t.student_name || 'Student photo'} 
+                  src={(t.photo?.imagekit?.url || t.photo?.url) || (typeof t.photo === 'string' && (t.photo.startsWith('http') || t.photo.startsWith('/')) ? t.photo : null) || 'https://picsum.photos/seed/placeholder/800/600'} 
+                  alt={t.photo?.alt || t.student_name || 'Student photo'} 
                   width={44} 
                   height={44} 
                   className="rounded-[var(--radius-full)] object-cover w-[44px] h-[44px]"

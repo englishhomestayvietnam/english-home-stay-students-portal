@@ -28,7 +28,7 @@ export function Gallery({ data }: { data?: any[] }) {
               
               {g.mediaType === 'video' ? (
                 <video
-                  src={g.image?.url}
+                  src={(g.image?.imagekit?.url || g.image?.url) || (typeof g.image === 'string' && (g.image.startsWith('http') || g.image.startsWith('/')) ? g.image : undefined)}
                   autoPlay
                   loop
                   muted
@@ -37,8 +37,8 @@ export function Gallery({ data }: { data?: any[] }) {
                 />
               ) : (
                 <Image 
-                  src={g.image?.url || `https://picsum.photos/seed/placeholder/800/600`} 
-                  alt={g.caption || 'Gallery image'} 
+                  src={(g.image?.imagekit?.url || g.image?.url) || (typeof g.image === 'string' && (g.image.startsWith('http') || g.image.startsWith('/')) ? g.image : null) || `https://picsum.photos/seed/placeholder/800/600`} 
+                  alt={g.image?.alt || g.caption || 'Gallery image'} 
                   fill 
                   className="object-cover w-full h-full transition-transform duration-[400ms] ease-[ease] group-hover:scale-[1.06]" 
                   sizes="(max-width: 860px) 50vw, 25vw"

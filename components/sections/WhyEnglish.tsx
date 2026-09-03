@@ -11,6 +11,17 @@ const contextualImages: Record<string, string> = {
 };
 
 function getReasonImage(r: any, index: number): string {
+  // 1. First priority: Use the image from Payload CMS database
+  const cmsImage = r?.image;
+  const dbImageUrl = typeof cmsImage === 'string'
+    ? (cmsImage.startsWith('http') || cmsImage.startsWith('/') ? cmsImage : null)
+    : (cmsImage?.imagekit?.url || cmsImage?.url || null);
+
+  if (dbImageUrl) {
+    return dbImageUrl;
+  }
+
+  // 2. Fallback: Contextual defaults if no image is uploaded in database
   const title = (r?.title || '').toLowerCase();
   
   if (title.includes('phát triển') || title.includes('bản thân') || title.includes('tự tin')) {
@@ -86,7 +97,7 @@ export function WhyEnglish({ data }: { data?: any[] }) {
                     <div className="relative w-full h-[200px] bg-neutral-100 overflow-hidden">
                       <Image 
                         src={imageUrl} 
-                        alt={r.title || 'Reason image'} 
+                        alt={r?.image?.alt || r?.title || 'Reason image'} 
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />

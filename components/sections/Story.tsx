@@ -10,14 +10,22 @@ export function Story({ data }: { data?: any }) {
     title: data?.problem_title || "Bạn đã học tiếng Anh 7 năm, nhưng khi người nước ngoài hỏi đường, bạn lại đứng hình.",
     eyebrow: data?.problem_eyebrow || "Vấn đề",
     body: data?.problem_body,
-    image: (data?.problem_image?.imagekit?.url || data?.problem_image?.url) || "https://picsum.photos/seed/placeholder/800/600"
+    image:
+      (data?.problem_image?.imagekit?.url || data?.problem_image?.url) ||
+      (typeof data?.problem_image === 'string' && (data.problem_image.startsWith('http') || data.problem_image.startsWith('/')) ? data.problem_image : null) ||
+      "https://picsum.photos/seed/placeholder/800/600",
+    alt: data?.problem_image?.alt || data?.problem_title || "Story image",
   };
 
   const solutionStory = {
     title: data?.solution_title || "Chúng tôi tạo ra một không gian nơi việc nói tiếng Anh là điều bắt buộc.",
     eyebrow: data?.solution_eyebrow || "Giải pháp",
     body: data?.solution_body,
-    image: (data?.solution_image?.imagekit?.url || data?.solution_image?.url) || "https://picsum.photos/seed/placeholder/800/600"
+    image:
+      (data?.solution_image?.imagekit?.url || data?.solution_image?.url) ||
+      (typeof data?.solution_image === 'string' && (data.solution_image.startsWith('http') || data.solution_image.startsWith('/')) ? data.solution_image : null) ||
+      "https://picsum.photos/seed/placeholder/800/600",
+    alt: data?.solution_image?.alt || data?.solution_title || "Story image",
   };
 
   return (
@@ -34,7 +42,7 @@ export function Story({ data }: { data?: any }) {
             <div className="flex-1 min-w-0 w-full">
               <Image 
                 src={problemStory.image} 
-                alt={problemStory.title || 'Story image'} 
+                alt={problemStory.alt} 
                 width={900} 
                 height={900} 
                 className="w-full h-[420px] object-cover rounded-[var(--radius-xl)] max-[860px]:h-[280px]"
@@ -57,7 +65,7 @@ export function Story({ data }: { data?: any }) {
             <div className="flex-1 min-w-0 w-full">
               <Image 
                 src={solutionStory.image} 
-                alt={solutionStory.title || 'Story image'} 
+                alt={solutionStory.alt} 
                 width={900} 
                 height={901} 
                 className="w-full h-[420px] object-cover rounded-[var(--radius-xl)] max-[860px]:h-[280px]"

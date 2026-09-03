@@ -15,7 +15,10 @@ import { ArrowRight, Sparkles } from 'lucide-react';
  */
 export function Hero({ data }: { data?: any }) {
   // Extract URL from poster media relation or use students/teachers/volunteers photo
-  const posterUrl = (data?.poster?.imagekit?.url || data?.poster?.url) || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80';
+  const posterUrl =
+    (data?.poster?.imagekit?.url || data?.poster?.url) ||
+    (typeof data?.poster === 'string' && (data.poster.startsWith('http') || data.poster.startsWith('/')) ? data.poster : null) ||
+    'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80';
 
   return (
     <section className="relative w-full aspect-[16/9] max-[768px]:aspect-[3/4] flex items-end overflow-hidden text-white p-0" id="top">

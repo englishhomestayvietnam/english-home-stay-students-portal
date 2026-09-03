@@ -52,8 +52,8 @@ export function Volunteers({ data }: { data?: any[] }) {
                 <div className="h-full flex flex-col group relative overflow-hidden rounded-2xl bg-[#f5f9f1] border border-[#d8ded2] shadow-sm hover:shadow-lg transition-all duration-300">
                   <div className="relative h-[280px] shrink-0 w-full overflow-hidden">
                     <Image 
-                      src={(v.photo?.imagekit?.url || v.photo?.url) || `https://picsum.photos/seed/placeholder/800/600`} 
-                      alt={v.name} 
+                      src={(v.photo?.imagekit?.url || v.photo?.url) || (typeof v.photo === 'string' && (v.photo.startsWith('http') || v.photo.startsWith('/')) ? v.photo : null) || `https://picsum.photos/seed/placeholder/800/600`} 
+                      alt={v.photo?.alt || v.name} 
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
@@ -82,8 +82,8 @@ export function Volunteers({ data }: { data?: any[] }) {
               <div className="h-full flex flex-col group relative overflow-hidden rounded-2xl bg-[#f5f9f1] border border-[#d8ded2] shadow-sm hover:shadow-lg transition-all duration-300">
                 <div className="relative h-[320px] shrink-0 w-full overflow-hidden">
                   <Image 
-                    src={(v.photo?.imagekit?.url || v.photo?.url) || `https://picsum.photos/seed/placeholder/800/600`} 
-                    alt={v.name} 
+                    src={(v.photo?.imagekit?.url || v.photo?.url) || (typeof v.photo === 'string' && (v.photo.startsWith('http') || v.photo.startsWith('/')) ? v.photo : null) || `https://picsum.photos/seed/placeholder/800/600`} 
+                    alt={v.photo?.alt || v.name} 
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
