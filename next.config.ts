@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import { withPayload } from '@payloadcms/next/withPayload'
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ['sharp'],
   images: {
     unoptimized: process.env.NODE_ENV === 'development',
     remotePatterns: [
