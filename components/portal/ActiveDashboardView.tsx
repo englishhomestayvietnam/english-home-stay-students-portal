@@ -272,27 +272,25 @@ export function ActiveDashboardView({ user }: ActiveDashboardViewProps) {
           <button
             onClick={() => setActiveTab("games")}
             className={cn(
-              "px-4 py-2 rounded-sm text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2",
+              "px-4 py-2 rounded-sm text-xs sm:text-sm font-bold transition-all cursor-pointer",
               activeTab === "games"
                 ? "bg-[#09a86f] text-white"
                 : "bg-white text-[#6f736d] border border-[#d8ded2] hover:bg-black/5 hover:text-[#0b0c0b]"
             )}
           >
-            <Sparkles className="w-4 h-4" />
-            <span>Nhiệm vụ & Minigames</span>
+            Nhiệm vụ & Minigames
           </button>
 
           <button
             onClick={() => setActiveTab("schedule")}
             className={cn(
-              "px-4 py-2 rounded-sm text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2",
+              "px-4 py-2 rounded-sm text-xs sm:text-sm font-bold transition-all cursor-pointer",
               activeTab === "schedule"
                 ? "bg-[#09a86f] text-white"
                 : "bg-white text-[#6f736d] border border-[#d8ded2] hover:bg-black/5 hover:text-[#0b0c0b]"
             )}
           >
-            <Calendar className="w-4 h-4" />
-            <span>Lịch sinh hoạt Homestay</span>
+            Lịch sinh hoạt Homestay
           </button>
         </div>
 
