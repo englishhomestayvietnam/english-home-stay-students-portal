@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { GraduationCap } from "lucide-react";
 
 /**
  * Navigation Bar Component - rendered at the top of the viewport.
@@ -77,6 +78,15 @@ export function Nav({ data }: { data?: any }) {
 
         {/* Global Action CTAs & Mobile Hamburger */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Student Portal CTA */}
+          <Link
+            href="/portal"
+            className="rounded-full border border-[#bbffa6] bg-[#e9ffe0] text-[#09a86f] hover:bg-[#bbffa6]/40 active:scale-95 px-3 2xl:px-4 h-9.5 xl:h-10 text-xs xl:text-[13px] font-bold transition-all duration-150 hidden xl:inline-flex items-center justify-center gap-1.5 shrink-0 cursor-pointer whitespace-nowrap"
+          >
+            <GraduationCap className="w-4 h-4" />
+            <span>Cổng học viên</span>
+          </Link>
+
           {/* Secondary CTA ("Tư vấn 1-1") - Desktop only */}
           <Link
             href="/consultation"
@@ -156,6 +166,18 @@ export function Nav({ data }: { data?: any }) {
 
               {/* Action CTAs in mobile drawer panel */}
               <div className="flex flex-col gap-3 mt-auto">
+                <SheetClose
+                  nativeButton={false}
+                  render={
+                    <Link
+                      href="/portal"
+                      className="rounded-full border border-[#bbffa6] bg-[#e9ffe0] text-[#09a86f] hover:bg-[#bbffa6]/40 w-full flex items-center justify-center gap-2 h-11 text-sm font-bold transition-all duration-200"
+                    >
+                      <GraduationCap className="w-4 h-4" />
+                      <span>Cổng học viên (Portal)</span>
+                    </Link>
+                  }
+                />
                 <SheetClose
                   nativeButton={false}
                   render={
