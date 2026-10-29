@@ -20,6 +20,8 @@ import {
   ShieldCheck,
   GraduationCap,
   Trophy,
+  Clock,
+  MapPin,
 } from "lucide-react";
 import { StudentProfileDropdown } from "./StudentProfileDropdown";
 
@@ -518,54 +520,88 @@ export function ActiveDashboardView({ user }: ActiveDashboardViewProps) {
                   Thời khóa biểu các buổi giao lưu cùng tình nguyện viên quốc tế
                 </p>
               </div>
-              <span className="px-3 py-1 rounded-sm text-xs font-bold bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6]">
-                Batch: {cohort}
-              </span>
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-sm text-xs font-bold bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6]">
+                <GraduationCap className="w-3.5 h-3.5" />
+                <span>{cohort}</span>
+              </div>
             </div>
 
             <div className="divide-y divide-[#d8ded2] pt-2">
-              <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-sm bg-white border border-[#d8ded2] flex items-center justify-center font-bold text-xs text-[#09a86f]">
-                    T2 - T6
+              {/* Event 1 */}
+              <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-start sm:items-center gap-3 min-w-0">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6] font-bold text-xs whitespace-nowrap shrink-0">
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>Thứ 2 – Thứ 6</span>
                   </div>
-                  <div>
-                    <p className="font-bold text-sm text-[#0b0c0b]">Morning Coffee Talk (7:30 - 8:30)</p>
-                    <p className="text-xs text-[#6f736d]">Thực hành nói tiếng Anh tự do theo chủ đề ngày mới</p>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-bold text-sm text-[#0b0c0b]">Morning Coffee Talk</p>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#6f736d] bg-white px-2 py-0.5 rounded-sm border border-[#d8ded2]">
+                        <Clock className="w-3 h-3 text-[#09a86f]" />
+                        07:30 – 08:30
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#6f736d] mt-1">
+                      Thực hành nói tiếng Anh tự do theo chủ đề ngày mới cùng bạn bè
+                    </p>
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-[#09a86f] bg-white px-3 py-1 rounded-sm border border-[#d8ded2] self-start sm:self-auto">
-                  Phòng sinh hoạt chung
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0b0c0b] bg-white px-3 py-1.5 rounded-sm border border-[#d8ded2] shrink-0 self-start sm:self-auto">
+                  <MapPin className="w-3.5 h-3.5 text-[#09a86f]" />
+                  <span>Phòng sinh hoạt chung</span>
                 </span>
               </div>
 
-              <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-sm bg-white border border-[#d8ded2] flex items-center justify-center font-bold text-xs text-[#09a86f]">
-                    Thứ 7
+              {/* Event 2 */}
+              <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-start sm:items-center gap-3 min-w-0">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6] font-bold text-xs whitespace-nowrap shrink-0">
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>Thứ 7</span>
                   </div>
-                  <div>
-                    <p className="font-bold text-sm text-[#0b0c0b]">Outdoor City Walking Tour (15:00 - 18:00)</p>
-                    <p className="text-xs text-[#6f736d]">Dẫn bạn bè quốc tế dạo phố và giới thiệu ẩm thực Việt</p>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-bold text-sm text-[#0b0c0b]">Outdoor City Walking Tour</p>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#6f736d] bg-white px-2 py-0.5 rounded-sm border border-[#d8ded2]">
+                        <Clock className="w-3 h-3 text-[#09a86f]" />
+                        15:00 – 18:00
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#6f736d] mt-1">
+                      Dẫn bạn bè quốc tế dạo phố và giới thiệu ẩm thực đặc sắc Hà Nội
+                    </p>
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-[#09a86f] bg-white px-3 py-1 rounded-sm border border-[#d8ded2] self-start sm:self-auto">
-                  Đi dã ngoại
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0b0c0b] bg-white px-3 py-1.5 rounded-sm border border-[#d8ded2] shrink-0 self-start sm:self-auto">
+                  <MapPin className="w-3.5 h-3.5 text-[#09a86f]" />
+                  <span>Đi dã ngoại</span>
                 </span>
               </div>
 
-              <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-sm bg-white border border-[#d8ded2] flex items-center justify-center font-bold text-xs text-[#09a86f]">
-                    Chủ Nhật
+              {/* Event 3 */}
+              <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-start sm:items-center gap-3 min-w-0">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6] font-bold text-xs whitespace-nowrap shrink-0">
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>Chủ Nhật</span>
                   </div>
-                  <div>
-                    <p className="font-bold text-sm text-[#0b0c0b]">Homestay Movie & Pizza Night (19:30 - 21:30)</p>
-                    <p className="text-xs text-[#6f736d]">Xem phim tiếng Anh có thảo luận nhóm và ăn tối cùng nhau</p>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-bold text-sm text-[#0b0c0b]">Homestay Movie & Pizza Night</p>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#6f736d] bg-white px-2 py-0.5 rounded-sm border border-[#d8ded2]">
+                        <Clock className="w-3 h-3 text-[#09a86f]" />
+                        19:30 – 21:30
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#6f736d] mt-1">
+                      Xem phim tiếng Anh có thảo luận nhóm và ăn tối ấm cúng cùng nhau
+                    </p>
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-[#09a86f] bg-white px-3 py-1 rounded-sm border border-[#d8ded2] self-start sm:self-auto">
-                  Rạp phim Homestay
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0b0c0b] bg-white px-3 py-1.5 rounded-sm border border-[#d8ded2] shrink-0 self-start sm:self-auto">
+                  <MapPin className="w-3.5 h-3.5 text-[#09a86f]" />
+                  <span>Rạp phim Homestay</span>
                 </span>
               </div>
             </div>
