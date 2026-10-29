@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '200mb',
     },
     proxyClientMaxBodySize: '200mb',
+    turbopackServerFastRefresh: false,
   },
   images: {
     unoptimized: process.env.NODE_ENV === 'development',

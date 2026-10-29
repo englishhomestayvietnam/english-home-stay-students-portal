@@ -42,7 +42,7 @@ export function Nav({ data }: { data?: any }) {
 
   return (
     <header className="sticky top-0 z-50 bg-[#f5f9f1]/90 backdrop-blur-md border-b border-[#d8ded2]">
-      <div className="max-w-[1180px] mx-auto px-4 sm:px-6 flex items-center justify-between h-[68px] sm:h-[76px]">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 xl:px-12 flex items-center justify-between h-[68px] sm:h-[76px]">
         
         {/* Brand Logo */}
         <Link href="#top" className="z-50 flex items-center gap-2.5 sm:gap-3 shrink-0">
@@ -55,16 +55,16 @@ export function Nav({ data }: { data?: any }) {
         </Link>
 
         {/* Desktop Navigation Links (Shadcn NavigationMenu) */}
-        <nav className="hidden lg:flex items-center justify-center flex-1 mx-2 xl:mx-4">
+        <nav className="hidden xl:flex items-center mx-3 2xl:mx-6">
           <NavigationMenu>
-            <NavigationMenuList className="gap-0.5 xl:gap-1">
+            <NavigationMenuList className="gap-0 2xl:gap-1">
               {links.map((link: any) => (
                 <NavigationMenuItem key={link.href || link.url}>
                   <NavigationMenuLink
                     render={<Link href={link.href || link.url} />}
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "text-[#0b0c0b]/75 hover:text-[#0b0c0b] hover:bg-[#0b0c0b]/5 px-2.5 xl:px-3 py-2 transition-colors duration-200 font-medium whitespace-nowrap text-xs xl:text-sm"
+                      "text-[#0b0c0b]/75 hover:text-[#0b0c0b] hover:bg-[#0b0c0b]/5 px-2 2xl:px-3 py-2 transition-colors duration-200 font-medium whitespace-nowrap text-xs 2xl:text-sm"
                     )}
                   >
                     {link.label}
@@ -80,7 +80,7 @@ export function Nav({ data }: { data?: any }) {
           {/* Secondary CTA ("Tư vấn 1-1") - Desktop only */}
           <Link
             href="/consultation"
-            className="rounded-full border border-[#d8ded2] text-[#0b0c0b] hover:bg-black/5 hover:border-[#09a86f]/40 active:scale-95 px-3.5 xl:px-4.5 h-9.5 xl:h-10 text-xs xl:text-[13.5px] font-medium transition-all duration-150 hidden lg:inline-flex items-center justify-center shrink-0 cursor-pointer bg-white/60 whitespace-nowrap"
+            className="rounded-full border border-[#d8ded2] text-[#0b0c0b] hover:bg-black/5 hover:border-[#09a86f]/40 active:scale-95 px-3.5 xl:px-4.5 h-9.5 xl:h-10 text-xs xl:text-[13.5px] font-medium transition-all duration-150 hidden xl:inline-flex items-center justify-center shrink-0 cursor-pointer bg-white/60 whitespace-nowrap"
           >
             {secondaryCtaLabel}
           </Link>
@@ -119,7 +119,7 @@ export function Nav({ data }: { data?: any }) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="lg:hidden p-2 text-[#0b0c0b] hover:bg-[#0b0c0b]/5 cursor-pointer w-10 h-10 flex items-center justify-center"
+                  className="xl:hidden p-2 text-[#0b0c0b] hover:bg-[#0b0c0b]/5 cursor-pointer w-10 h-10 flex items-center justify-center"
                   aria-label="Mở menu"
                 />
               }
