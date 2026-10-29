@@ -185,10 +185,6 @@ export function ActiveDashboardView({ user }: ActiveDashboardViewProps) {
                 English<span className="text-[#09a86f]">Homestay</span>
               </span>
             </Link>
-
-            <span className="hidden md:inline-block px-2.5 py-0.5 rounded-sm text-[11px] font-bold bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6]">
-              {cohort}
-            </span>
           </div>
 
           {/* User Profile Dropdown */}
