@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { GraduationCap } from "lucide-react";
 
 /**
  * Navigation Bar Component - rendered at the top of the viewport.
@@ -81,18 +80,9 @@ export function Nav({ data }: { data?: any }) {
           {/* Student Portal CTA */}
           <Link
             href="/portal"
-            className="rounded-full border border-[#bbffa6] bg-[#e9ffe0] text-[#09a86f] hover:bg-[#bbffa6]/40 active:scale-95 px-3 2xl:px-4 h-9.5 xl:h-10 text-xs xl:text-[13px] font-bold transition-all duration-150 hidden xl:inline-flex items-center justify-center gap-1.5 shrink-0 cursor-pointer whitespace-nowrap"
+            className="rounded-full border border-[#d8ded2] text-[#0b0c0b] hover:bg-black/5 hover:border-[#09a86f]/40 active:scale-95 px-3.5 xl:px-4.5 h-9.5 xl:h-10 text-xs xl:text-[13.5px] font-medium transition-all duration-150 hidden xl:inline-flex items-center justify-center shrink-0 cursor-pointer bg-white whitespace-nowrap"
           >
-            <GraduationCap className="w-4 h-4" />
-            <span>Cổng học viên</span>
-          </Link>
-
-          {/* Secondary CTA ("Tư vấn 1-1") - Desktop only */}
-          <Link
-            href="/consultation"
-            className="rounded-full border border-[#d8ded2] text-[#0b0c0b] hover:bg-black/5 hover:border-[#09a86f]/40 active:scale-95 px-3.5 xl:px-4.5 h-9.5 xl:h-10 text-xs xl:text-[13.5px] font-medium transition-all duration-150 hidden xl:inline-flex items-center justify-center shrink-0 cursor-pointer bg-white/60 whitespace-nowrap"
-          >
-            {secondaryCtaLabel}
+            Cổng học viên
           </Link>
           
           {/* Primary CTA ("Học thử miễn phí") - Visible outside on BOTH mobile & desktop */}
@@ -171,21 +161,9 @@ export function Nav({ data }: { data?: any }) {
                   render={
                     <Link
                       href="/portal"
-                      className="rounded-full border border-[#bbffa6] bg-[#e9ffe0] text-[#09a86f] hover:bg-[#bbffa6]/40 w-full flex items-center justify-center gap-2 h-11 text-sm font-bold transition-all duration-200"
+                      className="rounded-full border border-[#d8ded2] bg-white text-[#0b0c0b] hover:bg-black/5 w-full flex items-center justify-center h-11 text-sm font-medium transition-all duration-200"
                     >
-                      <GraduationCap className="w-4 h-4" />
-                      <span>Cổng học viên (Portal)</span>
-                    </Link>
-                  }
-                />
-                <SheetClose
-                  nativeButton={false}
-                  render={
-                    <Link
-                      href="/consultation"
-                      className="rounded-full border border-[#d8ded2] text-[#0b0c0b] hover:bg-black/5 w-full flex items-center justify-center h-11 text-sm font-medium transition-all duration-200"
-                    >
-                      {secondaryCtaLabel}
+                      Cổng học viên (Portal)
                     </Link>
                   }
                 />
