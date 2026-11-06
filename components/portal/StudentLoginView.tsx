@@ -137,7 +137,19 @@ export function StudentLoginView() {
             {errorMessage && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-sm flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0 text-red-600 mt-0.5" />
-                <span>{errorMessage}</span>
+                <div className="space-y-1">
+                  <p>{errorMessage}</p>
+                  <Link
+                    href={`/portal/forgot-password${
+                      formData.email.trim()
+                        ? `?email=${encodeURIComponent(formData.email.trim())}`
+                        : ""
+                    }`}
+                    className="inline-block font-bold text-[#09a86f] hover:underline"
+                  >
+                    Quên mật khẩu? Nhận mã xác nhận qua email →
+                  </Link>
+                </div>
               </div>
             )}
 
@@ -175,14 +187,16 @@ export function StudentLoginView() {
                   <label className="text-xs font-bold text-[#0b0c0b]">
                     Mật khẩu <span className="text-red-500">*</span>
                   </label>
-                  <a
-                    href="https://zalo.me/0866081995"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[11px] text-[#09a86f] hover:underline"
+                  <Link
+                    href={`/portal/forgot-password${
+                      formData.email.trim()
+                        ? `?email=${encodeURIComponent(formData.email.trim())}`
+                        : ""
+                    }`}
+                    className="text-[11px] font-semibold text-[#09a86f] hover:underline"
                   >
                     Quên mật khẩu?
-                  </a>
+                  </Link>
                 </div>
                 <div className="relative">
                   <Lock className="w-4 h-4 text-[#6f736d] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -229,15 +243,15 @@ export function StudentLoginView() {
                   )}
                 >
                   {isSubmitting ? (
-                    <>
+                    <span key="login-submitting" className="inline-flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span>Đang đăng nhập...</span>
-                    </>
+                    </span>
                   ) : (
-                    <>
+                    <span key="login-idle" className="inline-flex items-center gap-2">
                       <span>Đăng nhập</span>
                       <LogIn className="w-4 h-4" />
-                    </>
+                    </span>
                   )}
                 </button>
               </div>

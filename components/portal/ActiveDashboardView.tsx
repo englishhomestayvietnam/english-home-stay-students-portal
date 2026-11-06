@@ -11,19 +11,15 @@ import {
   Award,
   Zap,
   Sparkles,
-  LogOut,
-  Coffee,
-  CheckCircle2,
-  RotateCcw,
   Calendar,
-  MessageSquare,
   ShieldCheck,
   GraduationCap,
-  Trophy,
   Clock,
   MapPin,
 } from "lucide-react";
 import { StudentProfileDropdown } from "./StudentProfileDropdown";
+import { PictureMatchGame } from "./games/PictureMatchGame";
+import { TopicCategorization } from "./games/TopicCategorization";
 
 interface ActiveDashboardViewProps {
   user: {
@@ -39,38 +35,6 @@ interface ActiveDashboardViewProps {
   };
 }
 
-// Interactive Coffee Talk Vocab pairs
-const INITIAL_PAIRS = [
-  { id: "1", en: "Make yourself at home", vi: "Cứ tự nhiên như ở nhà nhé" },
-  { id: "2", en: "Grab a bite", vi: "Ăn nhẹ một chút" },
-  { id: "3", en: "Count me in!", vi: "Cho mình tham gia với!" },
-  { id: "4", en: "Hit the road", vi: "Khởi hành, lên đường thôi" },
-];
-
-// Interactive Situation Quiz Question
-const QUIZ_QUESTIONS = [
-  {
-    id: 1,
-    scenario: "Tình nguyện viên Sarah đang nấu bữa tối và hỏi: 'Could you please give me a hand with chopping the veggies?'",
-    question: "Bạn nên đáp lại như thế nào tự nhiên và đúng nhất?",
-    options: [
-      { id: "A", text: "No, I don't have hands.", isCorrect: false },
-      { id: "B", text: "Sure thing! Where's the knife and cutting board?", isCorrect: true, explanation: "'Give me a hand' là cụm từ tự nhiên nghĩa là 'giúp một tay'!" },
-      { id: "C", text: "Yes, you can take my hand.", isCorrect: false },
-    ],
-  },
-  {
-    id: 2,
-    scenario: "Buổi sáng tại phòng khách Homestay, bạn Tom hỏi: 'How did you sleep last night?'",
-    question: "Câu trả lời tự nhiên nhất theo phong cách bản ngữ là:",
-    options: [
-      { id: "A", text: "Like a baby! The bed is super comfy.", isCorrect: true, explanation: "'Sleep like a baby' là thành ngữ bản xứ nghĩa là ngủ rất ngon giấc!" },
-      { id: "B", text: "I slept on the bed with eyes closed.", isCorrect: false },
-      { id: "C", text: "No sleep, only stay.", isCorrect: false },
-    ],
-  },
-];
-
 export function ActiveDashboardView({ user }: ActiveDashboardViewProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -85,16 +49,8 @@ export function ActiveDashboardView({ user }: ActiveDashboardViewProps) {
   // Active Tab state: 'games' | 'schedule'
   const [activeTab, setActiveTab] = useState<"games" | "schedule">("games");
 
-  // Game 1: Matching Game State
-  const [selectedWord, setSelectedWord] = useState<{ id: string; type: "en" | "vi" } | null>(null);
-  const [matchedIds, setMatchedIds] = useState<string[]>([]);
-  const [game1Completed, setGame1Completed] = useState(false);
-
-  // Game 2: Quiz State
-  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [quizScore, setQuizScore] = useState(0);
-  const [quizFinished, setQuizFinished] = useState(false);
+  // Categorization: selected topic (topic -> game)
+  const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
 
   function handleLogout() {
     startTransition(async () => {
@@ -102,66 +58,6 @@ export function ActiveDashboardView({ user }: ActiveDashboardViewProps) {
       router.push("/portal/login");
       router.refresh();
     });
-  }
-
-  // Handle word selection in Matching Game
-  function handleSelectWord(id: string, type: "en" | "vi") {
-    if (matchedIds.includes(id)) return;
-
-    if (!selectedWord) {
-      setSelectedWord({ id, type });
-      return;
-    }
-
-    if (selectedWord.type === type) {
-      setSelectedWord({ id, type });
-      return;
-    }
-
-    // Checking if matching
-    if (selectedWord.id === id) {
-      const newMatches = [...matchedIds, id];
-      setMatchedIds(newMatches);
-      setSelectedWord(null);
-      setXp((prev) => prev + 25);
-
-      if (newMatches.length === INITIAL_PAIRS.length) {
-        setGame1Completed(true);
-      }
-    } else {
-      setSelectedWord(null);
-    }
-  }
-
-  function resetGame1() {
-    setMatchedIds([]);
-    setSelectedWord(null);
-    setGame1Completed(false);
-  }
-
-  function handleQuizAnswer(optionId: string, isCorrect: boolean) {
-    if (selectedOption) return;
-    setSelectedOption(optionId);
-    if (isCorrect) {
-      setQuizScore((prev) => prev + 1);
-      setXp((prev) => prev + 30);
-    }
-  }
-
-  function nextQuizQuestion() {
-    setSelectedOption(null);
-    if (currentQuizIndex + 1 < QUIZ_QUESTIONS.length) {
-      setCurrentQuizIndex((prev) => prev + 1);
-    } else {
-      setQuizFinished(true);
-    }
-  }
-
-  function resetQuiz() {
-    setCurrentQuizIndex(0);
-    setSelectedOption(null);
-    setQuizScore(0);
-    setQuizFinished(false);
   }
 
   return (
@@ -292,213 +188,22 @@ export function ActiveDashboardView({ user }: ActiveDashboardViewProps) {
 
         {/* Tab 1: Games Content */}
         {activeTab === "games" && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-            {/* Minigame 1: Coffee Talk Vocab Matcher */}
-            <div className="bg-white border border-[#d8ded2] rounded-sm p-6 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="p-2 rounded-sm bg-[#e9ffe0] border border-[#bbffa6]">
-                      <Coffee className="w-4 h-4 text-[#09a86f]" />
-                    </span>
-                    <div>
-                      <h3 className="text-base font-bold text-[#0b0c0b]">Coffee Talk Vocab Matcher</h3>
-                      <p className="text-xs text-[#6f736d]">Ghép cặp cụm từ tiếng Anh giao tiếp tự nhiên</p>
-                    </div>
-                  </div>
-                  <span className="text-xs font-bold text-[#09a86f] bg-[#e9ffe0] px-2.5 py-1 rounded-sm border border-[#bbffa6]">
-                    +25 XP / cặp
-                  </span>
-                </div>
-
-                {game1Completed ? (
-                  <div className="py-8 text-center bg-white rounded-sm border border-[#bbffa6] my-4">
-                    <div className="w-12 h-12 mx-auto rounded-sm bg-[#e9ffe0] border border-[#bbffa6] flex items-center justify-center mb-3 text-[#09a86f]">
-                      <CheckCircle2 className="w-6 h-6 stroke-[2.2]" />
-                    </div>
-                    <h4 className="text-base font-bold text-[#0b0c0b]">Xuất sắc! Bạn đã hoàn thành bài ghép từ!</h4>
-                    <p className="text-xs text-[#6f736d] mt-1">Đã cộng +100 XP vào tài khoản học viên.</p>
-                    <button
-                      onClick={resetGame1}
-                      className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-sm bg-[#09a86f] text-white text-xs font-bold hover:bg-[#089763] transition-colors cursor-pointer"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" /> Chơi lại
-                    </button>
-                  </div>
-                ) : (
-                  <div className="my-4 space-y-3">
-                    <p className="text-xs text-[#6f736d]">
-                      Chọn 1 ô Tiếng Anh và 1 ô Tiếng Việt tương ứng để nối cặp:
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-2.5">
-                      {/* English column */}
-                      <div className="space-y-2">
-                        <p className="text-[11px] font-bold text-[#6f736d] uppercase">English Phrase</p>
-                        {INITIAL_PAIRS.map((item) => {
-                          const isMatched = matchedIds.includes(item.id);
-                          const isSelected = selectedWord?.id === item.id && selectedWord?.type === "en";
-                          return (
-                            <button
-                              key={`en-${item.id}`}
-                              disabled={isMatched}
-                              onClick={() => handleSelectWord(item.id, "en")}
-                              className={cn(
-                                "w-full p-2.5 rounded-sm text-xs font-bold text-left transition-all border cursor-pointer",
-                                isMatched
-                                  ? "bg-[#e9ffe0] border-[#09a86f] text-[#09a86f] opacity-60 cursor-default line-through"
-                                  : isSelected
-                                  ? "bg-[#bbffa6] border-[#09a86f] text-[#0b0c0b] scale-[1.01]"
-                                  : "bg-white border-[#d8ded2] text-[#0b0c0b] hover:bg-[#f5f9f1]"
-                              )}
-                            >
-                              {item.en}
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      {/* Vietnamese column */}
-                      <div className="space-y-2">
-                        <p className="text-[11px] font-bold text-[#6f736d] uppercase">Ý nghĩa tiếng Việt</p>
-                        {INITIAL_PAIRS.map((item) => {
-                          const isMatched = matchedIds.includes(item.id);
-                          const isSelected = selectedWord?.id === item.id && selectedWord?.type === "vi";
-                          return (
-                            <button
-                              key={`vi-${item.id}`}
-                              disabled={isMatched}
-                              onClick={() => handleSelectWord(item.id, "vi")}
-                              className={cn(
-                                "w-full p-2.5 rounded-sm text-xs font-medium text-left transition-all border cursor-pointer",
-                                isMatched
-                                  ? "bg-[#e9ffe0] border-[#09a86f] text-[#09a86f] opacity-60 cursor-default line-through"
-                                  : isSelected
-                                  ? "bg-[#bbffa6] border-[#09a86f] text-[#0b0c0b] scale-[1.01]"
-                                  : "bg-white border-[#d8ded2] text-[#0b0c0b] hover:bg-[#f5f9f1]"
-                              )}
-                            >
-                              {item.vi}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="pt-3 border-t border-[#d8ded2] flex items-center justify-between text-[11px] text-[#6f736d]">
-                <span>Đã nối: {matchedIds.length}/{INITIAL_PAIRS.length} cặp</span>
-                <span className="text-[#09a86f] font-semibold">Tự động cập nhật XP</span>
-              </div>
-            </div>
-
-            {/* Minigame 2: Homestay Scenario Challenge */}
-            <div className="bg-white border border-[#d8ded2] rounded-sm p-6 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="p-2 rounded-sm bg-[#e9ffe0] border border-[#bbffa6]">
-                      <MessageSquare className="w-4 h-4 text-[#09a86f]" />
-                    </span>
-                    <div>
-                      <h3 className="text-base font-bold text-[#0b0c0b]">Homestay Real Scenario</h3>
-                      <p className="text-xs text-[#6f736d]">Xử lý tình huống giao tiếp thực tế với Tây</p>
-                    </div>
-                  </div>
-                  <span className="text-xs font-bold text-[#09a86f] bg-[#e9ffe0] px-2.5 py-1 rounded-sm border border-[#bbffa6]">
-                    +30 XP
-                  </span>
-                </div>
-
-                {quizFinished ? (
-                  <div className="py-8 text-center bg-white rounded-sm border border-[#bbffa6] my-4">
-                    <div className="w-12 h-12 mx-auto rounded-sm bg-[#e9ffe0] border border-[#bbffa6] flex items-center justify-center mb-3 text-[#09a86f]">
-                      <Trophy className="w-6 h-6 stroke-[2.2]" />
-                    </div>
-                    <h4 className="text-base font-bold text-[#0b0c0b]">
-                      Bạn đã hoàn thành thử thách tình huống!
-                    </h4>
-                    <p className="text-xs text-[#6f736d] mt-1">
-                      Điểm đúng: {quizScore}/{QUIZ_QUESTIONS.length} câu.
-                    </p>
-                    <button
-                      onClick={resetQuiz}
-                      className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-sm bg-[#09a86f] text-white text-xs font-bold hover:bg-[#089763] transition-colors cursor-pointer"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" /> Thử lại
-                    </button>
-                  </div>
-                ) : (
-                  <div className="my-4 space-y-3">
-                    <div className="p-3 bg-white rounded-sm border border-[#d8ded2]">
-                      <p className="text-[11px] font-bold text-[#09a86f] uppercase">
-                        Tình huống câu {currentQuizIndex + 1}/{QUIZ_QUESTIONS.length}
-                      </p>
-                      <p className="text-xs sm:text-sm text-[#0b0c0b] font-medium mt-1">
-                        {QUIZ_QUESTIONS[currentQuizIndex].scenario}
-                      </p>
-                    </div>
-
-                    <p className="text-xs font-bold text-[#0b0c0b]">
-                      {QUIZ_QUESTIONS[currentQuizIndex].question}
-                    </p>
-
-                    <div className="space-y-2">
-                      {QUIZ_QUESTIONS[currentQuizIndex].options.map((opt) => {
-                        const isChosen = selectedOption === opt.id;
-                        return (
-                          <button
-                            key={opt.id}
-                            disabled={Boolean(selectedOption)}
-                            onClick={() => handleQuizAnswer(opt.id, opt.isCorrect)}
-                            className={cn(
-                              "w-full p-3 rounded-sm text-xs sm:text-sm text-left transition-all border flex items-center justify-between",
-                              selectedOption
-                                ? opt.isCorrect
-                                  ? "bg-[#e9ffe0] border-[#09a86f] text-[#09a86f] font-bold"
-                                  : isChosen
-                                  ? "bg-red-50 border-red-300 text-red-700"
-                                  : "bg-white border-[#d8ded2] text-[#6f736d] opacity-50"
-                                : "bg-white border-[#d8ded2] text-[#0b0c0b] hover:bg-[#f5f9f1] cursor-pointer"
-                            )}
-                          >
-                            <span>
-                              <strong className="mr-2">{opt.id}.</strong> {opt.text}
-                            </span>
-                            {selectedOption && opt.isCorrect && (
-                              <CheckCircle2 className="w-4 h-4 text-[#09a86f] shrink-0" />
-                            )}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {selectedOption && (
-                      <div className="pt-2 flex items-center justify-between">
-                        <span className="text-xs text-[#6f736d]">
-                          {QUIZ_QUESTIONS[currentQuizIndex].options.find((o) => o.id === selectedOption)?.explanation || ""}
-                        </span>
-                        <button
-                          onClick={nextQuizQuestion}
-                          className="px-4 py-1.5 rounded-sm bg-[#09a86f] text-white text-xs font-bold hover:bg-[#089763] transition-colors cursor-pointer"
-                        >
-                          {currentQuizIndex + 1 < QUIZ_QUESTIONS.length ? "Câu tiếp theo" : "Xem kết quả"}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              <div className="pt-3 border-t border-[#d8ded2] flex items-center justify-between text-[11px] text-[#6f736d]">
-                <span>Phản xạ giao tiếp thực tế</span>
-                <span className="text-[#09a86f] font-semibold">Tự tin trò chuyện</span>
-              </div>
-            </div>
-
+          <div className="space-y-4">
+            {!selectedTopic ? (
+              /* Topic Categorization Section: topic -> game */
+              <TopicCategorization
+                onSelectTopic={(topicId) => setSelectedTopic(topicId)}
+                selectedTopicId={selectedTopic}
+              />
+            ) : (
+              /* Single Game View: Picture Match Game */
+              <PictureMatchGame
+                topicId={selectedTopic}
+                onBackToTopics={() => setSelectedTopic(null)}
+                onSelectTopic={(t) => setSelectedTopic(t)}
+                onAddXp={(val) => setXp((prev) => prev + val)}
+              />
+            )}
           </div>
         )}
 

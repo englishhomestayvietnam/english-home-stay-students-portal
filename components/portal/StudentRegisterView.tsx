@@ -259,15 +259,15 @@ export function StudentRegisterView() {
                   )}
                 >
                   {isSubmitting ? (
-                    <>
+                    <span key="reg-submitting" className="inline-flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span>Đang tạo tài khoản...</span>
-                    </>
+                    </span>
                   ) : (
-                    <>
+                    <span key="reg-idle" className="inline-flex items-center gap-2">
                       <span>Tạo tài khoản học viên</span>
                       <CheckCircle2 className="w-4 h-4" />
-                    </>
+                    </span>
                   )}
                 </button>
               </div>

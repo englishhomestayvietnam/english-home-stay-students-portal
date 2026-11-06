@@ -55,7 +55,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="vi" className={cn("font-sans", geist.variable)}>
+    <html lang="vi" data-scroll-behavior="smooth" className={cn("font-sans", geist.variable)}>
       <body>
         <RefreshRouteOnSave />
         <SignupModalProvider>
