@@ -18,6 +18,7 @@ import {
   Puzzle,
   Undo2,
   Lightbulb,
+  GripVertical,
 } from "lucide-react";
 import {
   getPictureMatchQuestions,
@@ -84,6 +85,15 @@ export function PictureMatchGame({
   const [isSentenceCorrect, setIsSentenceCorrect] = useState(false);
   const [sentenceScore, setSentenceScore] = useState(0);
   const [isSentenceCompleted, setIsSentenceCompleted] = useState(false);
+  const [draggedItem, setDraggedItem] = useState<{
+    id: string;
+    word: string;
+    source: "available" | "placed";
+    sourceIndex?: number;
+  } | null>(null);
+  const [isOverSentenceZone, setIsOverSentenceZone] = useState(false);
+  const [dragOverPlacedIndex, setDragOverPlacedIndex] = useState<number | null>(null);
+  const [isOverAvailableZone, setIsOverAvailableZone] = useState(false);
 
   // Initialize or re-initialize when topicId changes
   useEffect(() => {
@@ -267,7 +277,7 @@ export function PictureMatchGame({
     setIsFillCompleted(false);
   }
 
-  // ─── Sentence Builder Handlers ───────────────────────────────────────────────
+  // ─── Sentence Builder Handlers (Click + Drag & Drop) ─────────────────────────
   function handlePickSentenceWord(item: { id: string; word: string }) {
     if (isSentenceChecked) return;
     setPlacedWords((prev) => [...prev, item]);
@@ -278,6 +288,101 @@ export function PictureMatchGame({
     if (isSentenceChecked) return;
     setPlacedWords((prev) => prev.filter((w) => w.id !== item.id));
     setAvailableWords((prev) => [...prev, item]);
+  }
+
+  function handleDragStartAvailable(
+    e: React.DragEvent<HTMLButtonElement>,
+    item: { id: string; word: string }
+  ) {
+    if (isSentenceChecked) return;
+    setDraggedItem({ id: item.id, word: item.word, source: "available" });
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", item.id);
+  }
+
+  function handleDragStartPlaced(
+    e: React.DragEvent<HTMLButtonElement>,
+    item: { id: string; word: string },
+    index: number
+  ) {
+    if (isSentenceChecked) return;
+    setDraggedItem({
+      id: item.id,
+      word: item.word,
+      source: "placed",
+      sourceIndex: index,
+    });
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", item.id);
+  }
+
+  function handleDragEndSentence() {
+    setDraggedItem(null);
+    setIsOverSentenceZone(false);
+    setDragOverPlacedIndex(null);
+    setIsOverAvailableZone(false);
+  }
+
+  function handleDropOnSentenceZone(
+    e: React.DragEvent<HTMLElement>,
+    targetIndex?: number
+  ) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!draggedItem || isSentenceChecked) {
+      handleDragEndSentence();
+      return;
+    }
+
+    if (draggedItem.source === "available") {
+      const itemToMove = availableWords.find((w) => w.id === draggedItem.id);
+      if (itemToMove) {
+        setAvailableWords((prev) => prev.filter((w) => w.id !== itemToMove.id));
+        setPlacedWords((prev) => {
+          const next = [...prev];
+          const insertIdx =
+            targetIndex !== undefined ? targetIndex : next.length;
+          next.splice(insertIdx, 0, itemToMove);
+          return next;
+        });
+      }
+    } else if (
+      draggedItem.source === "placed" &&
+      draggedItem.sourceIndex !== undefined
+    ) {
+      const fromIdx = draggedItem.sourceIndex;
+      const toIdx =
+        targetIndex !== undefined ? targetIndex : placedWords.length - 1;
+      if (fromIdx !== toIdx) {
+        setPlacedWords((prev) => {
+          const next = [...prev];
+          const [moved] = next.splice(fromIdx, 1);
+          next.splice(toIdx, 0, moved);
+          return next;
+        });
+      }
+    }
+
+    handleDragEndSentence();
+  }
+
+  function handleDropOnAvailableZone(e: React.DragEvent<HTMLElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!draggedItem || isSentenceChecked) {
+      handleDragEndSentence();
+      return;
+    }
+
+    if (draggedItem.source === "placed") {
+      const itemToReturn = placedWords.find((w) => w.id === draggedItem.id);
+      if (itemToReturn) {
+        setPlacedWords((prev) => prev.filter((w) => w.id !== itemToReturn.id));
+        setAvailableWords((prev) => [...prev, itemToReturn]);
+      }
+    }
+
+    handleDragEndSentence();
   }
 
   function handleHintSentenceWord() {
@@ -397,7 +502,7 @@ export function PictureMatchGame({
 
   function maskTargetWord(text: string, word: string) {
     const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return text.replace(new RegExp(`\\b${escaped}\\w*\\b`, "gi"), "______");
+    return text.replace(new RegExp(`\\b${escaped}\\w*\\b`, "gi"), "[...]");
   }
 
   return (
@@ -1108,25 +1213,25 @@ export function PictureMatchGame({
                 {/* Right: Sentence Card + 4 Options */}
                 <div className="flex flex-col justify-between space-y-3">
                   {/* Context Sentence Box */}
-                  <div className="p-4 rounded-sm bg-[#f5f9f1]/70 border border-[#d8ded2] space-y-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#6f736d]">
+                  <div className="p-4 sm:p-5 rounded-sm bg-[#f5f9f1]/70 border border-[#d8ded2] space-y-2">
+                    <span className="block text-[10px] font-bold uppercase tracking-wider text-[#6f736d]">
                       Hoàn thành câu giao tiếp:
                     </span>
-                    <p className="text-sm sm:text-base font-semibold text-[#0b0c0b] leading-relaxed">
+                    <p className="text-base sm:text-lg font-semibold text-[#0b0c0b] leading-relaxed">
                       <span>{currentFillQ.sentenceBefore}</span>
                       <span
                         className={cn(
-                          "inline-block mx-1 px-2.5 py-0.5 rounded-sm font-extrabold border-b-2 transition-all",
+                          "inline-flex items-center justify-center mx-1.5 px-3 py-0.5 font-extrabold transition-all align-baseline",
                           selectedFillWord
                             ? selectedFillWord === currentFillQ.target.word
-                              ? "bg-[#e9ffe0] text-[#09a86f] border-[#09a86f]"
-                              : "bg-red-50 text-red-700 border-red-400"
-                            : "bg-white text-[#09a86f] border-[#09a86f] min-w-[80px] text-center"
+                              ? "rounded-sm bg-[#e9ffe0] text-[#09a86f] border border-[#09a86f]"
+                              : "rounded-sm bg-red-50 text-red-700 border border-red-300"
+                            : "min-w-[88px] border-b-2 border-[#09a86f] bg-[#e9ffe0]/40 text-transparent select-none"
                         )}
                       >
                         {selectedFillWord
                           ? currentFillQ.missingWordInSentence
-                          : "______"}
+                          : "\u00A0"}
                       </span>
                       <span>{currentFillQ.sentenceAfter}</span>
                     </p>
@@ -1351,7 +1456,7 @@ export function PictureMatchGame({
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-[#0b0c0b]">
-                        Sắp xếp các từ thành câu hoàn chỉnh:
+                        Kéo và thả các từ vào ô bên dưới để tạo câu hoàn chỉnh:
                       </span>
                       {!isSentenceChecked && availableWords.length > 0 && (
                         <button
@@ -1366,53 +1471,180 @@ export function PictureMatchGame({
                     </div>
 
                     {/* Assembled Sentence Drop Zone */}
-                    <div className="min-h-[84px] p-3.5 rounded-sm border-2 border-dashed border-[#d8ded2] bg-[#f5f9f1]/50 flex flex-wrap items-center gap-2">
-                      {placedWords.length === 0 ? (
-                        <span className="text-xs text-[#6f736d] italic">
-                          Chạm vào các từ bên dưới theo đúng thứ tự ngữ pháp...
-                        </span>
-                      ) : (
-                        placedWords.map((item) => (
+                    <div
+                      onDragOver={(e) => {
+                        if (isSentenceChecked) return;
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = "move";
+                        setIsOverSentenceZone(true);
+                      }}
+                      onDragLeave={(e) => {
+                        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                          setIsOverSentenceZone(false);
+                          setDragOverPlacedIndex(null);
+                        }
+                      }}
+                      onDrop={(e) => handleDropOnSentenceZone(e)}
+                      className={cn(
+                        "min-h-[96px] p-3.5 rounded-sm border-2 border-dashed transition-all flex flex-wrap items-center gap-2",
+                        isSentenceChecked
+                          ? isSentenceCorrect
+                            ? "border-[#09a86f] bg-[#e9ffe0]/40"
+                            : "border-red-300 bg-red-50/30"
+                          : isOverSentenceZone
+                          ? "border-[#09a86f] bg-[#e9ffe0]/50 ring-2 ring-[#09a86f]/15"
+                          : "border-[#d8ded2] bg-[#f5f9f1]/60"
+                      )}
+                    >
+                      {placedWords.map((item, idx) => {
+                        const isDraggingThis =
+                          draggedItem?.id === item.id &&
+                          draggedItem?.source === "placed";
+                        const isDropTarget = dragOverPlacedIndex === idx;
+                        return (
                           <button
                             key={`placed-${item.id}`}
                             type="button"
+                            draggable={!isSentenceChecked}
                             disabled={isSentenceChecked}
+                            onDragStart={(e) => handleDragStartPlaced(e, item, idx)}
+                            onDragEnd={handleDragEndSentence}
+                            onDragOver={(e) => {
+                              if (isSentenceChecked) return;
+                              e.preventDefault();
+                              e.stopPropagation();
+                              e.dataTransfer.dropEffect = "move";
+                              setDragOverPlacedIndex(idx);
+                            }}
+                            onDragLeave={() => {
+                              if (dragOverPlacedIndex === idx) {
+                                setDragOverPlacedIndex(null);
+                              }
+                            }}
+                            onDrop={(e) => handleDropOnSentenceZone(e, idx)}
                             onClick={() => handleReturnSentenceWord(item)}
                             className={cn(
-                              "px-3 py-1.5 rounded-sm text-xs font-bold transition-all border flex items-center gap-1 cursor-pointer",
+                              "px-3 py-2 rounded-sm text-xs font-bold transition-all border flex items-center gap-1.5 select-none shadow-2xs",
+                              !isSentenceChecked &&
+                                "cursor-grab active:cursor-grabbing",
+                              isDraggingThis && "opacity-40 scale-95",
+                              isDropTarget &&
+                                !isDraggingThis &&
+                                "ring-2 ring-[#09a86f] -translate-y-0.5 bg-[#e9ffe0]",
                               isSentenceChecked
                                 ? isSentenceCorrect
                                   ? "bg-[#e9ffe0] border-[#09a86f] text-[#09a86f]"
                                   : "bg-red-50 border-red-300 text-red-700"
-                                : "bg-white border-[#09a86f] text-[#0b0c0b] hover:bg-red-50 hover:border-red-300"
+                                : "bg-white border-[#09a86f] text-[#0b0c0b] hover:border-red-300 hover:bg-red-50/40"
                             )}
-                            title="Bấm để trả từ lại khay"
+                            title="Kéo để đổi vị trí hoặc bấm để trả từ về khay"
                           >
+                            {!isSentenceChecked && (
+                              <GripVertical className="w-3.5 h-3.5 text-[#6f736d] shrink-0" />
+                            )}
                             <span>{item.word}</span>
                             {!isSentenceChecked && (
-                              <Undo2 className="w-3 h-3 text-[#6f736d]" />
+                              <Undo2 className="w-3 h-3 text-[#6f736d]/70 ml-0.5 shrink-0" />
                             )}
                           </button>
-                        ))
-                      )}
+                        );
+                      })}
+
+                      {/* Empty Slot Placeholders for Remaining Words */}
+                      {!isSentenceChecked &&
+                        availableWords.map((_, slotIdx) => {
+                          const targetIdx = placedWords.length + slotIdx;
+                          const isFirstEmptySlot = slotIdx === 0;
+                          return (
+                            <div
+                              key={`slot-${targetIdx}`}
+                              onDragOver={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                e.dataTransfer.dropEffect = "move";
+                                setIsOverSentenceZone(true);
+                              }}
+                              onDrop={(e) => handleDropOnSentenceZone(e)}
+                              className={cn(
+                                "h-8 min-w-[60px] px-2.5 rounded-sm border border-dashed flex items-center justify-center text-[11px] font-mono select-none transition-colors",
+                                isFirstEmptySlot && isOverSentenceZone
+                                  ? "border-[#09a86f] bg-[#e9ffe0]/70 text-[#09a86f] font-bold"
+                                  : "border-[#cbd3c4] bg-white/50 text-[#6f736d]/60"
+                              )}
+                            >
+                              {targetIdx + 1}
+                            </div>
+                          );
+                        })}
                     </div>
 
-                    {/* Available Scrambled Words Tray */}
-                    <div className="space-y-1.5">
-                      <span className="text-[11px] font-bold text-[#6f736d] uppercase tracking-wider">
-                        Các từ có sẵn:
-                      </span>
-                      <div className="flex flex-wrap gap-2 min-h-[44px] pt-1">
-                        {availableWords.map((item) => (
+                    {/* Available Scrambled Words Tray (Also a Drop Zone to return words) */}
+                    <div
+                      onDragOver={(e) => {
+                        if (isSentenceChecked || draggedItem?.source !== "placed")
+                          return;
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = "move";
+                        setIsOverAvailableZone(true);
+                      }}
+                      onDragLeave={(e) => {
+                        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                          setIsOverAvailableZone(false);
+                        }
+                      }}
+                      onDrop={handleDropOnAvailableZone}
+                      className={cn(
+                        "space-y-2 p-3 rounded-sm border transition-colors",
+                        isOverAvailableZone
+                          ? "border-[#09a86f] bg-[#e9ffe0]/30"
+                          : "border-[#d8ded2] bg-white"
+                      )}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] font-bold text-[#6f736d] uppercase tracking-wider">
+                          Khay từ vựng (Kéo thả lên ô trên hoặc chạm để chọn):
+                        </span>
+                        {placedWords.length > 0 && !isSentenceChecked && (
                           <button
-                            key={`avail-${item.id}`}
                             type="button"
-                            onClick={() => handlePickSentenceWord(item)}
-                            className="px-3.5 py-2 rounded-sm text-xs font-bold bg-white border border-[#d8ded2] text-[#0b0c0b] hover:border-[#09a86f] hover:bg-[#e9ffe0]/40 transition-all cursor-pointer active:scale-95"
+                            onClick={handleRetryCurrentSentence}
+                            className="text-[11px] font-semibold text-[#6f736d] hover:text-red-600 inline-flex items-center gap-1 cursor-pointer transition-colors"
                           >
-                            {item.word}
+                            <RotateCcw className="w-3 h-3" />
+                            <span>Đặt lại khay</span>
                           </button>
-                        ))}
+                        )}
+                      </div>
+                      <div className="flex flex-wrap gap-2 min-h-[42px] items-center">
+                        {availableWords.length === 0 ? (
+                          <span className="text-xs text-[#09a86f] font-medium italic">
+                            Đã xếp hết các từ lên câu — hãy bấm &quot;Kiểm tra câu&quot; bên dưới!
+                          </span>
+                        ) : (
+                          availableWords.map((item) => {
+                            const isDraggingThis =
+                              draggedItem?.id === item.id &&
+                              draggedItem?.source === "available";
+                            return (
+                              <button
+                                key={`avail-${item.id}`}
+                                type="button"
+                                draggable={!isSentenceChecked}
+                                onDragStart={(e) => handleDragStartAvailable(e, item)}
+                                onDragEnd={handleDragEndSentence}
+                                onClick={() => handlePickSentenceWord(item)}
+                                className={cn(
+                                  "px-3 py-2 rounded-sm text-xs font-bold bg-[#f5f9f1] border border-[#d8ded2] text-[#0b0c0b] hover:border-[#09a86f] hover:bg-[#e9ffe0]/50 transition-all cursor-grab active:cursor-grabbing flex items-center gap-1.5 select-none shadow-2xs",
+                                  isDraggingThis && "opacity-40 scale-95 border-[#09a86f]"
+                                )}
+                                title="Kéo thả vào câu hoặc bấm để chọn"
+                              >
+                                <GripVertical className="w-3.5 h-3.5 text-[#6f736d] shrink-0" />
+                                <span>{item.word}</span>
+                              </button>
+                            );
+                          })
+                        )}
                       </div>
                     </div>
                   </div>
