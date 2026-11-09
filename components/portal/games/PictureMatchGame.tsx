@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { cn } from "@/lib/utils";
 import {
   Volume2,
@@ -16,9 +17,7 @@ import {
   Grid,
   FileText,
   Puzzle,
-  Undo2,
   Lightbulb,
-  GripVertical,
 } from "lucide-react";
 import {
   getPictureMatchQuestions,
@@ -45,6 +44,31 @@ export function PictureMatchGame({
 }: PictureMatchGameProps) {
   // Modes: null (game selection hub) | 'quiz' | 'grid' | 'fill' | 'sentence'
   const [mode, setMode] = useState<"quiz" | "grid" | "fill" | "sentence" | null>(null);
+
+  const [gameBodyRef] = useAutoAnimate<HTMLDivElement>({
+    duration: 180,
+    easing: "ease-out",
+  });
+  const [quizStageRef] = useAutoAnimate<HTMLDivElement>({
+    duration: 180,
+    easing: "ease-out",
+  });
+  const [gridStageRef] = useAutoAnimate<HTMLDivElement>({
+    duration: 180,
+    easing: "ease-out",
+  });
+  const [fillStageRef] = useAutoAnimate<HTMLDivElement>({
+    duration: 180,
+    easing: "ease-out",
+  });
+  const [sentenceStageRef] = useAutoAnimate<HTMLDivElement>({
+    duration: 180,
+    easing: "ease-out",
+  });
+  const [notebookLinesRef] = useAutoAnimate<HTMLDivElement>({
+    duration: 160,
+    easing: "ease-out",
+  });
 
   // ─── Quiz Mode State ──────────────────────────────────────────────────────────
   const [quizQuestions, setQuizQuestions] = useState<
@@ -74,26 +98,16 @@ export function PictureMatchGame({
   const [fillScore, setFillScore] = useState(0);
   const [isFillCompleted, setIsFillCompleted] = useState(false);
 
-  // ─── Sentence Builder Mode State ─────────────────────────────────────────────
+  // ─── Sentence Builder Mode State (Duolingo-style Notebook Lines) ─────────────
   const [sentenceQuestions, setSentenceQuestions] = useState<
     ReturnType<typeof getSentenceBuilderQuestions>
   >([]);
   const [sentenceIndex, setSentenceIndex] = useState(0);
   const [placedWords, setPlacedWords] = useState<{ id: string; word: string }[]>([]);
-  const [availableWords, setAvailableWords] = useState<{ id: string; word: string }[]>([]);
   const [isSentenceChecked, setIsSentenceChecked] = useState(false);
   const [isSentenceCorrect, setIsSentenceCorrect] = useState(false);
   const [sentenceScore, setSentenceScore] = useState(0);
   const [isSentenceCompleted, setIsSentenceCompleted] = useState(false);
-  const [draggedItem, setDraggedItem] = useState<{
-    id: string;
-    word: string;
-    source: "available" | "placed";
-    sourceIndex?: number;
-  } | null>(null);
-  const [isOverSentenceZone, setIsOverSentenceZone] = useState(false);
-  const [dragOverPlacedIndex, setDragOverPlacedIndex] = useState<number | null>(null);
-  const [isOverAvailableZone, setIsOverAvailableZone] = useState(false);
 
   // Initialize or re-initialize when topicId changes
   useEffect(() => {
@@ -124,7 +138,6 @@ export function PictureMatchGame({
 
     setSentenceIndex(0);
     setPlacedWords([]);
-    setAvailableWords(sQuestions[0] ? [...sQuestions[0].scrambledWords] : []);
     setIsSentenceChecked(false);
     setIsSentenceCorrect(false);
     setSentenceScore(0);
@@ -152,11 +165,10 @@ export function PictureMatchGame({
     }
   }, [currentIndex, quizQuestions, mode]);
 
-  // Reset sentence tray when sentenceIndex changes
+  // Reset sentence lines when sentenceIndex changes
   useEffect(() => {
     if (sentenceQuestions[sentenceIndex]) {
       setPlacedWords([]);
-      setAvailableWords([...sentenceQuestions[sentenceIndex].scrambledWords]);
       setIsSentenceChecked(false);
       setIsSentenceCorrect(false);
     }
@@ -277,112 +289,17 @@ export function PictureMatchGame({
     setIsFillCompleted(false);
   }
 
-  // ─── Sentence Builder Handlers (Click + Drag & Drop) ─────────────────────────
+  // ─── Sentence Builder Handlers (Duolingo-style Notebook Lines) ───────────────
   function handlePickSentenceWord(item: { id: string; word: string }) {
     if (isSentenceChecked) return;
-    setPlacedWords((prev) => [...prev, item]);
-    setAvailableWords((prev) => prev.filter((w) => w.id !== item.id));
+    setPlacedWords((prev) =>
+      prev.some((w) => w.id === item.id) ? prev : [...prev, item]
+    );
   }
 
   function handleReturnSentenceWord(item: { id: string; word: string }) {
     if (isSentenceChecked) return;
     setPlacedWords((prev) => prev.filter((w) => w.id !== item.id));
-    setAvailableWords((prev) => [...prev, item]);
-  }
-
-  function handleDragStartAvailable(
-    e: React.DragEvent<HTMLButtonElement>,
-    item: { id: string; word: string }
-  ) {
-    if (isSentenceChecked) return;
-    setDraggedItem({ id: item.id, word: item.word, source: "available" });
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/plain", item.id);
-  }
-
-  function handleDragStartPlaced(
-    e: React.DragEvent<HTMLButtonElement>,
-    item: { id: string; word: string },
-    index: number
-  ) {
-    if (isSentenceChecked) return;
-    setDraggedItem({
-      id: item.id,
-      word: item.word,
-      source: "placed",
-      sourceIndex: index,
-    });
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/plain", item.id);
-  }
-
-  function handleDragEndSentence() {
-    setDraggedItem(null);
-    setIsOverSentenceZone(false);
-    setDragOverPlacedIndex(null);
-    setIsOverAvailableZone(false);
-  }
-
-  function handleDropOnSentenceZone(
-    e: React.DragEvent<HTMLElement>,
-    targetIndex?: number
-  ) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!draggedItem || isSentenceChecked) {
-      handleDragEndSentence();
-      return;
-    }
-
-    if (draggedItem.source === "available") {
-      const itemToMove = availableWords.find((w) => w.id === draggedItem.id);
-      if (itemToMove) {
-        setAvailableWords((prev) => prev.filter((w) => w.id !== itemToMove.id));
-        setPlacedWords((prev) => {
-          const next = [...prev];
-          const insertIdx =
-            targetIndex !== undefined ? targetIndex : next.length;
-          next.splice(insertIdx, 0, itemToMove);
-          return next;
-        });
-      }
-    } else if (
-      draggedItem.source === "placed" &&
-      draggedItem.sourceIndex !== undefined
-    ) {
-      const fromIdx = draggedItem.sourceIndex;
-      const toIdx =
-        targetIndex !== undefined ? targetIndex : placedWords.length - 1;
-      if (fromIdx !== toIdx) {
-        setPlacedWords((prev) => {
-          const next = [...prev];
-          const [moved] = next.splice(fromIdx, 1);
-          next.splice(toIdx, 0, moved);
-          return next;
-        });
-      }
-    }
-
-    handleDragEndSentence();
-  }
-
-  function handleDropOnAvailableZone(e: React.DragEvent<HTMLElement>) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!draggedItem || isSentenceChecked) {
-      handleDragEndSentence();
-      return;
-    }
-
-    if (draggedItem.source === "placed") {
-      const itemToReturn = placedWords.find((w) => w.id === draggedItem.id);
-      if (itemToReturn) {
-        setPlacedWords((prev) => prev.filter((w) => w.id !== itemToReturn.id));
-        setAvailableWords((prev) => [...prev, itemToReturn]);
-      }
-    }
-
-    handleDragEndSentence();
   }
 
   function handleHintSentenceWord() {
@@ -390,14 +307,33 @@ export function PictureMatchGame({
     const currentSQ = sentenceQuestions[sentenceIndex];
     if (!currentSQ) return;
     const expectedTokens = currentSQ.fullSentence.trim().split(/\s+/);
-    const nextExpectedWord = expectedTokens[placedWords.length];
-    if (!nextExpectedWord) return;
 
-    const matchInAvailable = availableWords.find(
-      (w) => w.word.toLowerCase() === nextExpectedWord.toLowerCase()
+    // Keep only the leading words that are already in the right order
+    const validPrefix: { id: string; word: string }[] = [];
+    for (let i = 0; i < placedWords.length; i++) {
+      if (
+        expectedTokens[i] &&
+        placedWords[i].word.toLowerCase() === expectedTokens[i].toLowerCase()
+      ) {
+        validPrefix.push(placedWords[i]);
+      } else {
+        break;
+      }
+    }
+
+    const nextIdx = validPrefix.length;
+    if (nextIdx >= expectedTokens.length) return;
+    const nextExpectedWord = expectedTokens[nextIdx];
+
+    const usedIds = new Set(validPrefix.map((w) => w.id));
+    const matchInBank = currentSQ.scrambledWords.find(
+      (w) =>
+        !usedIds.has(w.id) &&
+        w.word.toLowerCase() === nextExpectedWord.toLowerCase()
     );
-    if (matchInAvailable) {
-      handlePickSentenceWord(matchInAvailable);
+
+    if (matchInBank) {
+      setPlacedWords([...validPrefix, matchInBank]);
     }
   }
 
@@ -430,12 +366,9 @@ export function PictureMatchGame({
   }
 
   function handleRetryCurrentSentence() {
-    if (sentenceQuestions[sentenceIndex]) {
-      setPlacedWords([]);
-      setAvailableWords([...sentenceQuestions[sentenceIndex].scrambledWords]);
-      setIsSentenceChecked(false);
-      setIsSentenceCorrect(false);
-    }
+    setPlacedWords([]);
+    setIsSentenceChecked(false);
+    setIsSentenceCorrect(false);
   }
 
   function resetSentence() {
@@ -443,7 +376,6 @@ export function PictureMatchGame({
     setSentenceQuestions(sQuestions);
     setSentenceIndex(0);
     setPlacedWords([]);
-    setAvailableWords(sQuestions[0] ? [...sQuestions[0].scrambledWords] : []);
     setIsSentenceChecked(false);
     setIsSentenceCorrect(false);
     setSentenceScore(0);
@@ -460,40 +392,52 @@ export function PictureMatchGame({
       id: "quiz" as const,
       badge: "Game 1 • Trắc nghiệm",
       title: "Trắc nghiệm Từ vựng & Hình ảnh",
+      shortTitle: "Trắc nghiệm Hình ảnh",
       description:
         "Xem hình ảnh minh họa kèm gợi ý nghĩa tiếng Việt, nghe phát âm và chọn từ tiếng Anh chính xác trong 4 đáp án.",
       xpLabel: "+25 XP / câu đúng",
+      xpShortLabel: "+25 XP",
       metaLabel: "5 câu hỏi • Từ vựng & Phát âm",
+      shortMeta: "5 câu hỏi",
       icon: Layers,
     },
     {
       id: "grid" as const,
       badge: "Game 2 • Phản xạ",
-      title: "Ghép Cặp Từ Vựng & Nghĩa (Word Match)",
+      title: "Ghép Cặp Từ Vựng & Nghĩa",
+      shortTitle: "Ghép Cặp Từ & Nghĩa",
       description:
         "Nối 4 từ tiếng Anh (kèm phát âm & ảnh minh họa) ở cột trái với đúng nghĩa tiếng Việt và giải nghĩa ở cột phải.",
       xpLabel: "+100 XP / màn",
+      xpShortLabel: "+100 XP",
       metaLabel: "4 cặp từ • Ghi nhớ nhanh",
+      shortMeta: "4 cặp từ",
       icon: Grid,
     },
     {
       id: "fill" as const,
       badge: "Game 3 • Ngữ cảnh",
-      title: "Điền Từ Vào Câu (Fill in the Blank)",
+      title: "Điền Từ Vào Câu Giao Tiếp",
+      shortTitle: "Điền Từ Vào Câu",
       description:
         "Đọc câu giao tiếp thực tế tại Homestay và chọn từ vựng phù hợp nhất để điền vào chỗ trống.",
       xpLabel: "+30 XP / câu đúng",
+      xpShortLabel: "+30 XP",
       metaLabel: "5 câu giao tiếp • Ứng dụng thực tế",
+      shortMeta: "5 câu giao tiếp",
       icon: FileText,
     },
     {
       id: "sentence" as const,
       badge: "Game 4 • Cấu trúc câu",
-      title: "Sắp Xếp Câu Hoàn Chỉnh (Sentence Builder)",
+      title: "Sắp Xếp Câu Hoàn Chỉnh",
+      shortTitle: "Sắp Xếp Câu",
       description:
         "Sắp xếp các từ bị xáo trộn thành câu hội thoại hoàn chỉnh đúng ngữ pháp và luyện nghe phát âm cả câu.",
       xpLabel: "+35 XP / câu đúng",
+      xpShortLabel: "+35 XP",
       metaLabel: "5 câu hội thoại • Ngữ pháp & Nói",
+      shortMeta: "5 câu hội thoại",
       icon: Puzzle,
     },
   ];
@@ -506,7 +450,10 @@ export function PictureMatchGame({
   }
 
   return (
-    <div className="bg-white border border-[#d8ded2] rounded-sm p-4 sm:p-6 space-y-5">
+    <div
+      ref={gameBodyRef}
+      className="bg-white border border-[#d8ded2] rounded-sm p-4 sm:p-6 space-y-5"
+    >
       
       {/* ─── Clean Single-Row Navigation Header ─── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-[#d8ded2]">
@@ -570,87 +517,59 @@ export function PictureMatchGame({
 
       {/* ─── STEP 2: Game Selection Hub (Shown first after picking a Topic) ─── */}
       {mode === null && (
-        <div className="space-y-5">
-          {/* Topic Banner Summary */}
-          <div className="p-4 sm:p-5 rounded-sm bg-[#f5f9f1]/80 border border-[#d8ded2] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-sm bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6] text-[10px] font-bold uppercase">
-                  Chủ đề đã chọn
-                </span>
-                <span className="text-xs font-bold text-[#09a86f]">
-                  {topicMeta.wordCount} từ vựng
-                </span>
-              </div>
-              <h2 className="text-base sm:text-lg font-extrabold text-[#0b0c0b]">
-                {topicMeta.nameEn} — {topicMeta.nameVi}
-              </h2>
-              <p className="text-xs text-[#6f736d]">
-                {topicMeta.description}
-              </p>
-            </div>
-
-            {topicMeta.previewWords.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 sm:justify-end max-w-xs">
-                {topicMeta.previewWords.map((w) => (
-                  <span
-                    key={w}
-                    className="px-2 py-0.5 text-[11px] font-mono font-semibold bg-white border border-[#d8ded2] rounded-sm text-[#0b0c0b]"
-                  >
-                    {w}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-
+        <div className="space-y-3">
           {/* 4 Game Cards */}
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-[#6f736d] mb-3">
               Chọn trò chơi bạn muốn luyện tập:
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               {GAME_OPTIONS.map((game) => {
                 const IconComp = game.icon;
                 return (
                   <div
                     key={game.id}
                     onClick={() => setMode(game.id)}
-                    className="group bg-white border border-[#d8ded2] hover:border-[#09a86f] rounded-sm p-5 transition-all duration-200 cursor-pointer flex flex-col justify-between hover:shadow-xs"
+                    className="group bg-white border border-[#d8ded2] hover:border-[#09a86f] rounded-sm p-4 sm:p-5 transition-all duration-150 hover:-translate-y-0.5 active:scale-[0.98] cursor-pointer flex flex-col justify-between gap-4 sm:gap-0 hover:shadow-xs min-w-0"
                   >
-                    <div className="space-y-2.5">
+                    <div className="space-y-3 sm:space-y-2.5">
                       <div className="flex items-center justify-between gap-2">
-                        <div className="w-10 h-10 rounded-sm bg-[#e9ffe0] border border-[#bbffa6] flex items-center justify-center text-[#09a86f] group-hover:bg-[#09a86f] group-hover:text-white transition-colors">
-                          <IconComp className="w-5 h-5 stroke-[2.2]" />
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-sm bg-[#e9ffe0] border border-[#bbffa6] flex items-center justify-center text-[#09a86f] group-hover:bg-[#09a86f] group-hover:text-white transition-colors shrink-0">
+                          <IconComp className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
                         </div>
 
-                        <span className="px-2.5 py-0.5 rounded-sm bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6] text-[11px] font-bold">
-                          {game.xpLabel}
+                        <span className="inline-flex items-center justify-center h-6 px-2 sm:px-2.5 rounded-sm bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6] text-[10px] sm:text-[11px] font-bold leading-none whitespace-nowrap">
+                          <span className="sm:hidden">{game.xpShortLabel}</span>
+                          <span className="hidden sm:inline">{game.xpLabel}</span>
                         </span>
                       </div>
 
                       <div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#09a86f]">
+                        <span className="hidden sm:block text-[10px] font-bold uppercase tracking-wider text-[#09a86f]">
                           {game.badge}
                         </span>
-                        <h4 className="text-sm sm:text-base font-bold text-[#0b0c0b] group-hover:text-[#09a86f] transition-colors mt-0.5">
-                          {game.title}
+                        <h4 className="text-sm sm:text-base font-bold text-[#0b0c0b] group-hover:text-[#09a86f] transition-colors sm:mt-0.5 leading-snug">
+                          <span className="sm:hidden">{game.shortTitle}</span>
+                          <span className="hidden sm:inline">{game.title}</span>
                         </h4>
+                        <p className="sm:hidden text-[11px] text-[#6f736d] mt-1">
+                          {game.shortMeta}
+                        </p>
                       </div>
 
-                      <p className="text-xs text-[#6f736d] leading-relaxed">
+                      <p className="hidden sm:block text-xs text-[#6f736d] leading-relaxed">
                         {game.description}
                       </p>
                     </div>
 
-                    <div className="mt-4 pt-3 border-t border-[#d8ded2]/70 flex items-center justify-between">
-                      <span className="text-[11px] font-medium text-[#6f736d]">
+                    <div className="sm:mt-4 sm:pt-3 sm:border-t sm:border-[#d8ded2]/70 flex items-center justify-between gap-1">
+                      <span className="hidden sm:inline text-[11px] font-medium text-[#6f736d]">
                         {game.metaLabel}
                       </span>
-                      <span className="inline-flex items-center gap-1 text-xs font-bold text-[#09a86f] group-hover:translate-x-0.5 transition-transform">
+                      <span className="inline-flex items-center gap-1 text-xs font-bold text-[#09a86f] group-hover:translate-x-0.5 transition-transform whitespace-nowrap">
                         <span>Vào chơi</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
+                        <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                       </span>
                     </div>
                   </div>
@@ -663,7 +582,7 @@ export function PictureMatchGame({
 
       {/* ─── Mode 1: Quiz Flashcard Mode ─── */}
       {mode === "quiz" && (
-        <div className="space-y-4">
+        <div ref={quizStageRef} className="space-y-4">
           {isQuizCompleted ? (
             /* Quiz Completed View */
             <div className="py-8 px-4 text-center bg-white rounded-sm border border-[#bbffa6] my-2">
@@ -704,7 +623,7 @@ export function PictureMatchGame({
               </div>
             </div>
           ) : currentQ ? (
-            <div className="space-y-4">
+            <div key={`quiz-q-${currentIndex}`} className="space-y-4 animate-in fade-in duration-150">
               
               {/* Progress Bar & Question Indicator */}
               <div className="flex items-center justify-between text-xs">
@@ -753,7 +672,7 @@ export function PictureMatchGame({
                     {/* Audio pronounce button on photo */}
                     <button
                       onClick={() => playPronunciation(currentQ.target.word)}
-                      className="absolute bottom-2.5 right-2.5 px-2.5 py-1.5 rounded-sm bg-white/95 hover:bg-white text-[#09a86f] border border-[#d8ded2] shadow-xs transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-bold"
+                      className="absolute bottom-2.5 left-2.5 sm:left-auto sm:right-2.5 px-2.5 py-1.5 rounded-sm bg-white/95 hover:bg-white text-[#09a86f] border border-[#d8ded2] shadow-xs transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-bold"
                       title="Nghe phát âm bản ngữ"
                     >
                       <Volume2 className={cn("w-3.5 h-3.5", isPlayingAudio && "animate-pulse")} />
@@ -889,7 +808,7 @@ export function PictureMatchGame({
 
       {/* ─── Mode 2: 4-Pair Word & Meaning Match Mode ─── */}
       {mode === "grid" && (
-        <div className="space-y-4">
+        <div ref={gridStageRef} className="space-y-4">
           {isGridCompleted ? (
             <div className="py-8 px-4 text-center bg-white rounded-sm border border-[#bbffa6] my-2">
               <div className="w-12 h-12 mx-auto rounded-sm bg-[#e9ffe0] border border-[#bbffa6] flex items-center justify-center mb-3 text-[#09a86f]">
@@ -926,31 +845,31 @@ export function PictureMatchGame({
               </div>
             </div>
           ) : (
-            <div className="space-y-4">
-              {/* Instructions & Progress */}
-              <div className="p-3 rounded-sm bg-[#f5f9f1] border border-[#d8ded2] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div className="text-xs text-[#0b0c0b]">
-                  <strong>Cách chơi:</strong> Chọn <strong>1 từ tiếng Anh</strong> ở cột bên trái, sau đó chọn <strong>nghĩa tiếng Việt</strong> tương ứng ở cột bên phải.
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
+            <div className="space-y-3">
+              {/* Compact Instructions & Progress */}
+              <div className="flex items-center justify-between gap-2 text-xs">
+                <span className="text-[#6f736d] font-medium">
+                  Chạm <strong className="text-[#0b0c0b]">từ tiếng Anh</strong> (trái) và <strong className="text-[#0b0c0b]">nghĩa</strong> (phải) tương ứng:
+                </span>
+                <div className="flex items-center gap-1.5 shrink-0">
                   {wrongPair && (
-                    <span className="text-xs font-bold text-red-600 bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-sm">
-                      ✗ Chưa khớp, thử lại nhé!
+                    <span className="text-[11px] font-bold text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded-sm whitespace-nowrap">
+                      Chưa khớp!
                     </span>
                   )}
-                  <span className="font-bold text-xs text-[#09a86f] bg-[#e9ffe0] px-2.5 py-1 rounded-sm border border-[#bbffa6]">
-                    Đã ghép: {matchedIds.length} / {gridPairs.length} cặp (+25 XP/cặp)
+                  <span className="inline-flex items-center justify-center h-6 px-2.5 rounded-sm font-bold text-[11px] text-[#09a86f] bg-[#e9ffe0] border border-[#bbffa6] whitespace-nowrap">
+                    {matchedIds.length}/{gridPairs.length} cặp
                   </span>
                 </div>
               </div>
 
-              {/* Balanced 2-Column Matching Board */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Side-by-Side 2-Column Matching Board (Mobile & Desktop) */}
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
                 
-                {/* Left Column: 4 English Words + Thumbnail + Audio */}
-                <div className="space-y-2.5">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#6f736d] px-1">
-                    1. Chọn từ tiếng Anh (Cột A)
+                {/* Left Column: 4 English Words */}
+                <div className="space-y-2 sm:space-y-2.5 min-w-0">
+                  <div className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#6f736d] px-0.5">
+                    1. Tiếng Anh
                   </div>
 
                   {gridPairs.map((item, idx) => {
@@ -963,9 +882,9 @@ export function PictureMatchGame({
                         key={`en-${item.id}`}
                         onClick={() => handleSelectEnglishCard(item)}
                         className={cn(
-                          "w-full p-3 rounded-sm border transition-all flex items-center justify-between gap-3 min-h-[78px]",
+                          "w-full h-[66px] sm:h-[78px] px-2.5 sm:px-3 rounded-sm border transition-all flex items-center justify-between gap-1.5 sm:gap-3 min-w-0 select-none",
                           isMatched
-                            ? "bg-[#e9ffe0]/60 border-[#09a86f] cursor-default"
+                            ? "bg-[#e9ffe0]/60 border-[#09a86f] opacity-65 cursor-default"
                             : isWrong
                             ? "bg-red-50 border-red-400 ring-2 ring-red-200 cursor-pointer"
                             : isSelected
@@ -973,10 +892,10 @@ export function PictureMatchGame({
                             : "bg-white border-[#d8ded2] hover:border-[#09a86f] hover:bg-[#f5f9f1]/60 cursor-pointer"
                         )}
                       >
-                        <div className="flex items-center gap-3 min-w-0">
+                        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                           <span
                             className={cn(
-                              "w-6 h-6 rounded-sm text-xs font-bold flex items-center justify-center shrink-0 border",
+                              "hidden sm:flex w-6 h-6 rounded-sm text-xs font-bold items-center justify-center shrink-0 border",
                               isMatched || isSelected
                                 ? "bg-[#09a86f] text-white border-[#09a86f]"
                                 : isWrong
@@ -987,37 +906,34 @@ export function PictureMatchGame({
                             {idx + 1}
                           </span>
 
-                          <div className="relative w-12 h-12 rounded-sm overflow-hidden border border-[#d8ded2] shrink-0 bg-[#f5f9f1]">
+                          <div className="hidden sm:block relative w-11 h-11 rounded-sm overflow-hidden border border-[#d8ded2] shrink-0 bg-[#f5f9f1]">
                             <Image
                               src={item.image}
                               alt={item.word}
                               fill
                               className="object-cover"
-                              sizes="48px"
+                              sizes="44px"
                             />
                           </div>
 
                           <div className="min-w-0">
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              <span className="font-extrabold text-sm sm:text-base text-[#0b0c0b]">
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-extrabold text-xs sm:text-base text-[#0b0c0b] truncate">
                                 {item.word}
                               </span>
-                              <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded-xs bg-[#f5f9f1] border border-[#d8ded2] text-[#6f736d]">
+                              <span className="hidden sm:inline-block text-[10px] font-semibold px-1.5 py-0.2 rounded-sm bg-[#f5f9f1] border border-[#d8ded2] text-[#6f736d] shrink-0">
                                 {item.pos}
                               </span>
                             </div>
-                            <span className="text-xs text-[#6f736d] font-mono block mt-0.5">
+                            <span className="text-[10px] sm:text-xs text-[#6f736d] font-mono block truncate mt-0.5">
                               {item.phonetic}
                             </span>
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-2 shrink-0">
+                        <div className="flex items-center shrink-0">
                           {isMatched ? (
-                            <span className="inline-flex items-center gap-1 text-xs font-bold text-[#09a86f] bg-white px-2 py-1 rounded-sm border border-[#bbffa6]">
-                              <CheckCircle2 className="w-3.5 h-3.5" />
-                              <span>Đã ghép</span>
-                            </span>
+                            <CheckCircle2 className="w-4 h-4 text-[#09a86f] shrink-0" />
                           ) : (
                             <button
                               type="button"
@@ -1025,10 +941,10 @@ export function PictureMatchGame({
                                 e.stopPropagation();
                                 playPronunciation(item.word);
                               }}
-                              className="p-2 rounded-sm bg-[#f5f9f1] hover:bg-[#e9ffe0] text-[#09a86f] border border-[#d8ded2] cursor-pointer transition-colors"
+                              className="w-7 h-7 sm:w-8 sm:h-8 rounded-sm bg-[#f5f9f1] hover:bg-[#e9ffe0] text-[#09a86f] border border-[#d8ded2] cursor-pointer transition-colors flex items-center justify-center shrink-0"
                               title="Nghe phát âm"
                             >
-                              <Volume2 className="w-4 h-4" />
+                              <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                             </button>
                           )}
                         </div>
@@ -1037,10 +953,10 @@ export function PictureMatchGame({
                   })}
                 </div>
 
-                {/* Right Column: 4 Vietnamese Meanings + Definitions */}
-                <div className="space-y-2.5">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#6f736d] px-1">
-                    2. Chọn nghĩa tương ứng (Cột B)
+                {/* Right Column: 4 Vietnamese Meanings */}
+                <div className="space-y-2 sm:space-y-2.5 min-w-0">
+                  <div className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#6f736d] px-0.5">
+                    2. Nghĩa tiếng Việt
                   </div>
 
                   {shuffledMeanings.map((item, idx) => {
@@ -1056,9 +972,9 @@ export function PictureMatchGame({
                         disabled={isMatched}
                         onClick={() => handleSelectMeaningCard(item)}
                         className={cn(
-                          "w-full p-3 rounded-sm border text-left transition-all flex items-center justify-between gap-3 min-h-[78px]",
+                          "w-full h-[66px] sm:h-[78px] px-2.5 sm:px-3 rounded-sm border text-left transition-all flex items-center justify-between gap-1.5 sm:gap-3 min-w-0 select-none",
                           isMatched
-                            ? "bg-[#e9ffe0]/60 border-[#09a86f] cursor-default"
+                            ? "bg-[#e9ffe0]/60 border-[#09a86f] opacity-65 cursor-default"
                             : isWrong
                             ? "bg-red-50 border-red-400 ring-2 ring-red-200 cursor-pointer"
                             : isSelected
@@ -1066,10 +982,10 @@ export function PictureMatchGame({
                             : "bg-white border-[#d8ded2] hover:border-[#09a86f] hover:bg-[#f5f9f1]/60 cursor-pointer"
                         )}
                       >
-                        <div className="flex items-start gap-3 min-w-0">
+                        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                           <span
                             className={cn(
-                              "w-6 h-6 rounded-sm text-xs font-bold flex items-center justify-center shrink-0 border mt-0.5",
+                              "hidden sm:flex w-6 h-6 rounded-sm text-xs font-bold items-center justify-center shrink-0 border",
                               isMatched || isSelected
                                 ? "bg-[#09a86f] text-white border-[#09a86f]"
                                 : isWrong
@@ -1081,20 +997,17 @@ export function PictureMatchGame({
                           </span>
 
                           <div className="min-w-0">
-                            <span className="font-extrabold text-sm sm:text-base text-[#0b0c0b] block">
+                            <span className="font-bold sm:font-extrabold text-xs sm:text-base text-[#0b0c0b] line-clamp-2 sm:line-clamp-1 leading-snug">
                               {item.vi}
                             </span>
-                            <p className="text-[11px] text-[#6f736d] line-clamp-2 mt-0.5 leading-relaxed">
+                            <p className="hidden sm:line-clamp-1 text-[11px] text-[#6f736d] mt-0.5">
                               {maskTargetWord(item.definition, item.word)}
                             </p>
                           </div>
                         </div>
 
                         {isMatched && (
-                          <span className="inline-flex items-center gap-1 text-xs font-bold text-[#09a86f] bg-white px-2 py-1 rounded-sm border border-[#bbffa6] shrink-0">
-                            <CheckCircle2 className="w-3.5 h-3.5" />
-                            <span>{item.word}</span>
-                          </span>
+                          <CheckCircle2 className="w-4 h-4 text-[#09a86f] shrink-0" />
                         )}
                       </button>
                     );
@@ -1109,7 +1022,7 @@ export function PictureMatchGame({
 
       {/* ─── Mode 3: Fill-in-the-Blank Sentence Mode ─── */}
       {mode === "fill" && (
-        <div className="space-y-4">
+        <div ref={fillStageRef} className="space-y-4">
           {isFillCompleted ? (
             <div className="py-8 px-4 text-center bg-white rounded-sm border border-[#bbffa6] my-2">
               <div className="w-12 h-12 mx-auto rounded-sm bg-[#e9ffe0] border border-[#bbffa6] flex items-center justify-center mb-3 text-[#09a86f]">
@@ -1146,7 +1059,7 @@ export function PictureMatchGame({
               </div>
             </div>
           ) : currentFillQ ? (
-            <div className="space-y-4">
+            <div key={`fill-q-${fillIndex}`} className="space-y-4 animate-in fade-in duration-150">
               {/* Progress Bar */}
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
@@ -1188,7 +1101,7 @@ export function PictureMatchGame({
                     />
                     <button
                       onClick={() => playPronunciation(currentFillQ.target.example)}
-                      className="absolute bottom-2.5 right-2.5 px-2.5 py-1.5 rounded-sm bg-white/95 hover:bg-white text-[#09a86f] border border-[#d8ded2] shadow-xs transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-bold"
+                      className="absolute bottom-2.5 left-2.5 sm:left-auto sm:right-2.5 px-2.5 py-1.5 rounded-sm bg-white/95 hover:bg-white text-[#09a86f] border border-[#d8ded2] shadow-xs transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-bold"
                       title="Nghe toàn bộ câu ví dụ"
                     >
                       <Volume2 className="w-3.5 h-3.5" />
@@ -1348,7 +1261,7 @@ export function PictureMatchGame({
 
       {/* ─── Mode 4: Sentence Builder Mode (Per Topic) ─── */}
       {mode === "sentence" && (
-        <div className="space-y-4">
+        <div ref={sentenceStageRef} className="space-y-4">
           {isSentenceCompleted ? (
             <div className="py-8 px-4 text-center bg-white rounded-sm border border-[#bbffa6] my-2">
               <div className="w-12 h-12 mx-auto rounded-sm bg-[#e9ffe0] border border-[#bbffa6] flex items-center justify-center mb-3 text-[#09a86f]">
@@ -1385,7 +1298,7 @@ export function PictureMatchGame({
               </div>
             </div>
           ) : currentSentenceQ ? (
-            <div className="space-y-4">
+            <div key={`sentence-q-${sentenceIndex}`} className="space-y-4 animate-in fade-in duration-150">
               {/* Progress Bar */}
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
@@ -1426,7 +1339,7 @@ export function PictureMatchGame({
                     />
                     <button
                       onClick={() => playPronunciation(currentSentenceQ.fullSentence)}
-                      className="absolute bottom-2.5 right-2.5 px-2.5 py-1.5 rounded-sm bg-white/95 hover:bg-white text-[#09a86f] border border-[#d8ded2] shadow-xs transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-bold"
+                      className="absolute bottom-2.5 left-2.5 sm:left-auto sm:right-2.5 px-2.5 py-1.5 rounded-sm bg-white/95 hover:bg-white text-[#09a86f] border border-[#d8ded2] shadow-xs transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-bold"
                       title="Nghe câu mẫu"
                     >
                       <Volume2 className="w-3.5 h-3.5" />
@@ -1451,201 +1364,94 @@ export function PictureMatchGame({
                   </div>
                 </div>
 
-                {/* Right (7 cols): Sentence Builder Workspace */}
-                <div className="md:col-span-7 flex flex-col justify-between space-y-3">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#0b0c0b]">
-                        Kéo và thả các từ vào ô bên dưới để tạo câu hoàn chỉnh:
+                {/* Right (7 cols): Duolingo-Style Notebook Lines Workspace */}
+                <div className="md:col-span-7 flex flex-col justify-between space-y-4">
+                  <div className="space-y-5">
+                    {/* Header + Hint */}
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs sm:text-sm font-bold text-[#0b0c0b]">
+                        Chạm vào các từ để ghép thành câu:
                       </span>
-                      {!isSentenceChecked && availableWords.length > 0 && (
-                        <button
-                          type="button"
-                          onClick={handleHintSentenceWord}
-                          className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-sm cursor-pointer transition-colors"
-                        >
-                          <Lightbulb className="w-3 h-3 text-amber-600" />
-                          <span>Gợi ý 1 từ</span>
-                        </button>
-                      )}
+                      <button
+                        type="button"
+                        onClick={handleHintSentenceWord}
+                        disabled={
+                          isSentenceChecked ||
+                          placedWords.length >=
+                            currentSentenceQ.scrambledWords.length
+                        }
+                        className={cn(
+                          "inline-flex items-center gap-1 text-[11px] font-bold h-7 px-2.5 rounded-sm transition-colors whitespace-nowrap shrink-0 border",
+                          isSentenceChecked ||
+                            placedWords.length >=
+                              currentSentenceQ.scrambledWords.length
+                            ? "opacity-40 cursor-not-allowed bg-amber-50/50 text-amber-700/60 border-amber-200/60"
+                            : "text-amber-700 bg-amber-50 hover:bg-amber-100 border-amber-200 cursor-pointer"
+                        )}
+                      >
+                        <Lightbulb className="w-3 h-3 text-amber-600 shrink-0" />
+                        <span>Gợi ý</span>
+                      </button>
                     </div>
 
-                    {/* Assembled Sentence Drop Zone */}
+                    {/* Duolingo-Style Ruled Notebook Lines (No Outer Box, No Numbers) */}
                     <div
-                      onDragOver={(e) => {
-                        if (isSentenceChecked) return;
-                        e.preventDefault();
-                        e.dataTransfer.dropEffect = "move";
-                        setIsOverSentenceZone(true);
-                      }}
-                      onDragLeave={(e) => {
-                        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-                          setIsOverSentenceZone(false);
-                          setDragOverPlacedIndex(null);
-                        }
-                      }}
-                      onDrop={(e) => handleDropOnSentenceZone(e)}
-                      className={cn(
-                        "min-h-[96px] p-3.5 rounded-sm border-2 border-dashed transition-all flex flex-wrap items-center gap-2",
-                        isSentenceChecked
-                          ? isSentenceCorrect
-                            ? "border-[#09a86f] bg-[#e9ffe0]/40"
-                            : "border-red-300 bg-red-50/30"
-                          : isOverSentenceZone
-                          ? "border-[#09a86f] bg-[#e9ffe0]/50 ring-2 ring-[#09a86f]/15"
-                          : "border-[#d8ded2] bg-[#f5f9f1]/60"
-                      )}
+                      ref={notebookLinesRef}
+                      className="min-h-[96px] pt-1 bg-[linear-gradient(to_bottom,transparent_47px,#d8ded2_48px)] bg-[size:100%_48px] flex flex-wrap items-start content-start gap-x-2 gap-y-3"
                     >
-                      {placedWords.map((item, idx) => {
-                        const isDraggingThis =
-                          draggedItem?.id === item.id &&
-                          draggedItem?.source === "placed";
-                        const isDropTarget = dragOverPlacedIndex === idx;
+                      {placedWords.map((item) => (
+                        <button
+                          key={`placed-${item.id}`}
+                          type="button"
+                          disabled={isSentenceChecked}
+                          onClick={() => handleReturnSentenceWord(item)}
+                          className={cn(
+                            "h-9 px-3.5 rounded-sm text-xs sm:text-sm font-bold border border-b-2 flex items-center justify-center select-none animate-in fade-in zoom-in-95 slide-in-from-bottom-1 duration-150 ease-out transition-all",
+                            !isSentenceChecked &&
+                              "cursor-pointer hover:-translate-y-0.5 active:scale-95 active:translate-y-0",
+                            isSentenceChecked
+                              ? isSentenceCorrect
+                                ? "bg-[#e9ffe0] border-[#09a86f] text-[#09a86f]"
+                                : "bg-red-50 border-red-300 text-red-700"
+                              : "bg-white border-[#d8ded2] text-[#0b0c0b] hover:border-[#09a86f]"
+                          )}
+                        >
+                          <span>{item.word}</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Clean Floating Word Bank (Solid Muted Slots When Picked = Zero Layout Shift, No Outer Box) */}
+                    <div className="flex flex-wrap gap-2 items-center pt-1">
+                      {currentSentenceQ.scrambledWords.map((item) => {
+                        const isPicked = placedWords.some(
+                          (w) => w.id === item.id
+                        );
+
+                        if (isPicked) {
+                          return (
+                            <div
+                              key={`slot-${item.id}`}
+                              aria-hidden="true"
+                              className="h-9 px-3.5 rounded-sm text-xs sm:text-sm font-bold bg-[#e8ede4] border border-transparent text-transparent select-none pointer-events-none flex items-center justify-center transition-all duration-150"
+                            >
+                              <span>{item.word}</span>
+                            </div>
+                          );
+                        }
+
                         return (
                           <button
-                            key={`placed-${item.id}`}
+                            key={`bank-${item.id}`}
                             type="button"
-                            draggable={!isSentenceChecked}
                             disabled={isSentenceChecked}
-                            onDragStart={(e) => handleDragStartPlaced(e, item, idx)}
-                            onDragEnd={handleDragEndSentence}
-                            onDragOver={(e) => {
-                              if (isSentenceChecked) return;
-                              e.preventDefault();
-                              e.stopPropagation();
-                              e.dataTransfer.dropEffect = "move";
-                              setDragOverPlacedIndex(idx);
-                            }}
-                            onDragLeave={() => {
-                              if (dragOverPlacedIndex === idx) {
-                                setDragOverPlacedIndex(null);
-                              }
-                            }}
-                            onDrop={(e) => handleDropOnSentenceZone(e, idx)}
-                            onClick={() => handleReturnSentenceWord(item)}
-                            className={cn(
-                              "px-3 py-2 rounded-sm text-xs font-bold transition-all border flex items-center gap-1.5 select-none shadow-2xs",
-                              !isSentenceChecked &&
-                                "cursor-grab active:cursor-grabbing",
-                              isDraggingThis && "opacity-40 scale-95",
-                              isDropTarget &&
-                                !isDraggingThis &&
-                                "ring-2 ring-[#09a86f] -translate-y-0.5 bg-[#e9ffe0]",
-                              isSentenceChecked
-                                ? isSentenceCorrect
-                                  ? "bg-[#e9ffe0] border-[#09a86f] text-[#09a86f]"
-                                  : "bg-red-50 border-red-300 text-red-700"
-                                : "bg-white border-[#09a86f] text-[#0b0c0b] hover:border-red-300 hover:bg-red-50/40"
-                            )}
-                            title="Kéo để đổi vị trí hoặc bấm để trả từ về khay"
+                            onClick={() => handlePickSentenceWord(item)}
+                            className="h-9 px-3.5 rounded-sm text-xs sm:text-sm font-bold bg-white border border-[#d8ded2] border-b-2 text-[#0b0c0b] hover:border-[#09a86f] hover:bg-[#f5f9f1] hover:-translate-y-0.5 active:scale-95 active:translate-y-0 animate-in fade-in zoom-in-95 duration-150 ease-out transition-all cursor-pointer flex items-center justify-center select-none"
                           >
-                            {!isSentenceChecked && (
-                              <GripVertical className="w-3.5 h-3.5 text-[#6f736d] shrink-0" />
-                            )}
                             <span>{item.word}</span>
-                            {!isSentenceChecked && (
-                              <Undo2 className="w-3 h-3 text-[#6f736d]/70 ml-0.5 shrink-0" />
-                            )}
                           </button>
                         );
                       })}
-
-                      {/* Empty Slot Placeholders for Remaining Words */}
-                      {!isSentenceChecked &&
-                        availableWords.map((_, slotIdx) => {
-                          const targetIdx = placedWords.length + slotIdx;
-                          const isFirstEmptySlot = slotIdx === 0;
-                          return (
-                            <div
-                              key={`slot-${targetIdx}`}
-                              onDragOver={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                e.dataTransfer.dropEffect = "move";
-                                setIsOverSentenceZone(true);
-                              }}
-                              onDrop={(e) => handleDropOnSentenceZone(e)}
-                              className={cn(
-                                "h-8 min-w-[60px] px-2.5 rounded-sm border border-dashed flex items-center justify-center text-[11px] font-mono select-none transition-colors",
-                                isFirstEmptySlot && isOverSentenceZone
-                                  ? "border-[#09a86f] bg-[#e9ffe0]/70 text-[#09a86f] font-bold"
-                                  : "border-[#cbd3c4] bg-white/50 text-[#6f736d]/60"
-                              )}
-                            >
-                              {targetIdx + 1}
-                            </div>
-                          );
-                        })}
-                    </div>
-
-                    {/* Available Scrambled Words Tray (Also a Drop Zone to return words) */}
-                    <div
-                      onDragOver={(e) => {
-                        if (isSentenceChecked || draggedItem?.source !== "placed")
-                          return;
-                        e.preventDefault();
-                        e.dataTransfer.dropEffect = "move";
-                        setIsOverAvailableZone(true);
-                      }}
-                      onDragLeave={(e) => {
-                        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-                          setIsOverAvailableZone(false);
-                        }
-                      }}
-                      onDrop={handleDropOnAvailableZone}
-                      className={cn(
-                        "space-y-2 p-3 rounded-sm border transition-colors",
-                        isOverAvailableZone
-                          ? "border-[#09a86f] bg-[#e9ffe0]/30"
-                          : "border-[#d8ded2] bg-white"
-                      )}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-bold text-[#6f736d] uppercase tracking-wider">
-                          Khay từ vựng (Kéo thả lên ô trên hoặc chạm để chọn):
-                        </span>
-                        {placedWords.length > 0 && !isSentenceChecked && (
-                          <button
-                            type="button"
-                            onClick={handleRetryCurrentSentence}
-                            className="text-[11px] font-semibold text-[#6f736d] hover:text-red-600 inline-flex items-center gap-1 cursor-pointer transition-colors"
-                          >
-                            <RotateCcw className="w-3 h-3" />
-                            <span>Đặt lại khay</span>
-                          </button>
-                        )}
-                      </div>
-                      <div className="flex flex-wrap gap-2 min-h-[42px] items-center">
-                        {availableWords.length === 0 ? (
-                          <span className="text-xs text-[#09a86f] font-medium italic">
-                            Đã xếp hết các từ lên câu — hãy bấm &quot;Kiểm tra câu&quot; bên dưới!
-                          </span>
-                        ) : (
-                          availableWords.map((item) => {
-                            const isDraggingThis =
-                              draggedItem?.id === item.id &&
-                              draggedItem?.source === "available";
-                            return (
-                              <button
-                                key={`avail-${item.id}`}
-                                type="button"
-                                draggable={!isSentenceChecked}
-                                onDragStart={(e) => handleDragStartAvailable(e, item)}
-                                onDragEnd={handleDragEndSentence}
-                                onClick={() => handlePickSentenceWord(item)}
-                                className={cn(
-                                  "px-3 py-2 rounded-sm text-xs font-bold bg-[#f5f9f1] border border-[#d8ded2] text-[#0b0c0b] hover:border-[#09a86f] hover:bg-[#e9ffe0]/50 transition-all cursor-grab active:cursor-grabbing flex items-center gap-1.5 select-none shadow-2xs",
-                                  isDraggingThis && "opacity-40 scale-95 border-[#09a86f]"
-                                )}
-                                title="Kéo thả vào câu hoặc bấm để chọn"
-                              >
-                                <GripVertical className="w-3.5 h-3.5 text-[#6f736d] shrink-0" />
-                                <span>{item.word}</span>
-                              </button>
-                            );
-                          })
-                        )}
-                      </div>
                     </div>
                   </div>
 
@@ -1657,7 +1463,7 @@ export function PictureMatchGame({
                         onClick={handleCheckSentence}
                         disabled={placedWords.length === 0}
                         className={cn(
-                          "px-4 py-2 rounded-sm text-xs font-bold transition-all cursor-pointer",
+                          "px-4 py-2 rounded-sm text-xs font-bold transition-all duration-150 cursor-pointer active:scale-95",
                           placedWords.length > 0
                             ? "bg-[#09a86f] text-white hover:bg-[#089763]"
                             : "bg-[#d8ded2] text-[#6f736d] cursor-not-allowed"
@@ -1666,12 +1472,12 @@ export function PictureMatchGame({
                         Kiểm tra câu
                       </button>
                     ) : (
-                      <div className="flex flex-wrap items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2 animate-in fade-in duration-150">
                         {isSentenceCorrect ? (
                           <button
                             type="button"
                             onClick={handleNextSentenceQuestion}
-                            className="px-4 py-2 rounded-sm bg-[#09a86f] text-white text-xs font-bold hover:bg-[#089763] transition-colors inline-flex items-center gap-1 cursor-pointer"
+                            className="px-4 py-2 rounded-sm bg-[#09a86f] text-white text-xs font-bold hover:bg-[#089763] active:scale-95 transition-all duration-150 inline-flex items-center gap-1 cursor-pointer"
                           >
                             <span>
                               {sentenceIndex + 1 < sentenceQuestions.length
@@ -1684,7 +1490,7 @@ export function PictureMatchGame({
                           <button
                             type="button"
                             onClick={handleRetryCurrentSentence}
-                            className="px-4 py-2 rounded-sm bg-amber-600 text-white text-xs font-bold hover:bg-amber-700 transition-colors inline-flex items-center gap-1 cursor-pointer"
+                            className="px-4 py-2 rounded-sm bg-amber-600 text-white text-xs font-bold hover:bg-amber-700 active:scale-95 transition-all duration-150 inline-flex items-center gap-1 cursor-pointer"
                           >
                             <RotateCcw className="w-3.5 h-3.5" />
                             <span>Sắp xếp lại</span>
@@ -1696,13 +1502,13 @@ export function PictureMatchGame({
                     {isSentenceChecked && (
                       <div
                         className={cn(
-                          "text-xs font-bold flex items-center gap-1.5",
+                          "text-xs font-bold flex items-center gap-1.5 animate-in fade-in slide-in-from-bottom-1 duration-200",
                           isSentenceCorrect ? "text-[#09a86f]" : "text-red-600"
                         )}
                       >
                         {isSentenceCorrect ? (
                           <span className="inline-flex items-center gap-1">
-                            <CheckCircle2 className="w-4 h-4" />
+                            <CheckCircle2 className="w-4 h-4 animate-in zoom-in-75 duration-200" />
                             <span>Chính xác! +35 XP</span>
                           </span>
                         ) : (

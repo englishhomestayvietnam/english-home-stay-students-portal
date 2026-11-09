@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ArrowRight, X } from "lucide-react";
 
@@ -22,16 +23,19 @@ export function useSignupModal() {
 }
 
 export function StickyCTABar({ data }: { data?: any }) {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [nearBottom, setNearBottom] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
+  const isPortalRoute = pathname?.startsWith("/portal");
   const isEnabled = data?.enable !== false;
   const headline = data?.headline || 'Học thử miễn phí cùng tình nguyện viên quốc tế';
   const subtext = data?.subtext || 'Trải nghiệm môi trường tiếng Anh homestay thực tế';
   const ctaLabel = data?.cta_label || 'Đăng ký ngay';
 
   useEffect(() => {
+    if (isPortalRoute) return;
     const onScroll = () => {
       const y = window.scrollY;
       setVisible(y > 550);
@@ -44,9 +48,9 @@ export function StickyCTABar({ data }: { data?: any }) {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isPortalRoute]);
 
-  if (!isEnabled || dismissed) return null;
+  if (isPortalRoute || !isEnabled || dismissed) return null;
 
   return (
     <aside

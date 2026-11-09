@@ -1,7 +1,16 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export function FloatingContact() {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith('/portal')) {
+    return null;
+  }
+
   return (
     <div className="fixed bottom-[24px] right-[24px] z-[90] flex flex-col gap-[14px] items-end">
       {/* Zalo Button */}

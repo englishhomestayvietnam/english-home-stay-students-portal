@@ -74,7 +74,7 @@ export function PendingActivationView({ user }: PendingActivationViewProps) {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[900px] mx-auto w-full p-4 sm:p-6 lg:p-8 space-y-6">
+      <main className="flex-1 max-w-[900px] mx-auto w-full p-4 sm:p-6 lg:p-8 space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-200">
         
         {/* Status Hero Card */}
         <div className="bg-white border border-[#d8ded2] rounded-sm p-6 sm:p-8 relative overflow-hidden">

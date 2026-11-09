@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { cn } from "@/lib/utils";
 import {
   TOPICS_LIST,
@@ -91,6 +92,15 @@ export function TopicCategorization({
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  const [containerRef] = useAutoAnimate<HTMLDivElement>({
+    duration: 180,
+    easing: "ease-out",
+  });
+  const [gridRef] = useAutoAnimate<HTMLDivElement>({
+    duration: 200,
+    easing: "ease-out",
+  });
+
   // Count topics per level
   const levelCounts = useMemo(() => {
     const counts: Record<string, number> = { all: TOPICS_LIST.length };
@@ -128,134 +138,78 @@ export function TopicCategorization({
   }, [activeLevel, activeCategory, searchQuery]);
 
   return (
-    <div className="space-y-5">
-      {/* ─── Hero Intro Banner ─── */}
-      <div className="bg-white border border-[#d8ded2] rounded-sm p-5 sm:p-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-sm bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6] text-[10px] font-bold uppercase tracking-wider">
-                Phân loại bài học
-              </span>
-              <span className="text-xs text-[#6f736d] font-semibold">
-                Level &rarr; Topic &rarr; Minigame
-              </span>
-            </div>
-            <h2 className="text-lg sm:text-xl font-bold text-[#0b0c0b]">
-              Danh mục chủ đề từ vựng & Trình độ CEFR
-            </h2>
-            <p className="text-xs sm:text-sm text-[#6f736d] max-w-2xl">
-              Lựa chọn theo trình độ tiếng Anh (A1 &ndash; B2) hoặc theo nhóm chủ đề sinh hoạt để luyện tập nối hình ảnh, tăng phản xạ giao tiếp tự nhiên cùng tình nguyện viên quốc tế.
-            </p>
-          </div>
-
-          {/* Quick All-Words Mode CTA */}
+    <div ref={containerRef} className="space-y-4">
+      {/* ─── Compact Filter & Search Bar ─── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        {/* Level Filter Tabs */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
           <button
-            onClick={() => onSelectTopic("ALL")}
-            className="self-start md:self-auto px-4 py-2.5 rounded-sm bg-[#09a86f] text-white hover:bg-[#089763] transition-all cursor-pointer shadow-xs flex items-center gap-2 text-xs font-bold shrink-0"
+            onClick={() => setActiveLevel("all")}
+            className={cn(
+              "h-8 px-3 rounded-sm text-xs font-bold whitespace-nowrap transition-all duration-150 active:scale-95 cursor-pointer border inline-flex items-center justify-center",
+              activeLevel === "all"
+                ? "bg-[#09a86f] text-white border-[#09a86f]"
+                : "bg-white text-[#6f736d] border-[#d8ded2] hover:bg-[#f5f9f1] hover:text-[#0b0c0b]"
+            )}
           >
-            <Sparkles className="w-4 h-4 text-[#bbffa6]" />
-            <span>Thử thách Tổng hợp (600 từ)</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            Tất cả ({levelCounts.all})
           </button>
-        </div>
 
-        {/* ─── Level Filter Tabs (A1 -> B2) ─── */}
-        <div className="mt-5 pt-4 border-t border-[#d8ded2] space-y-3">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-[11px] font-bold text-[#6f736d] uppercase tracking-wider flex items-center gap-1.5">
-              <SlidersHorizontal className="w-3 h-3 text-[#09a86f]" />
-              Lọc theo trình độ (Level):
-            </span>
-            <span className="text-[11px] text-[#6f736d]">
-              Đang hiển thị: <strong className="text-[#09a86f]">{filteredTopics.length}</strong> / {TOPICS_LIST.length} chủ đề
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-            <button
-              onClick={() => setActiveLevel("all")}
-              className={cn(
-                "px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition-all cursor-pointer border",
-                activeLevel === "all"
-                  ? "bg-[#09a86f] text-white border-[#09a86f]"
-                  : "bg-white text-[#6f736d] border-[#d8ded2] hover:bg-[#f5f9f1] hover:text-[#0b0c0b]"
-              )}
-            >
-              Tất cả Level ({levelCounts.all})
-            </button>
-
-            {CEFR_LEVELS.map((lvl) => {
-              const isActive = activeLevel === lvl.id;
-              const count = levelCounts[lvl.id] || 0;
-              return (
-                <button
-                  key={lvl.id}
-                  onClick={() => setActiveLevel(lvl.id)}
+          {CEFR_LEVELS.map((lvl) => {
+            const isActive = activeLevel === lvl.id;
+            const count = levelCounts[lvl.id] || 0;
+            return (
+              <button
+                key={lvl.id}
+                onClick={() => setActiveLevel(lvl.id)}
+                className={cn(
+                  "h-8 px-3 rounded-sm text-xs font-bold whitespace-nowrap transition-all duration-150 active:scale-95 cursor-pointer border inline-flex items-center justify-center gap-1",
+                  isActive
+                    ? "bg-[#09a86f] text-white border-[#09a86f]"
+                    : "bg-white text-[#0b0c0b] border-[#d8ded2] hover:border-[#09a86f] hover:bg-[#f5f9f1]"
+                )}
+              >
+                <span>{lvl.id}</span>
+                <span
                   className={cn(
-                    "px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition-all cursor-pointer border flex items-center gap-1.5",
-                    isActive
-                      ? "bg-[#0b0c0b] text-white border-[#0b0c0b]"
-                      : `${lvl.badgeBg} ${lvl.badgeText} ${lvl.badgeBorder} hover:opacity-90`
+                    "text-[10px]",
+                    isActive ? "text-white/85" : "text-[#6f736d]"
                   )}
                 >
-                  <span>{lvl.emoji}</span>
-                  <span>{lvl.name}</span>
-                  <span className="text-[10px] opacity-80">({count})</span>
-                </button>
-              );
-            })}
-          </div>
+                  ({count})
+                </span>
+              </button>
+            );
+          })}
+        </div>
 
-          {/* ─── Secondary Filter: Topic Category + Search ─── */}
-          <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-[#f0f4ee]">
-            {/* Category Filter Pills */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
-              {TOPIC_CATEGORIES.map((cat) => {
-                const isActive = activeCategory === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => setActiveCategory(cat.id)}
-                    className={cn(
-                      "px-2.5 py-1 rounded-sm text-[11px] font-semibold whitespace-nowrap transition-all cursor-pointer",
-                      isActive
-                        ? "bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6] font-bold"
-                        : "bg-[#f5f9f1] text-[#6f736d] border border-[#d8ded2] hover:text-[#0b0c0b]"
-                    )}
-                  >
-                    {cat.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Search Box */}
-            <div className="relative w-full sm:w-60">
-              <Search className="w-3.5 h-3.5 text-[#6f736d] absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <input
-                type="text"
-                value={searchQuery.trim() ? searchQuery : ""}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Tìm chủ đề, từ vựng, A1..."
-                className="w-full pl-8 pr-3 py-1 text-xs bg-white border border-[#d8ded2] rounded-sm text-[#0b0c0b] placeholder-[#6f736d] focus:outline-none focus:border-[#09a86f]"
-              />
-              {searchQuery.trim() && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-[#6f736d] hover:text-[#0b0c0b] cursor-pointer"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          </div>
+        {/* Search Box */}
+        <div className="relative w-full sm:w-64 shrink-0">
+          <Search className="w-3.5 h-3.5 text-[#6f736d] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <input
+            type="text"
+            value={searchQuery.trim() ? searchQuery : ""}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Tìm chủ đề hoặc từ vựng..."
+            className="w-full h-8 pl-8 pr-7 text-xs bg-white border border-[#d8ded2] rounded-sm text-[#0b0c0b] placeholder-[#6f736d] focus:outline-none focus:border-[#09a86f]"
+          />
+          {searchQuery.trim() && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-[#6f736d] hover:text-[#0b0c0b] cursor-pointer"
+            >
+              ✕
+            </button>
+          )}
         </div>
       </div>
 
-      {/* ─── Topics Grid ─── */}
+      {/* ─── Topics Grid (2 columns on mobile & tablet, 3 columns on desktop) ─── */}
       {filteredTopics.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <div
+          ref={gridRef}
+          className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3.5"
+        >
           {filteredTopics.map((topic) => {
             const IconComponent = ICON_MAP[topic.iconName] || Sparkles;
             const isSelected = selectedTopicId === topic.id;
@@ -267,34 +221,36 @@ export function TopicCategorization({
                 key={topic.id}
                 onClick={() => onSelectTopic(topic.id)}
                 className={cn(
-                  "group bg-white border rounded-sm p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between hover:shadow-sm hover:border-[#09a86f]",
+                  "group bg-white border rounded-sm p-3 sm:p-4 transition-all duration-150 cursor-pointer flex flex-col justify-between hover:shadow-sm hover:-translate-y-0.5 active:scale-[0.98] hover:border-[#09a86f] min-w-0",
                   isSelected
                     ? "border-[#09a86f] ring-2 ring-[#09a86f]/20 bg-[#f5f9f1]/40"
                     : "border-[#d8ded2]"
                 )}
               >
                 <div>
-                  {/* Top Row: Icon + Level Badge + Word Count */}
-                  <div className="flex items-start justify-between gap-2 mb-2.5">
-                    <div className="w-9 h-9 rounded-sm bg-[#e9ffe0] border border-[#bbffa6] flex items-center justify-center text-[#09a86f] group-hover:bg-[#09a86f] group-hover:text-white transition-colors">
+                  {/* Top Row: Icon + Level Badge + Word Count (Equal Height Badges) */}
+                  <div className="flex items-center justify-between gap-1.5 sm:gap-2 mb-2.5">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-sm bg-[#e9ffe0] border border-[#bbffa6] flex items-center justify-center text-[#09a86f] group-hover:bg-[#09a86f] group-hover:text-white transition-colors shrink-0">
                       <IconComponent className="w-4 h-4 stroke-[2.2]" />
                     </div>
 
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
                       {/* CEFR Level Badge */}
                       <span
                         className={cn(
-                          "text-[10px] font-bold px-2 py-0.5 rounded-sm border",
+                          "inline-flex items-center justify-center h-6 px-1.5 sm:px-2 text-[10px] font-bold leading-none rounded-sm border whitespace-nowrap",
                           levelInfo.badgeBg,
                           levelInfo.badgeText,
                           levelInfo.badgeBorder
                         )}
                         title={levelInfo.description}
                       >
-                        {levelInfo.name}
+                        <span className="sm:hidden">{topic.level}</span>
+                        <span className="hidden sm:inline">{levelInfo.name}</span>
                       </span>
 
-                      <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-sm bg-[#f5f9f1] border border-[#d8ded2] text-[#6f736d]">
+                      {/* Word Count Badge */}
+                      <span className="inline-flex items-center justify-center h-6 px-1.5 sm:px-2 text-[10px] font-semibold leading-none rounded-sm bg-[#f5f9f1] border border-[#d8ded2] text-[#6f736d] whitespace-nowrap">
                         {topic.wordCount} từ
                       </span>
                     </div>
@@ -302,39 +258,39 @@ export function TopicCategorization({
 
                   {/* Title & Meaning */}
                   <div>
-                    <h3 className="text-sm font-bold text-[#0b0c0b] group-hover:text-[#09a86f] transition-colors flex items-center gap-1.5">
-                      <span>{topic.nameEn}</span>
+                    <h3 className="text-xs sm:text-sm font-bold text-[#0b0c0b] group-hover:text-[#09a86f] transition-colors line-clamp-1">
+                      {topic.nameEn}
                     </h3>
-                    <p className="text-xs font-semibold text-[#09a86f] mt-0.5">
+                    <p className="text-[11px] sm:text-xs font-semibold text-[#09a86f] mt-0.5 line-clamp-1">
                       {topic.nameVi}
                     </p>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-[11px] text-[#6f736d] mt-1.5 line-clamp-2 leading-relaxed">
+                  {/* Description (Desktop / Tablet only so mobile 2-col cards stay loose & airy) */}
+                  <p className="hidden sm:line-clamp-2 text-[11px] text-[#6f736d] mt-1.5 leading-relaxed">
                     {topic.description}
                   </p>
                 </div>
 
                 {/* Bottom Row: Sample Words Preview Chips & CTA */}
-                <div className="mt-3.5 pt-2.5 border-t border-[#d8ded2]/70 space-y-2">
-                  <div className="flex flex-wrap gap-1">
+                <div className="mt-3.5 sm:pt-2.5 sm:border-t sm:border-[#d8ded2]/70 space-y-2">
+                  <div className="hidden sm:flex flex-wrap gap-1">
                     {topic.previewWords.map((word) => (
                       <span
                         key={word}
-                        className="text-[10px] font-mono px-1.5 py-0.2 bg-[#f5f9f1] border border-[#e2e8dc] text-[#6f736d] rounded-xs"
+                        className="text-[10px] font-mono px-1.5 py-0.2 bg-[#f5f9f1] border border-[#e2e8dc] text-[#6f736d] rounded-sm"
                       >
                         {word}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex items-center justify-between text-xs pt-1">
-                    <span className="text-[11px] font-bold text-[#09a86f] group-hover:underline flex items-center gap-1">
-                      Chọn trò chơi
-                      <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+                  <div className="flex items-center justify-between gap-1 text-xs">
+                    <span className="text-[11px] font-bold text-[#09a86f] group-hover:underline inline-flex items-center gap-1 whitespace-nowrap">
+                      <span>Chọn trò chơi</span>
+                      <ArrowRight className="w-3 h-3 shrink-0 transition-transform group-hover:translate-x-0.5" />
                     </span>
-                    <span className="text-[10px] font-semibold bg-[#e9ffe0] text-[#09a86f] px-1.5 py-0.2 rounded-xs">
+                    <span className="hidden sm:inline-flex items-center justify-center h-5 px-1.5 text-[10px] font-semibold leading-none bg-[#e9ffe0] text-[#09a86f] rounded-sm whitespace-nowrap">
                       4 Minigames
                     </span>
                   </div>

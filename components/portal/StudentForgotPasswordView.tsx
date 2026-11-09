@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import {
   requestPasswordResetCodeAction,
   verifyPasswordResetCodeAction,
@@ -31,6 +32,10 @@ type Step = "email" | "code" | "reset" | "done";
 
 export function StudentForgotPasswordView() {
   const router = useRouter();
+  const [cardRef] = useAutoAnimate<HTMLDivElement>({
+    duration: 180,
+    easing: "ease-out",
+  });
 
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
@@ -300,9 +305,9 @@ export function StudentForgotPasswordView() {
 
             <Link
               href="/portal/login"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#0b0c0b]/80 hover:text-[#0b0c0b] border border-[#d8ded2] px-3.5 py-1.5 rounded-sm bg-white hover:bg-black/5 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#0b0c0b]/80 hover:text-[#0b0c0b] border border-[#d8ded2] px-3 sm:px-3.5 py-1.5 rounded-sm bg-white hover:bg-black/5 transition-colors whitespace-nowrap shrink-0"
             >
-              <ArrowLeft className="w-4 h-4 text-[#09a86f]" />
+              <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#09a86f] shrink-0" />
               <span>Đăng nhập</span>
             </Link>
           </div>
@@ -311,8 +316,11 @@ export function StudentForgotPasswordView() {
 
       {/* Main Centered Container */}
       <main className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-10">
-        <div className="w-full max-w-[440px]">
-          <div className="bg-white border border-[#d8ded2] rounded-sm p-6 sm:p-8">
+        <div className="w-full max-w-[440px] animate-in fade-in slide-in-from-bottom-2 duration-200">
+          <div
+            ref={cardRef}
+            className="bg-white border border-[#d8ded2] rounded-sm p-6 sm:p-8"
+          >
             {/* Header Badge & Title */}
             <div className="text-center pb-4">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-xs font-semibold bg-[#e9ffe0] text-[#09a86f] border border-[#bbffa6]/80 mb-3">
